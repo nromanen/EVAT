@@ -3,6 +3,7 @@ package utility;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -23,6 +24,10 @@ public class SetUpDriver {
         System.setProperty(prop.getProperty("webDriverKey"),prop.getProperty("webDriverValue"));
         if(prop.getProperty("browser").equals("chrome")) driver = new ChromeDriver();
         else if(prop.getProperty("browser").equals("gecko"))driver = new FirefoxDriver();
+    }
+    protected  static WebDriverWait webDriverWait;
+    static {
+        webDriverWait= new WebDriverWait(driver,100);
     }
 
 
@@ -48,5 +53,13 @@ public class SetUpDriver {
 
     public static void setDriver(WebDriver driver) {
         SetUpDriver.driver = driver;
+    }
+
+    public static WebDriverWait getWebDriverWait() {
+        return webDriverWait;
+    }
+
+    public static void setWebDriverWait(WebDriverWait webDriverWait) {
+        SetUpDriver.webDriverWait = webDriverWait;
     }
 }
