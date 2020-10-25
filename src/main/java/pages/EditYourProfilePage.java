@@ -2,7 +2,6 @@ package pages;
 
 import java.time.LocalDate;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -13,8 +12,6 @@ public class EditYourProfilePage {
 
 	private WebDriver driver;
 	
-	private By occupiedAvatarField = By.xpath("//*[@id=\"panel1bh-content\"]/div/p/form/div[1]/div/div/img");
-	
 	public EditYourProfilePage(WebDriver webDriver) {
 		this.driver = webDriver;
 		PageFactory.initElements(driver, this);
@@ -22,6 +19,9 @@ public class EditYourProfilePage {
 	
 	@FindBy(xpath = "//p[contains(text(),'Change Avatar')]")
 	WebElement changeAvatarField;
+	
+	@FindBy(xpath = "//*[@id=\"panel1bh-content\"]/div/p/form/div[1]/div/div/img")
+	WebElement occupiedAvatarField;
 	
 	@FindBy(xpath = "//*[@id=\"panel1bh-content\"]/div/p/form/button/span[1]")
 	WebElement clearAvatarButton;
@@ -45,7 +45,16 @@ public class EditYourProfilePage {
 	WebElement genderField;
 	
 	@FindBy(xpath = "//body/div[@id='root']/div[@id='main']/div[1]/div[3]/div[2]/div[1]/div[1]/div[1]/div[1]/p[1]/form[1]/div[1]/div[1]/div[1]/div[1]/div[2]")
-	WebElement choseGenderDropDownList;
+	WebElement chooseGenderDropDownList;
+	
+	@FindBy(xpath = "//div[contains(text(),'Male')]")
+	WebElement maleGender;
+	
+	@FindBy(xpath = "//div[contains(text(),'Female')]")
+	WebElement femaleGender;
+	
+	@FindBy(xpath = "//div[contains(text(),'Other')]")
+	WebElement otherGender;
 	
 	@FindBy(xpath = "//*[@id=\"panel2bh-content\"]/div/p/form/div[2]/button/span[1]")
 	WebElement submitGenderButton;
@@ -64,6 +73,33 @@ public class EditYourProfilePage {
 	
 	@FindBy(xpath = "//*[@id=\"panel4bh-content\"]/div/p/div/form/div[1]/div[1]")
 	WebElement favoriteCategoriesDropDownList;
+	
+	@FindBy(xpath = "//*[@id=\"panel4bh-content\"]/div")
+	WebElement emptyFieldFavoriteCategories;
+	
+	@FindBy(xpath = "//*[@id=\"rw_3_listbox_active_option\"]")
+	WebElement seaCategory;
+	
+	@FindBy(xpath = "//*[@id=\"rw_3_listbox\"]/li[2]")
+	WebElement mountCategory;
+	
+	@FindBy(xpath = "//*[@id=\"rw_3_listbox\"]/li[3]")
+	WebElement summerCategory;
+	
+	@FindBy(xpath = "//*[@id=\"rw_3_listbox\"]/li[4]")
+	WebElement golfCategory;
+	
+	@FindBy(xpath = "//*[@id=\"rw_3_listbox\"]/li[5]")
+	WebElement teamBuildingCategory;
+	
+	@FindBy(xpath = "//*[@id=\"rw_3_listbox\"]/li[6]")
+	WebElement swimmingCategory;
+	
+	@FindBy(xpath = "//*[@id=\"rw_3_listbox\"]/li[7]")
+	WebElement gamingCategory;
+	
+	@FindBy(xpath = "//*[@id=\"rw_3_listbox\"]/li[8]")
+	WebElement travelCategory;
 	
 	@FindBy(xpath = "//span[contains(text(),'Save')]")
 	WebElement favoriteCategoriesSaveButton;
@@ -102,7 +138,7 @@ public class EditYourProfilePage {
 	public void changeAvatar(String imagePath) {
 		clickOnChangeAvatarField();
 		// if avatar exists
-		if (driver.findElement(occupiedAvatarField).isEnabled()) {
+		if (occupiedAvatarField.isEnabled()) {
 			clickOnClearAvatarButton();
 		}
 		loadAvatar(imagePath);
@@ -131,17 +167,31 @@ public class EditYourProfilePage {
 		genderField.click();
 	}
 	
-	public void clickOnChoseGenderDropDownList() {
-		choseGenderDropDownList.click();
+	public void clickOnChooseGenderDropDownList() {
+		chooseGenderDropDownList.click();
 	}
 	
 	public void clickOnSubmitGenderButton() {
 		submitGenderButton.click();
 	}
 	
-	// TODO
-	public void choseGender() {
+	public void chooseGender(String gender) {
+		clickOnGenderField();
+		clickOnChooseGenderDropDownList();
 
+		switch (gender) {
+		case ("Male"):
+			maleGender.click();
+			break;
+		case ("Female"):
+			femaleGender.click();
+			break;
+		case ("Other"):
+			otherGender.click();
+			break;
+		}
+
+		clickOnSubmitGenderButton();
 	}
 	
 	public void clickOnDateOfBirthField() {
@@ -173,13 +223,47 @@ public class EditYourProfilePage {
 		favoriteCategoriesDropDownList.click();
 	}
 	
+	public void clickOnEmptyFieldFavoriteCategories() {
+		emptyFieldFavoriteCategories.click();
+	}
+	
 	public void clickOnFavoriteCategoriesSaveButton() {
 		favoriteCategoriesSaveButton.click();
 	}
 	
-	// TODO
-	public void choseFavoriteCategories() {
-		
+	public void chooseFavoriteCategories(String category) {
+		clickOnFavoriteCategoriesField();
+		clickOnFavoriteCategoriesDropDownList();
+
+		switch (category) {
+		case ("Sea"):
+			seaCategory.click();
+			break;
+		case ("Mount"):
+			mountCategory.click();
+			break;
+		case ("Summer"):
+			summerCategory.click();
+			break;
+		case ("Golf"):
+			golfCategory.click();
+			break;
+		case ("Team-Building"):
+			teamBuildingCategory.click();
+			break;
+		case ("Swimming"):
+			swimmingCategory.click();
+			break;
+		case ("Gaming"):
+			gamingCategory.click();
+			break;
+		case ("Travel"):
+			travelCategory.click();
+			break;
+		}
+
+		clickOnEmptyFieldFavoriteCategories();
+		clickOnFavoriteCategoriesSaveButton();
 	}
 	
 	public void clickOnChangePasswordField() {
