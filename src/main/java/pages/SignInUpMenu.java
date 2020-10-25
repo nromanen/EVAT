@@ -1,14 +1,18 @@
 package pages;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 
 
-
 public class SignInUpMenu {
+    public final String LOGIN_ERROR_MESSAGE_XPATH = "/html/body/div[2]/div[3]/div/div/div[2]/div/div/div[2]";
+
     WebDriver driver;
     @FindBy(xpath = "/html/body/div[2]/div[3]/div/div/div[2]/div/div/div[2]")
     WebElement loginErrorMessage;
@@ -163,6 +167,5 @@ public class SignInUpMenu {
         setConfirmPassword(confirmPassword);
         clickSignUp();
     }
-
-
 }
+
