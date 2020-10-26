@@ -1,9 +1,7 @@
 package pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -24,70 +22,73 @@ public class HomePageNavBar {
     WebElement signOutButton;
 
     //NavBarButtons
-    @FindBy(css ="li.sidebar-header:nth-child(1) > a:nth-child(1)")
+    @FindBy(css = "li.sidebar-header:nth-child(1) > a:nth-child(1) > span:nth-child(1)")
     WebElement homeButton;
 
-    @FindBy(css = "li.sidebar-header:nth-child(2) > a:nth-child(1)")
+    @FindBy(css = "li.sidebar-header:nth-child(2) > a:nth-child(1) > span:nth-child(1)")
     WebElement profileButton;
 
-    @FindBy(css = "li.sidebar-header:nth-child(3) > a:nth-child(1)")
+    @FindBy(css = "li.sidebar-header:nth-child(3) > a:nth-child(1) > span:nth-child(1)")
     WebElement searchUsersButton;
 
-    @FindBy(css = "li.sidebar-header:nth-child(4) > a:nth-child(1)")
+    @FindBy(css = "li.sidebar-header:nth-child(4) > a:nth-child(1) > span:nth-child(1)")
     WebElement comunaButton;
 
-    @FindBy(css = "li.sidebar-header:nth-child(5) > a:nth-child(1)")
+    @FindBy(css = "li.sidebar-header:nth-child(5) > a:nth-child(1) > span:nth-child(1)")
     WebElement contactUsButton;
 
 
     public HomePageNavBar(WebDriver driver) {
         this.driver = driver;
-        PageFactory.initElements(driver,this);
+        PageFactory.initElements(driver, this);
     }
 
-    public HomePageNavBar clickEditProfileButton(){
+    public HomePageNavBar clickEditProfileButton() {
         editProfileButton.click();
         return new HomePageNavBar(driver);
     }
 
-    public HomePageNavBar clickNotificationButton(){
+    public HomePageNavBar clickNotificationButton() {
         notificationsButton.click();
         return new HomePageNavBar(driver);
     }
 
-    public HomePageNavBar clickSignOutButton(){
+    public HomePageNavBar clickSignOutButton() {
         signOutButton.click();
         return new HomePageNavBar(driver);
     }
-    public HomePageNavBar clickHomeButton(){
-        driver.get(homeButton.getAttribute("href"));
+
+    public HomePageNavBar clickHomeButton() {
+        homeButton.click();
         return new HomePageNavBar(driver);
     }
 
-    public HomePageNavBar clickProfileButton(){
-        driver.get(profileButton.getAttribute("href"));
+    public HomePageNavBar clickProfileButton() {
+        profileButton.click();
         return new HomePageNavBar(driver);
     }
 
-    public HomePageNavBar clickSearchUsersButton(){
-        driver.get(searchUsersButton.getAttribute("href"));
+    public HomePageNavBar clickSearchUsersButton() {
+        searchUsersButton.click();
         return new HomePageNavBar(driver);
     }
 
-    public HomePageNavBar clickComunaButton(){
-        driver.get(comunaButton.getAttribute("href"));
+    public HomePageNavBar clickComunaButton() {
+        comunaButton.click();
         return new HomePageNavBar(driver);
     }
 
-    public HomePageNavBar clickContactUsButton(){
-       driver.get(contactUsButton.getAttribute("href"));
-       return new HomePageNavBar(driver);
+    public HomePageNavBar clickContactUsButton() {
+        contactUsButton.click();
+        return new HomePageNavBar(driver);
     }
 
     //waiter for navbar elements
-    public HomePageNavBar waitForNavBarElement(WebElement element){
-        WebDriverWait wait = new WebDriverWait(driver,10);
+    public HomePageNavBar waitForNavBarElement(WebElement element) {
+        WebDriverWait wait = new WebDriverWait(driver, 10);
         wait.until(ExpectedConditions.visibilityOf(element));
         return new HomePageNavBar(driver);
     }
+
+
 }
