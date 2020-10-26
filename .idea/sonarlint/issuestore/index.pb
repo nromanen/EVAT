@@ -51,3 +51,7 @@ _
 /src/test/java/signInOut/AuthorizationTests.java,c/3/c3e14ab4c1130c5d58acaef320dc054f305e89a0
 W
 'src/main/java/pages/HomePageNavBar.java,f/9/f911c0f5445d00b48fd4488cc502097a36896d48
+V
+&src/main/java/utility/SetUpDriver.java,f/4/f453472f3a6a4babb1f17a01c63dca7e2169ccc3
+T
+$src/main/java/pages/CommunaPage.java,f/1/f1c4a303c60b434cef0f3645c8a7416a76e769ab
