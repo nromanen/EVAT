@@ -54,6 +54,9 @@ public class HomePageSearchMenu {
     @FindBy(css = ".rw-list-empty")
     public WebElement incorrectHashtag;
 
+    @FindBy(css = ".react-datepicker__day--selected")
+    public WebElement selectedDayInCalendar;
+
     @FindBy(css = "")
     public WebElement incorrectKeywordTooSmall;
 
@@ -106,6 +109,10 @@ public class HomePageSearchMenu {
     public HomePageSearchMenu typeDateFrom(LocalDate date){
         dateFromPicker.sendKeys(date.getMonth()+"/"+date.getDayOfMonth()+"/"+date.getYear());
         dateFromPicker.sendKeys(Keys.ENTER);
+        return this;
+    }
+    public HomePageSearchMenu typeDateFromWithAnotherFormat(String date){
+        dateFromPicker.sendKeys(date);
         return this;
     }
     public HomePageSearchMenu typeDateTo(LocalDate date){
@@ -213,5 +220,11 @@ public class HomePageSearchMenu {
     }
     public String getDateFromPickerText(){
         return dateFromPickerValue.getAttribute("value");
+    }
+    public String getHashtagFieldText(){
+        return hashtagField.getAttribute("value");
+    }
+    public String getSelectedDayInCalendarValue(){
+        return selectedDayInCalendar.getText();
     }
 }
