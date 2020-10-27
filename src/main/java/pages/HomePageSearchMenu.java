@@ -171,11 +171,12 @@ public class HomePageSearchMenu {
         this.clickSearchButton();
         return this;
     }
-    public HomePageSearchMenu searchByKeywordAndDate(String keyword, LocalDate date){
+}
+    public HomePageSearchMenu searchByKeywordAndDateFrom(String keyword, LocalDate date){
         this.typeKeyword(keyword);
         this.clickMoreFiltersButton();
-        this.clearDateTo();
-        this.typeDateTo(date);
+        this.clearDateFrom();
+        this.typeDateFrom(date);
         this.clickSearchButton();
         return this;
     }
