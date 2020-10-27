@@ -20,7 +20,9 @@ public class AddEventPage{
     @FindBy(how = How.CSS, using = "#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div.preview-container > div > input[type=file]")
     private WebElement fileUploader;
 
-  //  @FindBy(how = How.CSS, using = "#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div.preview-container > div > div > img")
+    final String imageSelector="#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div.preview-container > div > div > img";
+
+    @FindBy(how = How.CSS, using = imageSelector)
     private WebElement image;
 
     @FindBy(how = How.CSS, using = "#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div:nth-child(3) > div > div > input")
@@ -38,10 +40,12 @@ public class AddEventPage{
     @FindBy(how = How.CSS, using = "#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div:nth-child(6) > div > div.rw-widget-input.rw-widget-picker.rw-widget-container > div > input")
     private WebElement hashtags;
 
-    //@FindBy(how =How.NAME, using = "countryId")
-    private Select country;
+    @FindBy(how =How.NAME, using = "countryId")
+    private WebElement countryElement;
+    private Select country=new Select(countryElement);
+    //Select select = new Select(driver.findElement(By.id("cars")));
 
-   // @FindBy(how =How.NAME, using = "cityId")
+    @FindBy(how =How.NAME, using = "cityId")
     private Select city;
 
     @FindBy(how =How.CSS, using = "#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > button")
@@ -59,6 +63,11 @@ public class AddEventPage{
     @FindBy(how = How.CSS, using = "")
     private WebElement errorTooMuchHashtags;
 
+    //Required?????????????????????????????????????????????????????????????
+
+    @FindBy(how = How.CSS, using = "#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > button > span.MuiTouchRipple-root")
+    private WebElement save;
+
     public AddEventPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
@@ -66,40 +75,39 @@ public class AddEventPage{
 
 
     public boolean loadImage(String nameFileImg) {
-        if (!fileUploader.isEnabled()) return false;
+        if (fileUploader==null) return false;
         fileUploader.sendKeys(nameFileImg);
         image = driver.findElement(By.cssSelector("#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div.preview-container > div > div > img"));
         return true;
     }
 
     public String getValueImage(){
+        new WebDriverWait(driver, 50).until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(imageSelector)));
+        if (image==null) return "";
         return image.getAttribute("alt");
     }
 
     public boolean inputTitle(String text) {
-        if (title.isEnabled()) {
-            title.sendKeys(text);
-        } else return false;
+        if (title==null) return false;
+        title.sendKeys(text);
         return true;
     }
 
     public boolean inputDateFrom(LocalDate date) {
-        if (dateFrom.isEnabled()) {
-            dateFrom.sendKeys(Keys.CONTROL + "A");
-            dateFrom.sendKeys(Keys.DELETE);
-            dateFrom.sendKeys(date.getMonth().getValue() + "/" + date.getDayOfMonth() + "/" + date.getYear());
-            dateFrom.sendKeys(Keys.ENTER);
-        } else return false;
+        if (dateFrom==null) return false;
+        dateFrom.sendKeys(Keys.CONTROL + "A");
+        dateFrom.sendKeys(Keys.DELETE);
+        dateFrom.sendKeys(date.getMonth().getValue() + "/" + date.getDayOfMonth() + "/" + date.getYear());
+        dateFrom.sendKeys(Keys.ENTER);
         return true;
     }
 
     public boolean inputDateTo(LocalDate date) {
-        if (dateTo.isEnabled()) {
-            dateTo.sendKeys(Keys.CONTROL + "A");
-            dateTo.sendKeys(Keys.DELETE);
-            dateTo.sendKeys(date.getMonth().getValue() + "/" + date.getDayOfMonth() + "/" + date.getYear());
-            dateTo.sendKeys(Keys.ENTER);
-        } else return false;
+        if (dateTo==null) return false;
+        dateTo.sendKeys(Keys.CONTROL + "A");
+        dateTo.sendKeys(Keys.DELETE);
+        dateTo.sendKeys(date.getMonth().getValue() + "/" + date.getDayOfMonth() + "/" + date.getYear());
+        dateTo.sendKeys(Keys.ENTER);
         return true;
     }
 
@@ -111,12 +119,11 @@ public class AddEventPage{
     }
 
     public boolean inputHashtags(String[] hashtagsToEnter) {
-        if (hashtags.isEnabled()) {
-            for (String str : hashtagsToEnter) {
-                hashtags.sendKeys(str);
-                hashtags.sendKeys(Keys.ENTER);
-            }
-        } else return false;
+        if (hashtags==null) return false;
+        for (String str : hashtagsToEnter) {
+            hashtags.sendKeys(str);
+            hashtags.sendKeys(Keys.ENTER);
+        }
         return true;
     }
 
@@ -139,7 +146,8 @@ public class AddEventPage{
                     city = new Select(driver.findElement(By.name("cityId")));
                 }
                 if (city.getOptions() != null){
-                        city.selectByVisibleText(text);
+                    new WebDriverWait(driver, 50).until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#age-native-simple > option:nth-child(2)")));
+                    city.selectByVisibleText(city.getOptions().get(1).getText());
                 }
                 else return false;
         }
@@ -147,8 +155,14 @@ public class AddEventPage{
     }
 
     public boolean clickClear(){
-        if(!clear.isEnabled())return false;
+        if(clear==null)return false;
         clear.click();
+        return true;
+    }
+
+    public boolean clickSave(){
+        if(save==null)return false;
+        save.submit();
         return true;
     }
 

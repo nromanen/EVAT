@@ -1,4 +1,4 @@
-package pages;
+package pages.navBar;
 
 import java.time.LocalDate;
 
