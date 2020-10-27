@@ -2,6 +2,7 @@ package profile;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -63,8 +64,8 @@ public class AEventDefaultBehaviorTest {
 
     @Test(dependsOnMethods="testGetValueImage")
     public void testClickClear(){
-        addEventPage.clickClear();
-        assertTrue(!addEventPage.getFileUploader().isSelected());
+      //  addEventPage.clickClear();
+       // assertTrue(!addEventPage.getFileUploader().isSelected());
     }
 
 
@@ -160,6 +161,13 @@ public class AEventDefaultBehaviorTest {
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    @Test
+    public void testClickSave() {
+        assertTrue(addEventPage.clickSave());
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     @DataProvider
     public Object[][] negativeProviderInputTitle(){
         return new Object[][]{{prop.getProperty("smallTitle")},{prop.getProperty("bigTitle")}};
@@ -177,8 +185,6 @@ public class AEventDefaultBehaviorTest {
         assertEquals(addEventPage.getErrorIncorrectTitle().getText(),prop.getProperty("errorIncorrectTitle"));
     }
 
-
-
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @DataProvider
@@ -186,10 +192,16 @@ public class AEventDefaultBehaviorTest {
         return new Object[][]{{prop.getProperty("noOneLetterInTitle")}};
     }
 
-    @Test(dataProvider = "negativeProviderInputTitleNoOneLetter")
+    @Test(dataProvider = "negativeProviderInputTitleNoOneLetter",dependsOnMethods = "testInputTitle")
     public void negativeInputTitleNoOneLetter(String text) {
+        addEventPage.getTitle().clear();
         addEventPage.inputTitle(text);
         assertTrue(addEventPage.getErrorIncorrectTitleNoOneLetter().isDisplayed());
+    }
+
+    @Test(dependsOnMethods = "negativeInputTitleNoOneLetter")
+    public void negativeTitleNoOneLetterError() {
+        assertEquals(addEventPage.getErrorIncorrectTitleNoOneLetter().getText(),prop.getProperty("errorIncorrectTitleNoOneLetter"));
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -199,10 +211,15 @@ public class AEventDefaultBehaviorTest {
         return new Object[][]{{prop.getProperty("smallDescription")},{prop.getProperty("bigDescription")}};
     }
 
-    @Test(dataProvider = "negativeProviderInputDescription")
+    @Test(dataProvider = "negativeProviderInputDescription",dependsOnMethods = "testInputDescription")
     public void negativeInputDescription(String text) {
         addEventPage.inputDescription(text);
         assertTrue(addEventPage.getErrorIncorrectDescription().isDisplayed());
+    }
+
+    @Test(dependsOnMethods = "negativeInputDescription")
+    public void incorrectDescriptionLengthError() {
+        assertEquals(addEventPage.getErrorIncorrectDescription().getText(),prop.getProperty("errorIncorrectDescription"));
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -213,9 +230,14 @@ public class AEventDefaultBehaviorTest {
         return new Object[][]{{hashtags}};
     }
 
-    @Test(dataProvider = "negativeProviderInputHashtags")
+    @Test(dataProvider = "negativeProviderInputHashtags",dependsOnMethods = "testInputHashtags")
     public void negativeInputHashtags(String[] hashtagsToEnter) {
         addEventPage.inputHashtags(hashtagsToEnter);
         assertTrue(addEventPage.getErrorTooMuchHashtags().isDisplayed());
+    }
+
+    @Test(dependsOnMethods = "negativeInputHashtags")
+    public void negativeTooMoreHashtagsError() {
+        assertEquals(addEventPage.getErrorTooMuchHashtags().getText(),prop.getProperty("errorToMoreHashtags"));
     }
 }
