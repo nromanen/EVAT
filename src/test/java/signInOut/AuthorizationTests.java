@@ -42,6 +42,7 @@ public class AuthorizationTests {
         signInUpMenu.authoriseUser(login,password);
        WebDriverWait wait = new WebDriverWait(driver,20);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"root\"]/div[2]/div/div/div/h4")));
+
         Assert.assertEquals(signInUpMenu.getUserName(),userName);
     }
 
@@ -50,7 +51,7 @@ public class AuthorizationTests {
         signInUpMenu = new SignInUpMenu(driver);
         signInUpMenu.authoriseUser(email,password);
         WebDriverWait wait = new WebDriverWait(driver,20);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/div[2]/div[3]/div/div/div[2]/div/div/div[2]")));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(signInUpMenu.LOGIN_ERROR_MESSAGE_XPATH)));
         Assert.assertTrue(signInUpMenu.getLoginError().contains(correctMessage));
     }
 
