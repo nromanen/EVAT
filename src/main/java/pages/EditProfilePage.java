@@ -8,11 +8,11 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class EditYourProfilePage {
+public class EditProfilePage {
 
 	private WebDriver driver;
 	
-	public EditYourProfilePage(WebDriver webDriver) {
+	public EditProfilePage(WebDriver webDriver) {
 		this.driver = webDriver;
 		PageFactory.initElements(driver, this);
 	}
