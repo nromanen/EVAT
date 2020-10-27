@@ -2,10 +2,11 @@ package pages;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import utility.EventElement;
+
 
 public class HomePageNavBar {
     WebDriver driver;
@@ -44,51 +45,53 @@ public class HomePageNavBar {
     }
 
     public HomePageNavBar clickEditProfileButton() {
-        editProfileButton.click();
-        return new HomePageNavBar(driver);
+        new EventElement(driver, editProfileButton).click();
+        return this;
     }
 
     public HomePageNavBar clickNotificationButton() {
-        notificationsButton.click();
-        return new HomePageNavBar(driver);
+        new EventElement(driver, notificationsButton).click();
+        return this;
     }
 
     public HomePageNavBar clickSignOutButton() {
-        signOutButton.click();
-        return new HomePageNavBar(driver);
+        new EventElement(driver, signOutButton).click();
+        return this;
     }
 
     public HomePageNavBar clickHomeButton() {
-        homeButton.click();
-        return new HomePageNavBar(driver);
+        new EventElement(driver, homeButton).click();
+        return this;
     }
 
     public HomePageNavBar clickProfileButton() {
-        profileButton.click();
-        return new HomePageNavBar(driver);
+        new EventElement(driver, profileButton).click();
+        return this;
     }
 
     public HomePageNavBar clickSearchUsersButton() {
-        searchUsersButton.click();
-        return new HomePageNavBar(driver);
+        new EventElement(driver, searchUsersButton).click();
+        return this;
     }
 
     public HomePageNavBar clickComunaButton() {
-        comunaButton.click();
-        return new HomePageNavBar(driver);
+        new EventElement(driver, comunaButton).click();
+        return this;
     }
 
     public HomePageNavBar clickContactUsButton() {
-        contactUsButton.click();
-        return new HomePageNavBar(driver);
+        new EventElement(driver, contactUsButton).click();
+        return this;
     }
 
-    //waiter for navbar elements
-    public HomePageNavBar waitForNavBarElement(WebElement element) {
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-        wait.until(ExpectedConditions.visibilityOf(element));
-        return new HomePageNavBar(driver);
-    }
 
+    public static void main(String[] args) {
+        WebDriver driver = new FirefoxDriver();
+        driver.get("https://eventsexpress-test.azurewebsites.net/home/events/?page=1");
+        SignInUpMenu signInUpMenu = new SignInUpMenu(driver);
+        signInUpMenu.authoriseUser("carat98@icloud.com", "12345678");
+        HomePageNavBar homePageNavBar = new HomePageNavBar(driver);
+        homePageNavBar.clickProfileButton();
+    }
 
 }

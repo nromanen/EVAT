@@ -7,7 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-
+import utility.EventElement;
 
 
 public class SignInUpMenu {
@@ -102,19 +102,28 @@ public class SignInUpMenu {
     }
 
     public void clickSignUp(){
-        signUp.click();
+        EventElement element = new EventElement(driver,signUp);
+        element.click();
+        //signUp.click();
     }
 
     public void clickCancel(){
-        cancel.click();
+        EventElement element = new EventElement(driver,cancel);
+        element.click();
+        //cancel.click();
     }
 
     public void clickSignInOut(){
-        signInOut.click();
+        EventElement element = new EventElement(driver,signInOut);
+        element.click();
+        //signInOut.click();
     }
 
     public void clickRegisterButton(){
-        registerButton.click();
+        EventElement element = new EventElement(driver,registerButton);
+        element.click();
+
+        //registerButton.click();
     }
 
     public String getRegistrationErrorMessage(){
@@ -138,6 +147,8 @@ public class SignInUpMenu {
     }
 
     public void clickSignIn(){
+        EventElement element = new EventElement(driver,signIn);
+        element.click();
         signIn.click();
     }
 
