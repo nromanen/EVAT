@@ -11,11 +11,17 @@ import utility.EventElement;
 
 
 public class SignInUpMenu {
-    public final String LOGIN_ERROR_MESSAGE_XPATH = "/html/body/div[2]/div[3]/div/div/div[2]/div/div/div[2]";
 
     WebDriver driver;
+
+    @FindBy(css = "body > div.MuiDialog-root > div.MuiDialog-container.MuiDialog-scrollPaper > div > div > div.MuiTypography-root.MuiTypography-body1 > div > div > div.text-center")
+    public WebElement errorMessage;
+
     @FindBy(xpath = "/html/body/div[2]/div[3]/div/div/div[2]/div/div/div[2]")
     WebElement loginErrorMessage;
+
+    @FindBy(css = "#root > div.left-sidebar-opened.left-sidebar > div")
+    public WebElement userHeader;
 
     @FindBy(css = ".MuiDialogActions-root > button:nth-child(2)")
     WebElement signIn;
@@ -147,9 +153,12 @@ public class SignInUpMenu {
     }
 
     public void clickSignIn(){
-        EventElement element = new EventElement(driver,signIn);
-        element.click();
-        signIn.click();
+        EventElement eventElement = new EventElement(driver,signIn);
+        eventElement.click();
+    }
+
+    public void clickSignInAndWait(WebElement element){
+        new EventElement(driver,signIn).clickAndWait(element);
     }
 
     public String getLoginError(){
@@ -165,6 +174,15 @@ public class SignInUpMenu {
         clickPassword();
         setPassword(password);
         clickSignIn();
+    }
+
+    public void authoriseAndWaitUser(String email,String password,WebElement element){
+        clickSignInOut();
+        clickEmail();
+        setEmail(email);
+        clickPassword();
+        setPassword(password);
+        clickSignInAndWait(element);
     }
 
     public void registerUser(String email, String password, String confirmPassword){

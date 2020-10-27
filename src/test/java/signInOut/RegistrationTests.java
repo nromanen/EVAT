@@ -13,7 +13,7 @@ import pages.SignInUpMenu;
 
 public class RegistrationTests {
     final String WEBSITE_URL = "https://eventsexpress-test.azurewebsites.net/home/events?page=1";
-    final String DRIVER_PATH = "/Users/illyashulman/EventExpress/geckodriver";
+    final String DRIVER_PATH = "/Users/illyashulman/EventExpressTest/src/test/resources/geckodriver";
     WebDriver driver;
     SignInUpMenu signInUpMenu;
 
