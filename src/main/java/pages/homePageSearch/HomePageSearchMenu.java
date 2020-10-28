@@ -131,79 +131,79 @@ public class HomePageSearchMenu {
         return this;
     }
     public HomePageSearchMenu searchByKeyword(String keyword){
-        this.typeKeyword(keyword);
-        this.clickSearchButton();
+        typeKeyword(keyword);
+        clickSearchButton();
         return this;
     }
     public HomePageSearchMenu searchByTwoDates(LocalDate date1, LocalDate date2){
-        this.clickMoreFiltersButton();
-        this.clearDateFrom();
-        this.typeDateFrom(date1);
-        this.clearDateTo();
-        this.typeDateTo(date2);
-        this.clickSearchButton();
+        clickMoreFiltersButton();
+        clearDateFrom();
+        typeDateFrom(date1);
+        clearDateTo();
+        typeDateTo(date2);
+        clickSearchButton();
         return this;
     }
     public HomePageSearchMenu searchByDateFrom(LocalDate date){
-        this.clickMoreFiltersButton();
-        this.clearDateFrom();
-        this.typeDateFrom(date);
-        this.clickSearchButton();
+        clickMoreFiltersButton();
+        clearDateFrom();
+        typeDateFrom(date);
+        clickSearchButton();
         return this;
     }
     public HomePageSearchMenu searchByDateTo(LocalDate date){
-        this.clickMoreFiltersButton();
-        this.clearDateTo();
-        this.typeDateTo(date);
-        this.clickSearchButton();
+        clickMoreFiltersButton();
+        clearDateTo();
+        typeDateTo(date);
+        clickSearchButton();
         return this;
     }
     public HomePageSearchMenu searchByOneHashtag(String hashtag){
-        this.clickMoreFiltersButton();
-        this.typeHashtag(hashtag);
-        this.clickSearchButton();
+        clickMoreFiltersButton();
+        typeHashtag(hashtag);
+        clickSearchButton();
         return this;
     }
     public HomePageSearchMenu searchByTwoHashtags(String hashtag1, String hashtag2){
-        this.clickMoreFiltersButton();
-        this.typeHashtag(hashtag1);
-        this.typeHashtag(hashtag2);
-        this.clickSearchButton();
+        clickMoreFiltersButton();
+        typeHashtag(hashtag1);
+        typeHashtag(hashtag2);
+        clickSearchButton();
         return this;
     }
 
     public HomePageSearchMenu searchByKeywordAndDateFrom(String keyword, LocalDate date){
-        this.typeKeyword(keyword);
-        this.clickMoreFiltersButton();
-        this.clearDateFrom();
-        this.typeDateFrom(date);
-        this.clickSearchButton();
+        typeKeyword(keyword);
+        clickMoreFiltersButton();
+        clearDateFrom();
+        typeDateFrom(date);
+        clickSearchButton();
         return this;
     }
     public HomePageSearchMenu searchByKeywordAndHashtag(String keyword, String hashtag){
-        this.typeKeyword(keyword);
-        this.clickMoreFiltersButton();
-        this.typeHashtag(hashtag);
-        this.clickSearchButton();
+        typeKeyword(keyword);
+        clickMoreFiltersButton();
+        typeHashtag(hashtag);
+        clickSearchButton();
         return this;
     }
     public HomePageSearchMenu searchByDatesAndHashtag(LocalDate date1, LocalDate date2, String hashtag){
-        this.clickMoreFiltersButton();
-        this.clearDateFrom();
-        this.typeDateFrom(date1);
-        this.clearDateTo();
-        this.typeDateTo(date2);
-        this.typeHashtag(hashtag);
-        this.clickSearchButton();
+        clickMoreFiltersButton();
+        clearDateFrom();
+        typeDateFrom(date1);
+        clearDateTo();
+        typeDateTo(date2);
+        typeHashtag(hashtag);
+        clickSearchButton();
         return this;
     }
     public HomePageSearchMenu searchByKeywordAndDateAndHashtag(String keyword, LocalDate date, String hashtag) {
-        this.typeKeyword(keyword);
-        this.clickMoreFiltersButton();
-        this.clearDateFrom();
-        this.typeDateFrom(date);
-        this.typeHashtag(hashtag);
-        this.clickSearchButton();
+        typeKeyword(keyword);
+        clickMoreFiltersButton();
+        clearDateFrom();
+        typeDateFrom(date);
+        typeHashtag(hashtag);
+        clickSearchButton();
         return this;
     }
 
