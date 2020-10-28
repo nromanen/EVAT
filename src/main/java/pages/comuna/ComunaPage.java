@@ -1,13 +1,13 @@
-package pages.communa;
+package pages.comuna;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
-public class CommunaPage {
+public class ComunaPage {
     private WebDriver driver;
-    public CommunaPage(WebDriver driver) {
+    public ComunaPage(WebDriver driver) {
         this.driver = driver;
     }
     @FindBy(css = ".row")
