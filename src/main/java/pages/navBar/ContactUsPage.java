@@ -2,32 +2,39 @@ package pages.navBar;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 
 public class ContactUsPage {
     private WebDriver driver;
-    public ContactUsPage(WebDriver driver) {
+    public ContactUsPage(WebDriver driver){
         this.driver = driver;
+        PageFactory.initElements(driver,this);
     }
     @FindBy(css = ".form-control")
-    Select problemType;
+    public WebElement problemType;
+
+//  drop-down list
 
     @FindBy(css = ".MuiInputBase-input")
-    WebElement descriptionField;
+    public WebElement descriptionField;
 
     @FindBy(css = ".MuiFormHelperText-root")
-    WebElement emptyDescriptionError;
+    public WebElement emptyDescriptionError;
 
     @FindBy(css = "button.MuiButtonBase-root:nth-child(4)")
-    WebElement clearButton;
+    public WebElement clearButton;
 
     @FindBy(css = "button.MuiButtonBase-root:nth-child(3)")
-    WebElement submitButton;
+    public WebElement submitButton;
 
-    public ContactUsPage selectProblemType(int index){
-        problemType.selectByIndex(index);
+    public ContactUsPage clickOnProblemType(){
+        problemType.click();
         return this;
     }
+//    public ContactUsPage selectProblemType(){
+//
+//    }
     public ContactUsPage enterDescription(String text){
         descriptionField.sendKeys(text);
         return this;
