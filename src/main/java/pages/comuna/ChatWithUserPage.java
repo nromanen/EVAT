@@ -9,16 +9,16 @@ public class ChatWithUserPage {
         this.driver = driver;
     }
     @FindBy(css = ".MuiInputBase-input")
-    WebElement fieldForMessage;
+    public WebElement fieldForMessage;
 
     @FindBy(css = "button.MuiButtonBase-root:nth-child(2)")
-    WebElement sendButton;
+    public WebElement sendButton;
 
     @FindBy(css = ".msg_cotainer_send")
-    WebElement sentMessage;
+    public WebElement sentMessage;
 
     @FindBy(css = ".user_info > p:nth-child(2)")
-    WebElement numberOfMessages;
+    public WebElement numberOfMessages;
 
     public ChatWithUserPage enterMessage(String text) {
         fieldForMessage.sendKeys(text);
@@ -29,7 +29,7 @@ public class ChatWithUserPage {
         return this;
     }
     public String getTextFromMessageField(){
-        return fieldForMessage.getText();
+        return fieldForMessage.getAttribute("value");
     }
     public String getTextSentMessage(){
         return sentMessage.getText();
