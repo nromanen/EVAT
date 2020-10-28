@@ -120,6 +120,7 @@ public class EditProfilePage {
 	WebElement submitChangePasswordButton;
 	
 	@FindBy(xpath = "//span[@id='client-snackbar']")
+	public
 	WebElement clientSnackbar;
 	
 	public String getClientSnackbarText() {
