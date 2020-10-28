@@ -24,10 +24,15 @@ public class EventElement implements WebElement {
 
     public void clickAndWait(WebElement element){
         click();
-        WebDriverWait wait = new WebDriverWait(driver,5);
+        WebDriverWait wait = new WebDriverWait(driver,30);
         wait.until(ExpectedConditions.visibilityOf(element));
     }
 
+    public void clickAndWait(WebElement element, List<WebElement> elements){
+        element.click();
+        WebDriverWait wait = new WebDriverWait(driver,30);
+        wait.until(ExpectedConditions.visibilityOfAllElements(elements));
+    }
     @Override
     public void submit() {
 

@@ -5,6 +5,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import utility.EventElement;
+
 import java.time.LocalDate;
 
 public class HomePageSearchMenu {
@@ -64,12 +66,16 @@ public class HomePageSearchMenu {
     public WebElement incorrectKeywordTooLong;
 
     public HomePageSearchMenu clickMoreFiltersButton(){
-        moreFiltersButton.click();
+        EventElement element = new EventElement(driver, moreFiltersButton);
+        element.clickAndWait(resetButton);
+//        moreFiltersButton.click();
         return this;
     }
     public HomePageSearchMenu clickSearchButton(){
-        searchButton.click();
-        return new HomePageSearchMenu(driver);
+        EventElement element = new EventElement(driver, searchButton);;
+        element.clickAndWait(searchButton, SearchResultPage.numberOfEvents);
+//        searchButton.click();
+        return this;
     }
     public HomePageSearchMenu clickLessButton(){
         lessButton.click();
@@ -77,6 +83,12 @@ public class HomePageSearchMenu {
     }
     public HomePageSearchMenu clickResetButton(){
         resetButton.click();
+        return this;
+    }
+    public HomePageSearchMenu clickResetButtonForClearResults(){
+        EventElement element = new EventElement(driver, resetButton);
+        element.clickAndWait(resetButton, SearchResultPage.numberOfEvents);
+//        resetButton.click();
         return this;
     }
     public HomePageSearchMenu clickHashtagButton(){
