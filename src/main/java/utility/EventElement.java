@@ -9,28 +9,27 @@ import java.util.List;
 public class EventElement implements WebElement {
     private WebDriver driver;
     private WebElement element;
+    private WebDriverWait wait;
 
     public EventElement(WebDriver driver, WebElement element) {
         this.driver = driver;
         this.element = element;
+        wait = new WebDriverWait(driver,30);
     }
 
     @Override
     public void click() {
-        WebDriverWait wait = new WebDriverWait(driver,5);
         wait.until(ExpectedConditions.visibilityOf(element));
         element.click();
     }
 
     public void clickAndWait(WebElement element){
         click();
-        WebDriverWait wait = new WebDriverWait(driver,30);
         wait.until(ExpectedConditions.visibilityOf(element));
     }
 
-    public void clickAndWait(WebElement element, List<WebElement> elements){
-        element.click();
-        WebDriverWait wait = new WebDriverWait(driver,30);
+    public void clickAndWait(List<WebElement> elements){
+        click();
         wait.until(ExpectedConditions.visibilityOfAllElements(elements));
     }
     @Override
