@@ -119,6 +119,14 @@ public class EditProfilePage {
 	@FindBy(css = "#panel1bh-content > div > p > form > div.mt-2 > button.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textPrimary > span.MuiButton-label")
 	WebElement submitChangePasswordButton;
 	
+	@FindBy(xpath = "//span[@id='client-snackbar']")
+	public
+	WebElement clientSnackbar;
+	
+	public String getClientSnackbarText() {
+		return clientSnackbar.getText();
+	}
+	
 	public void clickOnChangeAvatarField() {
 		changeAvatarField.click();
 	}
