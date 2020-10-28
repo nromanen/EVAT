@@ -67,14 +67,16 @@ public class HomePageSearchMenu {
 
     public HomePageSearchMenu clickMoreFiltersButton(){
         EventElement element = new EventElement(driver, moreFiltersButton);
-        element.clickAndWait(resetButton);
-//        moreFiltersButton.click();
+        element.clickAndWait(searchButton);
         return this;
     }
     public HomePageSearchMenu clickSearchButton(){
-        EventElement element = new EventElement(driver, searchButton);;
-        element.clickAndWait(searchButton, SearchResultPage.numberOfEvents);
-//        searchButton.click();
+        searchButton.click();
+        return this;
+    }
+    public HomePageSearchMenu clickSearchButtonAndWait(){
+        EventElement element = new EventElement(driver, searchButton);
+        element.clickAndWait(SearchResultPage.numberOfEvents);
         return this;
     }
     public HomePageSearchMenu clickLessButton(){
@@ -87,8 +89,7 @@ public class HomePageSearchMenu {
     }
     public HomePageSearchMenu clickResetButtonForClearResults(){
         EventElement element = new EventElement(driver, resetButton);
-        element.clickAndWait(resetButton, SearchResultPage.numberOfEvents);
-//        resetButton.click();
+        element.clickAndWait(SearchResultPage.numberOfEvents);
         return this;
     }
     public HomePageSearchMenu clickHashtagButton(){
@@ -144,7 +145,7 @@ public class HomePageSearchMenu {
     }
     public HomePageSearchMenu searchByKeyword(String keyword){
         typeKeyword(keyword);
-        clickSearchButton();
+        clickSearchButtonAndWait();
         return this;
     }
     public HomePageSearchMenu searchByTwoDates(LocalDate date1, LocalDate date2){
@@ -153,34 +154,34 @@ public class HomePageSearchMenu {
         typeDateFrom(date1);
         clearDateTo();
         typeDateTo(date2);
-        clickSearchButton();
+        clickSearchButtonAndWait();
         return this;
     }
     public HomePageSearchMenu searchByDateFrom(LocalDate date){
         clickMoreFiltersButton();
         clearDateFrom();
         typeDateFrom(date);
-        clickSearchButton();
+        clickSearchButtonAndWait();
         return this;
     }
     public HomePageSearchMenu searchByDateTo(LocalDate date){
         clickMoreFiltersButton();
         clearDateTo();
         typeDateTo(date);
-        clickSearchButton();
+        clickSearchButtonAndWait();
         return this;
     }
     public HomePageSearchMenu searchByOneHashtag(String hashtag){
         clickMoreFiltersButton();
         typeHashtag(hashtag);
-        clickSearchButton();
+        clickSearchButtonAndWait();
         return this;
     }
     public HomePageSearchMenu searchByTwoHashtags(String hashtag1, String hashtag2){
         clickMoreFiltersButton();
         typeHashtag(hashtag1);
         typeHashtag(hashtag2);
-        clickSearchButton();
+        clickSearchButtonAndWait();
         return this;
     }
 
@@ -189,14 +190,14 @@ public class HomePageSearchMenu {
         clickMoreFiltersButton();
         clearDateFrom();
         typeDateFrom(date);
-        clickSearchButton();
+        clickSearchButtonAndWait();
         return this;
     }
     public HomePageSearchMenu searchByKeywordAndHashtag(String keyword, String hashtag){
         typeKeyword(keyword);
         clickMoreFiltersButton();
         typeHashtag(hashtag);
-        clickSearchButton();
+        clickSearchButtonAndWait();
         return this;
     }
     public HomePageSearchMenu searchByDatesAndHashtag(LocalDate date1, LocalDate date2, String hashtag){
@@ -206,7 +207,7 @@ public class HomePageSearchMenu {
         clearDateTo();
         typeDateTo(date2);
         typeHashtag(hashtag);
-        clickSearchButton();
+        clickSearchButtonAndWait();
         return this;
     }
     public HomePageSearchMenu searchByKeywordAndDateAndHashtag(String keyword, LocalDate date, String hashtag) {
@@ -215,7 +216,7 @@ public class HomePageSearchMenu {
         clearDateFrom();
         typeDateFrom(date);
         typeHashtag(hashtag);
-        clickSearchButton();
+        clickSearchButtonAndWait();
         return this;
     }
 
