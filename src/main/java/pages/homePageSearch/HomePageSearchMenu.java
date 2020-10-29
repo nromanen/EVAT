@@ -35,6 +35,9 @@ public class HomePageSearchMenu {
     @FindBy(css = "#main > div.sidebar-filter > form > div:nth-child(3) > div.react-datepicker-wrapper > div > input")
     public WebElement  dateToPicker;
 
+    @FindBy(css = "div.form-group:nth-child(3) > div:nth-child(2) > div:nth-child(1) > input:nth-child(1)")
+    public WebElement dateToPickerValue;
+
     @FindBy(css = ".rw-input-reset")
     public WebElement hashtagField;
 
@@ -58,6 +61,9 @@ public class HomePageSearchMenu {
 
     @FindBy(css = ".react-datepicker__day--selected")
     public WebElement selectedDayInCalendar;
+
+    @FindBy(css = ".rw-multiselect-tag > span:nth-child(1)")
+    public WebElement chosenHashtag;
 
     @FindBy(css = "")
     public WebElement incorrectKeywordTooSmall;
@@ -237,8 +243,14 @@ public class HomePageSearchMenu {
     public String getDateFromPickerText(){
         return dateFromPickerValue.getAttribute("value");
     }
+    public String getDateToPickerText(){
+        return dateToPickerValue.getAttribute("value");
+    }
     public String getHashtagFieldText(){
         return hashtagField.getAttribute("value");
+    }
+    public String getChosenHashtagText(){
+        return chosenHashtag.getText();
     }
     public String getSelectedDayInCalendarValue(){
         return selectedDayInCalendar.getText();
