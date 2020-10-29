@@ -9,8 +9,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -35,35 +34,27 @@ class EditProfilePageTest {
 	public void setUp() {
 		System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\chromedriver.exe");
 		driver = new ChromeDriver();
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		wait = new WebDriverWait(driver, 10);
-		System.out.println("The setup process is completed");
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 	}
 
 	@BeforeTest
 	public void profileSetup() {
 		driver.manage().window().maximize();
-		System.out.println("The profile setup process is completed");
-	}
-	
-	@BeforeClass
-	public void appSetup() {
 		driver.get(url);
-		System.out.println("The app setup process is completed");
-		
 		driver.findElement(signInUpButton).click();
 		driver.findElement(email).sendKeys("d.bozhevilnyi@gmail.com");
 		driver.findElement(password).sendKeys("131089");
 		driver.findElement(signin).click();
+		wait.until(ExpectedConditions.elementToBeClickable(editYourProfileButton));
 		driver.findElement(editYourProfileButton).click();
-		System.out.println("The login process is completed");
 	}
 	
 	@Test
 	public void changeAvatarTest() {
 		editProfilePage = new EditProfilePage(driver);
 		editProfilePage.changeAvatar(imagePath);
-		wait.until(ExpectedConditions.visibilityOfAllElements(editProfilePage.clientSnackbar));
+		wait.until(ExpectedConditions.visibilityOf(editProfilePage.clientSnackbar));
 		Assert.assertEquals(editProfilePage.getClientSnackbarText(), "Avatar is update");
 	}
 	
@@ -71,7 +62,7 @@ class EditProfilePageTest {
 	public void changeUsernameTest() {
 		editProfilePage = new EditProfilePage(driver);
 		editProfilePage.changeUserName("Saul");
-		wait.until(ExpectedConditions.visibilityOfAllElements(editProfilePage.clientSnackbar));
+		wait.until(ExpectedConditions.visibilityOf(editProfilePage.clientSnackbar));
 		Assert.assertEquals(editProfilePage.getClientSnackbarText(), "Username is changed");
 	}
 	
@@ -79,7 +70,7 @@ class EditProfilePageTest {
 	public void chooseGenderTest() {
 		editProfilePage = new EditProfilePage(driver);
 		editProfilePage.chooseGender("Male");
-		wait.until(ExpectedConditions.visibilityOfAllElements(editProfilePage.clientSnackbar));
+		wait.until(ExpectedConditions.visibilityOf(editProfilePage.clientSnackbar));
 		Assert.assertEquals(editProfilePage.getClientSnackbarText(), "Failed"); // TODO
 	}
 	
@@ -87,7 +78,7 @@ class EditProfilePageTest {
 	public void setDateOfBirthTest() {
 		editProfilePage = new EditProfilePage(driver);
 		editProfilePage.setDateOfBirth(LocalDate.of(1989, 10, 13));
-		wait.until(ExpectedConditions.visibilityOfAllElements(editProfilePage.clientSnackbar));
+		wait.until(ExpectedConditions.visibilityOf(editProfilePage.clientSnackbar));
 		Assert.assertEquals(editProfilePage.getClientSnackbarText(), "Failed"); // TODO
 	}
 	
@@ -95,7 +86,7 @@ class EditProfilePageTest {
 	public void chooseFavoriteCategoriesTest() {
 		editProfilePage = new EditProfilePage(driver);
 		editProfilePage.chooseFavoriteCategories("Sea");
-		wait.until(ExpectedConditions.visibilityOfAllElements(editProfilePage.clientSnackbar));
+		wait.until(ExpectedConditions.visibilityOf(editProfilePage.clientSnackbar));
 		Assert.assertEquals(editProfilePage.getClientSnackbarText(), "Failed"); // TODO
 	}
 	
@@ -103,13 +94,12 @@ class EditProfilePageTest {
 	public void changePasswordTest() {
 		editProfilePage = new EditProfilePage(driver);
 		editProfilePage.changePassword("1234", "1234", "1234");
-		wait.until(ExpectedConditions.visibilityOfAllElements(editProfilePage.clientSnackbar));
+		wait.until(ExpectedConditions.visibilityOf(editProfilePage.clientSnackbar));
 		Assert.assertEquals(editProfilePage.getClientSnackbarText(), "Failed");
 	}
 	
-	@AfterClass
+	@AfterTest
 	public void closeUp() {
 		driver.close();
-		System.out.println("The close_up process is completed");
 	}
 }
