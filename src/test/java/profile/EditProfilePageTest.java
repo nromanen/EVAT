@@ -22,7 +22,7 @@ class EditProfilePageTest {
 	private WebDriverWait wait;
 	private EditProfilePage editProfilePage;
 	
-	private String url = "https://eventsexpress-test.azurewebsites.net/home/events?page=1";
+	private String url = "https://eventsexpress.azurewebsites.net/home/events?page=1";
 	private By signInUpButton = By.xpath("//span[contains(text(),'Sign In/Up')]");
 	private By email = By.name("email");
 	private By password = By.name("password");
@@ -71,7 +71,7 @@ class EditProfilePageTest {
 		editProfilePage = new EditProfilePage(driver);
 		editProfilePage.chooseGender("Male");
 		wait.until(ExpectedConditions.visibilityOf(editProfilePage.clientSnackbar));
-		Assert.assertEquals(editProfilePage.getClientSnackbarText(), "Failed"); // TODO
+		Assert.assertEquals(editProfilePage.getClientSnackbarText(), "Set gender successed");
 	}
 	
 	@Test
@@ -79,7 +79,7 @@ class EditProfilePageTest {
 		editProfilePage = new EditProfilePage(driver);
 		editProfilePage.setDateOfBirth(LocalDate.of(1989, 10, 13));
 		wait.until(ExpectedConditions.visibilityOf(editProfilePage.clientSnackbar));
-		Assert.assertEquals(editProfilePage.getClientSnackbarText(), "Failed"); // TODO
+		Assert.assertEquals(editProfilePage.getClientSnackbarText(), "Set date of birth successed");
 	}
 	
 	@Test
@@ -87,7 +87,7 @@ class EditProfilePageTest {
 		editProfilePage = new EditProfilePage(driver);
 		editProfilePage.chooseFavoriteCategories("Sea");
 		wait.until(ExpectedConditions.visibilityOf(editProfilePage.clientSnackbar));
-		Assert.assertEquals(editProfilePage.getClientSnackbarText(), "Failed"); // TODO
+		Assert.assertEquals(editProfilePage.getClientSnackbarText(), "Favarote categoris is updated");
 	}
 	
 	@Test

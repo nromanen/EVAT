@@ -14,7 +14,7 @@ public class EventsNotificationPageTest {
 	
 	private WebDriver driver;
 	
-	private String url = "https://eventsexpress-test.azurewebsites.net/home/events?page=1";
+	private String url = "https://eventsexpress.azurewebsites.net/home/events?page=1";
 	private By signInUpButton = By.xpath("//span[contains(text(),'Sign In/Up')]");
 	private By email = By.name("email");
 	private By password = By.name("password");
