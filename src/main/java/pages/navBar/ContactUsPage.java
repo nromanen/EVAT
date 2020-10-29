@@ -1,4 +1,5 @@
 package pages.navBar;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -44,21 +45,8 @@ public class ContactUsPage {
         return this;
     }
     public ContactUsPage selectProblemType(String problem){
-        clickOnProblemTypeDropDownList();
-        switch (problem) {
-            case ("New Category"):
-                newCategoryProblem.click();
-                break;
-            case ("Bug Report"):
-                bugReportProblem.click();
-                break;
-            case ("Bad Event"):
-                badEventProblem.click();
-                break;
-            case ("Bad User"):
-                badUserProblem.click();
-                break;
-        }
+        String problemXpath = String.format("/html/body/div[1]/div[3]/div/div/form/div/select/option[contains(text(), '%s')]", problem);
+        driver.findElement(By.xpath(problemXpath)).click();
         return this;
     }
     public ContactUsPage enterDescription(String text){
