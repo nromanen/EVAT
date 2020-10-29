@@ -2,6 +2,7 @@ package pages.navBar;
 
 import java.time.LocalDate;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -76,30 +77,6 @@ public class EditProfilePage {
 	
 	@FindBy(xpath = "//*[@id=\"panel4bh-content\"]/div")
 	WebElement emptyFieldFavoriteCategories;
-	
-	@FindBy(xpath = "//*[@id=\"rw_3_listbox_active_option\"]")
-	WebElement seaCategory;
-	
-	@FindBy(xpath = "//*[@id=\"rw_3_listbox\"]/li[2]")
-	WebElement mountCategory;
-	
-	@FindBy(xpath = "//*[@id=\"rw_3_listbox\"]/li[3]")
-	WebElement summerCategory;
-	
-	@FindBy(xpath = "//*[@id=\"rw_3_listbox\"]/li[4]")
-	WebElement golfCategory;
-	
-	@FindBy(xpath = "//*[@id=\"rw_3_listbox\"]/li[5]")
-	WebElement teamBuildingCategory;
-	
-	@FindBy(xpath = "//*[@id=\"rw_3_listbox\"]/li[6]")
-	WebElement swimmingCategory;
-	
-	@FindBy(xpath = "//*[@id=\"rw_3_listbox\"]/li[7]")
-	WebElement gamingCategory;
-	
-	@FindBy(xpath = "//*[@id=\"rw_3_listbox\"]/li[8]")
-	WebElement travelCategory;
 	
 	@FindBy(xpath = "//span[contains(text(),'Save')]")
 	WebElement favoriteCategoriesSaveButton;
@@ -239,37 +216,15 @@ public class EditProfilePage {
 		favoriteCategoriesSaveButton.click();
 	}
 	
+	public void selectCategory(String category) {
+		String categoryXpath = String.format("//li[contains(text(),'%s')]", category);
+		driver.findElement(By.xpath(categoryXpath)).click();
+	}
+	
 	public void chooseFavoriteCategories(String category) {
 		clickOnFavoriteCategoriesField();
 		clickOnFavoriteCategoriesDropDownList();
-
-		switch (category) {
-		case ("Sea"):
-			seaCategory.click();
-			break;
-		case ("Mount"):
-			mountCategory.click();
-			break;
-		case ("Summer"):
-			summerCategory.click();
-			break;
-		case ("Golf"):
-			golfCategory.click();
-			break;
-		case ("Team-Building"):
-			teamBuildingCategory.click();
-			break;
-		case ("Swimming"):
-			swimmingCategory.click();
-			break;
-		case ("Gaming"):
-			gamingCategory.click();
-			break;
-		case ("Travel"):
-			travelCategory.click();
-			break;
-		}
-
+		selectCategory(category);
 		clickOnEmptyFieldFavoriteCategories();
 		clickOnFavoriteCategoriesSaveButton();
 	}
