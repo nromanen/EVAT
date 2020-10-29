@@ -10,7 +10,7 @@ import utility.EventElement;
 import java.time.LocalDate;
 
 public class HomePageSearchMenu {
-    public static final String URL = "https://eventsexpress-test.azurewebsites.net/home/events?page=1";
+    public static final String URL = "https://eventsexpress.azurewebsites.net/home/events?page=1";
     private WebDriver driver;
     public HomePageSearchMenu(WebDriver driver){
         this.driver = driver;
@@ -140,7 +140,9 @@ public class HomePageSearchMenu {
         return this;
     }
     public HomePageSearchMenu typeIncorrectHashtag(String hashtag){
+        EventElement element = new EventElement(driver, hashtagButton);
         hashtagField.sendKeys(hashtag);
+        element.clickAndWait(incorrectHashtag);
         return this;
     }
     public HomePageSearchMenu searchByKeyword(String keyword){

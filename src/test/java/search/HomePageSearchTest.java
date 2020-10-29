@@ -1,6 +1,5 @@
 package search;
 import jdbc.SearchRepository;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -13,7 +12,7 @@ import org.testng.asserts.SoftAssert;
 import pages.homePageSearch.*;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.concurrent.TimeUnit;
+
 
 public class HomePageSearchTest {
     WebDriver driver;
@@ -54,8 +53,8 @@ public class HomePageSearchTest {
         softAssert.assertEquals(homePageSearchMenu.getKeywordFieldText(), "");
         homePageSearchMenu.clickMoreFiltersButton().clearDateFrom().typeDateFrom(LocalDate.of(2020, 11, 30)).clickResetButton();
         softAssert.assertEquals(SearchRepository.getLocalDateNow(), homePageSearchMenu.getDateFromPickerText());
-//        homePageSearchMenu.typeHashtag("Summer").clickResetButton();
-//        softAssert.assertEquals(homePageSearchMenu.getHashtagFieldText(), "");
+        homePageSearchMenu.typeHashtag("Summer").clickResetButton();
+        softAssert.assertEquals(homePageSearchMenu.getHashtagFieldText(), "");
         softAssert.assertAll();
     }
     @Test
@@ -91,25 +90,21 @@ public class HomePageSearchTest {
         homePageSearchMenu.searchByDateTo(date);
         Assert.assertEquals(searchResultPage.getNumberOfEvents(), SearchRepository.getNumberOfEventsFromNowTillDateTo(date));
     }
-//    @Test
-//    public void searchByOneHashtagTest() throws SQLException {
-//        homePageSearchMenu = new HomePageSearchMenu(driver);
-//        searchResultPage = new SearchResultPage(driver);
-//        String hashtag = "Sea";
-//        homePageSearchMenu.searchByOneHashtag(hashtag);
-//        wait.until(ExpectedConditions.visibilityOfAllElements(searchResultPage.numberOfEvents));
-//        Assert.assertEquals(searchResultPage.getNumberOfEvents(), SearchRepository.getNumberOfEventsByOneHashtag(hashtag));
-//    }
-//    @Test
-//    public void searchByTwoHashtagsTest() throws SQLException {
-//        homePageSearchMenu = new HomePageSearchMenu(driver);
-//        searchResultPage = new SearchResultPage(driver);
-//        String hashtag1 = "Sea";
-//        String hashtag2 = "Summer";
-//        homePageSearchMenu.searchByTwoHashtags(hashtag1, hashtag2);
-//        wait.until(ExpectedConditions.visibilityOfAllElements(searchResultPage.numberOfEvents));
-//        Assert.assertEquals(searchResultPage.getNumberOfEvents(), SearchRepository.getNumberOfEventsByTwoHashtags(hashtag1, hashtag2));
-//    }
+    @Test
+    public void searchByOneHashtagTest() throws SQLException {
+        homePageSearchMenu = new HomePageSearchMenu(driver);
+        String hashtag = "Sea";
+        homePageSearchMenu.searchByOneHashtag(hashtag);
+        Assert.assertEquals(searchResultPage.getNumberOfEvents(), SearchRepository.getNumberOfEventsByOneHashtag(hashtag));
+    }
+    @Test
+    public void searchByTwoHashtagsTest() throws SQLException {
+        homePageSearchMenu = new HomePageSearchMenu(driver);
+        String hashtag1 = "Sea";
+        String hashtag2 = "Summer";
+        homePageSearchMenu.searchByTwoHashtags(hashtag1, hashtag2);
+        Assert.assertEquals(searchResultPage.getNumberOfEvents(), SearchRepository.getNumberOfEventsByTwoHashtags(hashtag1, hashtag2));
+    }
     @Test
     public void searchByKeywordWithManyWordsTest() throws SQLException {
         homePageSearchMenu = new HomePageSearchMenu(driver);
@@ -166,45 +161,38 @@ public class HomePageSearchTest {
         homePageSearchMenu.searchByKeywordAndDateFrom(keyword, date);
         Assert.assertEquals(searchResultPage.getNumberOfEvents(), SearchRepository.getNumberOfEventsWithKeywordWithNInQueryAndDateFrom(keyword, date));
     }
-//    @Test
-//    public void searchByKeywordAndHashtagTest() throws SQLException {
-//        homePageSearchMenu = new HomePageSearchMenu(driver);
-//        searchResultPage = new SearchResultPage(driver);
-//        String keyword = "гриби";
-//        String hashtag = "Mount";
-//        homePageSearchMenu.searchByKeywordAndHashtag(keyword, hashtag);
-//        wait.until(ExpectedConditions.visibilityOfAllElements(searchResultPage.numberOfEvents));
-//        Assert.assertEquals(searchResultPage.getNumberOfEvents(), SearchRepository.getNumberOfEventsByKeywordAndHashtag(keyword, hashtag));
-//    }
-//    @Test
-//    public void searchByDatesAndHashtagTest() throws SQLException {
-//        homePageSearchMenu = new HomePageSearchMenu(driver);
-//        searchResultPage = new SearchResultPage(driver);
-//        LocalDate date1 = LocalDate.of(2020, 12, 1);
-//        LocalDate date2 = LocalDate.of(2020, 12, 20);
-//        String hashtag = "Sea";
-//        homePageSearchMenu.searchByDatesAndHashtag(date1, date2, hashtag);
-//        wait.until(ExpectedConditions.visibilityOfAllElements(searchResultPage.numberOfEvents));
-//        Assert.assertEquals(searchResultPage.getNumberOfEvents(), SearchRepository.getNumberOfEventsByDatesAndHashtag(date1, date2, hashtag));
-//    }
-//    @Test
-//    public void searchByKeywordAndAndDateAndHashtagTest() throws SQLException {
-//        homePageSearchMenu = new HomePageSearchMenu(driver);
-//        searchResultPage = new SearchResultPage(driver);
-//        String keyword = "гриби";
-//        LocalDate date = LocalDate.of(2020, 11, 1);
-//        String hashtag = "Mount";
-//        homePageSearchMenu.searchByKeywordAndDateAndHashtag(keyword, date, hashtag);
-//        wait.until(ExpectedConditions.visibilityOfAllElements(searchResultPage.numberOfEvents));
-//        Assert.assertEquals(searchResultPage.getNumberOfEvents(), SearchRepository.getNumberOfEventsByKeywordWithNInQueryAndDateFromAndHashtag(keyword, date, hashtag));
-//    }
-//    @Test
-//    public void searchByHashtagWithIncorrectValueTest() {
-//        homePageSearchMenu = new HomePageSearchMenu(driver);
-//        homePageSearchMenu.clickMoreFiltersButton().typeIncorrectHashtag("1");
-//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".rw-list-empty")));
-//        Assert.assertEquals("The filter returned no results", homePageSearchMenu.getIncorrectHashtagText());
-//    }
+    @Test
+    public void searchByKeywordAndHashtagTest() throws SQLException {
+        homePageSearchMenu = new HomePageSearchMenu(driver);
+        String keyword = "гриби";
+        String hashtag = "Mount";
+        homePageSearchMenu.searchByKeywordAndHashtag(keyword, hashtag);
+        Assert.assertEquals(searchResultPage.getNumberOfEvents(), SearchRepository.getNumberOfEventsByKeywordAndHashtag(keyword, hashtag));
+    }
+    @Test
+    public void searchByDatesAndHashtagTest() throws SQLException {
+        homePageSearchMenu = new HomePageSearchMenu(driver);
+        LocalDate date1 = LocalDate.of(2020, 12, 1);
+        LocalDate date2 = LocalDate.of(2020, 12, 20);
+        String hashtag = "Sea";
+        homePageSearchMenu.searchByDatesAndHashtag(date1, date2, hashtag);
+        Assert.assertEquals(searchResultPage.getNumberOfEvents(), SearchRepository.getNumberOfEventsByDatesAndHashtag(date1, date2, hashtag));
+    }
+    @Test
+    public void searchByKeywordAndAndDateAndHashtagTest() throws SQLException {
+        homePageSearchMenu = new HomePageSearchMenu(driver);
+        String keyword = "гриби";
+        LocalDate date = LocalDate.of(2020, 11, 1);
+        String hashtag = "Mount";
+        homePageSearchMenu.searchByKeywordAndDateAndHashtag(keyword, date, hashtag);
+        Assert.assertEquals(searchResultPage.getNumberOfEvents(), SearchRepository.getNumberOfEventsByKeywordWithNInQueryAndDateFromAndHashtag(keyword, date, hashtag));
+    }
+    @Test
+    public void searchByHashtagWithIncorrectValueTest() {
+        homePageSearchMenu = new HomePageSearchMenu(driver);
+        homePageSearchMenu.clickMoreFiltersButton().typeIncorrectHashtag("1");
+        Assert.assertEquals("The filter returned no results", homePageSearchMenu.getIncorrectHashtagText());
+    }
     @Test
     public void searchByDateWithIncorrectValueTest() {
         homePageSearchMenu = new HomePageSearchMenu(driver);
@@ -223,13 +211,13 @@ public class HomePageSearchTest {
         softAssert.assertEquals(homePageSearchMenu.getSelectedDayInCalendarValue(), "28");
         softAssert.assertAll();
     }
-//    @Test
-//    public void searchByHashtagWithNoEventsTest() {
-//        homePageSearchMenu = new HomePageSearchMenu(driver);
-//        searchResultPage = new SearchResultPage(driver);
-//        homePageSearchMenu.typeHashtag("Golf").clickSearchButton();
-//        Assert.assertEquals(searchResultPage.getNoResultText(), "No Results");
-//    }
+    @Test
+    public void searchByHashtagWithNoEventsTest() throws InterruptedException {
+        homePageSearchMenu = new HomePageSearchMenu(driver);
+        homePageSearchMenu.clickMoreFiltersButton().typeHashtag("Golf").clickSearchButton();
+        Thread.sleep(1000);
+        Assert.assertEquals(searchResultPage.getNoResultText(), "No Results");
+    }
 
     @AfterMethod
     public void closeBrowser(){
