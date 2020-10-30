@@ -9,7 +9,6 @@ import org.testng.annotations.Test;
 import pages.HomePageNavBar;
 import pages.SignInUpMenu;
 import pages.homePageSearch.HomePageSearchMenu;
-import pages.homePageSearch.SearchResultPage;
 import pages.navBar.SearchUserPage;
 
 public class SearchUserTest {
@@ -22,7 +21,6 @@ public class SearchUserTest {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.get(HomePageSearchMenu.URL);
-        homePageSearchMenu = new HomePageSearchMenu(driver);
         SignInUpMenu signInUpMenu = new SignInUpMenu(driver);
         String email = "zlotech@rambler.ru";
         String pass = "123456";

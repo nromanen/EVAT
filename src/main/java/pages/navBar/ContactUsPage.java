@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
+import utility.EventElement;
 
 public class ContactUsPage {
     private WebDriver driver;
@@ -15,18 +16,6 @@ public class ContactUsPage {
 
     @FindBy(css = ".form-control")
     public WebElement problemTypeDropDownList;
-
-    @FindBy(css = ".form-control > option:nth-child(2)")
-    public WebElement newCategoryProblem;
-
-    @FindBy(css = ".form-control > option:nth-child(3)")
-    public WebElement bugReportProblem;
-
-    @FindBy(css = ".form-control > option:nth-child(4)")
-    public WebElement badEventProblem;
-
-    @FindBy(css = ".form-control > option:nth-child(5)")
-    public WebElement badUserProblem;
 
     @FindBy(css = ".MuiInputBase-input")
     public WebElement descriptionField;
@@ -39,6 +28,9 @@ public class ContactUsPage {
 
     @FindBy(css = "button.MuiButtonBase-root:nth-child(3)")
     public WebElement submitButton;
+
+    @FindBy(css = "#client-snackbar")
+    public WebElement confirmedMessage;
 
     public ContactUsPage clickOnProblemTypeDropDownList(){
         problemTypeDropDownList.click();
@@ -54,7 +46,8 @@ public class ContactUsPage {
         return this;
     }
     public ContactUsPage clickSubmitButton(){
-        submitButton.click();
+        EventElement element = new EventElement(driver, submitButton);
+        element.clickAndWait(confirmedMessage);
         return this;
     }
     public ContactUsPage clickClearButton(){
@@ -66,6 +59,12 @@ public class ContactUsPage {
     }
     public String getTextFromDescriptionField(){
         return descriptionField.getText();
+    }
+    public String getChosenProblemTypeValue(){
+        return problemTypeDropDownList.getAttribute("value");
+    }
+    public String getConfirmedMessageText(){
+        return confirmedMessage.getText();
     }
 }
 
