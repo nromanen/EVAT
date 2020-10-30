@@ -26,6 +26,9 @@ private WebDriver driver;
 	@FindBy(xpath = "//span[contains(text(),'Add')]")
 	WebElement addCommentButton;
 
+	@FindBy(css = "#main > div > div > div.col-9 > div:nth-child(3) > div > div.ItemComment > div > div.ItemComment > div:nth-child(2) > button]")
+	WebElement deleteCommentButton;
+	
 	@FindBy(css = "#main > div > div > div.col-9 > div:nth-child(3) > div > div.ItemComment > div > div.ItemComment > div > button")
 	WebElement replyCommentButton;
 	
@@ -34,6 +37,9 @@ private WebDriver driver;
 	
 	@FindBy(css = "#main > div > div > div.col-9 > div:nth-child(3) > div > form:nth-child(4) > div.MuiDialogActions-root.MuiDialogActions-spacing > button > span.MuiButton-label")
 	WebElement addReplyCommentButton;
+	
+	@FindBy(css = "#main > div > div > div.col-9 > div:nth-child(3) > div > div.children > div.ItemComment > div > div.ItemComment > div > button")
+	WebElement deleteReplyCommentButton;
 	
 	public void clickOnJoinEventButton() {
 		joinEventButton.click();
@@ -56,7 +62,11 @@ private WebDriver driver;
 	}
 	
 	public void clickOnAddCommentButton() {
-		commentEventInput.click();
+		addCommentButton.click();
+	}
+	
+	public void clickOnDeleteCommentButton() {
+		deleteCommentButton.click();
 	}
 	
 	public void addCommentToEvent(String comment) {
@@ -70,6 +80,10 @@ private WebDriver driver;
 	
 	public void clickOnAddReplyCommentButton() {
 		addReplyCommentButton.click();
+	}
+	
+	public void clickOnDeleteReplyCommentButton() {
+		deleteReplyCommentButton.click();
 	}
 	
 	public void writeReplyToComment(String replyText) {
