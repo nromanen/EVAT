@@ -22,7 +22,7 @@ public class ContactUsTest {
         driver.get(HomePageSearchMenu.URL);
         SignInUpMenu signInUpMenu = new SignInUpMenu(driver);
         String email = "zlotech@rambler.ru";
-        String pass = "123456";
+        String pass = "1234event";
         signInUpMenu.authoriseUser(email,pass);
         HomePageNavBar homePageNavBar = new HomePageNavBar(driver);
         homePageNavBar.clickContactUsButton();

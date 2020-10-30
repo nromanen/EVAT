@@ -74,7 +74,7 @@ public class SearchMenuUITest {
     @Test
     public void testTypeHashtag() {
         homePageSearchMenu = new HomePageSearchMenu(driver);
-        String hashtag = "Sea";
+        String hashtag = "Summer";
         homePageSearchMenu.clickMoreFiltersButton().typeHashtag(hashtag);
         Assert.assertEquals(homePageSearchMenu.getChosenHashtagText(), hashtag);
     }

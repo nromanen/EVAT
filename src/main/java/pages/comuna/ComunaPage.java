@@ -14,7 +14,7 @@ public class ComunaPage {
         this.driver = driver;
         PageFactory.initElements(driver,this);
     }
-    @FindBy(css = ".row")
+    @FindBy(css = "div.w-100")
     public static
     List<WebElement> numberOfChats;
 

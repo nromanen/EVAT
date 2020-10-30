@@ -4,6 +4,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import java.util.List;
+
 public class ChatWithUserPage {
     private WebDriver driver;
     public ChatWithUserPage(WebDriver driver){
@@ -22,8 +24,8 @@ public class ChatWithUserPage {
     @FindBy(css = ".msg_cotainer_send")
     public WebElement firstSentMessage;
 
-    @FindBy(css = ".user_info > p:nth-child(2)")
-    public WebElement numberOfMessages;
+    @FindBy(css = "div.justify-content-end")
+    public List<WebElement> numberOfMessages;
 
     public ChatWithUserPage enterMessage(String text) {
         fieldForMessage.sendKeys(text);
@@ -39,11 +41,11 @@ public class ChatWithUserPage {
     public String getTextSentMessage(){
         return firstSentMessage.getText();
     }
-    public String getNumberOfMessages(){
-        return numberOfMessages.getText();
-    }
     public String getChatTitleText(){
         return chatTitle.getText();
+    }
+    public int getNumberOfMessages(){
+        return numberOfMessages.size();
     }
 }
 

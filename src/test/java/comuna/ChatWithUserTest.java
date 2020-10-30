@@ -11,12 +11,11 @@ import pages.SignInUpMenu;
 import pages.comuna.ChatWithUserPage;
 import pages.comuna.ComunaPage;
 import pages.homePageSearch.HomePageSearchMenu;
-import pages.navBar.ContactUsPage;
 
-public class ComunaTest {
+public class ChatWithUserTest {
     WebDriver driver;
 
-    @BeforeMethod
+    @BeforeMethod //add -Dfile.encoding=UTF-8 in VM options
     public void setUp(){
         driver = new ChromeDriver();
         driver.manage().window().maximize();
@@ -27,24 +26,34 @@ public class ComunaTest {
         signInUpMenu.authoriseUser(email,pass);
         HomePageNavBar homePageNavBar = new HomePageNavBar(driver);
         ComunaPage comunaPage = new ComunaPage(driver);
-        homePageNavBar.clickComunaButton();
-    }
-    @Test //add -Dfile.encoding=UTF-8 in VM options
-    public void goToTheFirstChatTest(){
-        ComunaPage comunaPage = new ComunaPage(driver);
         ChatWithUserPage chatWithUserPage = new ChatWithUserPage(driver);
+        homePageNavBar.clickComunaButton();
         comunaPage.goToFirstChat();
-        String title = chatWithUserPage.getChatTitleText();
-        String newTitle = title.substring(0,26);
-        Assert.assertEquals(newTitle, "Chat with Марина Маринівна");
-//        Assert.assertEquals(chatWithUserPage.getChatTitleText(), "Chat with Марина Маринівна Гульпак\n" +
-//                "9 Messages");
     }
     @Test
-    public void getNumberOfChatsTest(){
-        ComunaPage comunaPage = new ComunaPage(driver);
-        Assert.assertEquals(comunaPage.getNumberOfUsersChats(), 2);
+    public void enterMessageTest(){
+        ChatWithUserPage chatWithUserPage = new ChatWithUserPage(driver);
+        String message = "Hello";
+        chatWithUserPage.enterMessage(message);
+        Assert.assertEquals(chatWithUserPage.getTextFromMessageField(), message);
     }
+    @Test
+    public void sendMessageTest() throws InterruptedException {
+        ChatWithUserPage chatWithUserPage = new ChatWithUserPage(driver);
+        String message = "Hello";
+        int numberOfMessages = chatWithUserPage.getNumberOfMessages();
+        chatWithUserPage.enterMessage(message).sendMessage();
+        Thread.sleep(3000);
+        Assert.assertEquals(chatWithUserPage.getNumberOfMessages(), numberOfMessages + 1);
+    }
+
+    @Test
+    public void getTextSentMessageTest(){
+        ChatWithUserPage chatWithUserPage = new ChatWithUserPage(driver);
+        Assert.assertEquals(chatWithUserPage.getTextSentMessage(), "привіт\n" +
+                "6 days ago");
+    }
+
     @AfterMethod
     public void closeBrowser(){
         driver.quit();
