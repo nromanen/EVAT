@@ -10,6 +10,9 @@ public class ChatWithUserPage {
         this.driver = driver;
         PageFactory.initElements(driver,this);
     }
+    @FindBy(css = ".user_info")
+    public static WebElement chatTitle;
+
     @FindBy(css = ".MuiInputBase-input")
     public WebElement fieldForMessage;
 
@@ -38,6 +41,9 @@ public class ChatWithUserPage {
     }
     public String getNumberOfMessages(){
         return numberOfMessages.getText();
+    }
+    public String getChatTitleText(){
+        return chatTitle.getText();
     }
 }
 

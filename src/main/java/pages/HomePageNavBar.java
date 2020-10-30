@@ -5,6 +5,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import pages.comuna.ComunaPage;
 import utility.EventElement;
 
 
@@ -75,7 +77,7 @@ public class HomePageNavBar {
     }
 
     public HomePageNavBar clickComunaButton() {
-        new EventElement(driver, comunaButton).click();
+        new EventElement(driver, comunaButton).clickAndWait(ComunaPage.numberOfChats);
         return this;
     }
 
