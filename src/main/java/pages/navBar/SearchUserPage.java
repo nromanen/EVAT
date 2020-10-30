@@ -34,6 +34,11 @@ public class SearchUserPage {
         clearButton.click();
         return this;
     }
+    public SearchUserPage searchUser(String name){
+        typeInSearchField(name).clickSearchButton();
+        return this;
+    }
+
     public String getSearchFieldValue() {
         return searchField.getAttribute("value");
     }
