@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -13,7 +14,6 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-
 import pages.EventInfoPage;
 
 public class EventInfoPageTest {
@@ -35,6 +35,7 @@ public class EventInfoPageTest {
 		System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\chromedriver.exe");
 		driver = new ChromeDriver();
 		wait = new WebDriverWait(driver, 10);
+		eventInfoPage = PageFactory.initElements(driver, EventInfoPage.class);
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		driver.manage().window().maximize();
 	}
@@ -52,29 +53,25 @@ public class EventInfoPageTest {
 	
 	@Test(priority = 1)
 	public void addComment() {
-		eventInfoPage = new EventInfoPage(driver);
 		eventInfoPage.addCommentToEvent(comment);
 		Assert.assertEquals(eventInfoPage.getCommentText(), "auto generated comment");
 	}
 	
 	@Test(priority = 2)
 	public void replyOnComment() {
-		eventInfoPage = new EventInfoPage(driver);
 		eventInfoPage.replyOnComment(comment);
 		Assert.assertEquals(eventInfoPage.getCommentText(), "auto generated comment");
 	}
 	
 	@Test(priority = 3)
 	public void joinEvent() {
-		eventInfoPage = new EventInfoPage(driver);
 		eventInfoPage.joinEvent();
 		wait.until(ExpectedConditions.elementToBeClickable(eventInfoPage.leaveEventButton));
 		Assert.assertEquals(eventInfoPage.joinEventStatusText(), "Leave");
 	}
 	
-	@Test(priority = 3)
+	@Test(priority = 4)
 	public void leaveEvent() {
-		eventInfoPage = new EventInfoPage(driver);
 		eventInfoPage.joinEvent();
 		wait.until(ExpectedConditions.elementToBeClickable(eventInfoPage.joinEventButton));
 		Assert.assertEquals(eventInfoPage.joinEventStatusText(), "Join");
@@ -82,7 +79,6 @@ public class EventInfoPageTest {
 	
 	@AfterClass
 	public void cleanUp() {
-		eventInfoPage = new EventInfoPage(driver);
 		eventInfoPage.clickOnDeleteCommentButton();
 	}
 
