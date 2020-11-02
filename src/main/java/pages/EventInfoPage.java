@@ -15,10 +15,15 @@ private WebDriver driver;
 	}
 	
 	@FindBy(xpath = "//button[contains(text(),'Join')]")
+	public
 	WebElement joinEventButton;
 	
 	@FindBy(xpath = "//button[contains(text(),'Leave')]")
+	public
 	WebElement leaveEventButton;
+	
+	@FindBy(css = "#main > div > div > div.col-9 > div.col-12 > div.button-block")
+	WebElement joinEventStatusButton;
 	
 	@FindBy(css = "#main > div > div > div.col-9 > div:nth-child(3) > div > form:nth-child(1) > div.MuiFormControl-root.MuiTextField-root.MuiFormControl-fullWidth > div > input")
 	WebElement commentEventInput;
@@ -26,7 +31,7 @@ private WebDriver driver;
 	@FindBy(xpath = "//span[contains(text(),'Add')]")
 	WebElement addCommentButton;
 
-	@FindBy(css = "#main > div > div > div.col-9 > div:nth-child(3) > div > div.ItemComment > div > div.ItemComment > div:nth-child(2) > button]")
+	@FindBy(css = "#main > div > div > div.col-9 > div:nth-child(3) > div > div.ItemComment > div > div.ItemComment > div:nth-child(2) > button")
 	WebElement deleteCommentButton;
 	
 	@FindBy(css = "#main > div > div > div.col-9 > div:nth-child(3) > div > div.ItemComment > div > div.ItemComment > div > button")
@@ -40,6 +45,24 @@ private WebDriver driver;
 	
 	@FindBy(css = "#main > div > div > div.col-9 > div:nth-child(3) > div > div.children > div.ItemComment > div > div.ItemComment > div > button")
 	WebElement deleteReplyCommentButton;
+	
+	@FindBy(css = "#main > div > div > div.col-9 > div:nth-child(3) > div > div.ItemComment > div > div:nth-child(1) > div > div > div.mybutton > p:nth-child(3)")
+	WebElement commentText;
+	
+	@FindBy(css = "#main > div > div > div.col-9 > div:nth-child(3) > div > div.children > div.ItemComment > div > div:nth-child(1) > div > div > div.mybutton > p:nth-child(3)")
+	WebElement replyCommentText;
+	
+	public String getCommentText() {
+		return commentText.getText();
+	}
+	
+	public String joinEventStatusText() {
+		return joinEventStatusButton.getText();
+	}
+	
+	public String getReplyCommentText() {
+		return replyCommentText.getText();
+	}
 	
 	public void clickOnJoinEventButton() {
 		joinEventButton.click();
