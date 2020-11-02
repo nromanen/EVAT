@@ -2,15 +2,15 @@ package profile;
 
 import java.time.LocalDate;
 import java.util.concurrent.TimeUnit;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -28,19 +28,20 @@ class EditProfilePageTest {
 	private By password = By.name("password");
 	private By signin = By.cssSelector(".MuiDialogActions-root > button:nth-child(2)");
 	private By editYourProfileButton = By.xpath("//*[@id=\"root\"]/div[2]/div/div/div/div[2]/a[1]/button/span[1]");
-	private String imagePath = "C:\\Users\\Денис\\Desktop\\TAQC\\img.jpg";
+	private String imagePath = "C:\\resources\\img.jpg";
 
-	@BeforeSuite
+	@BeforeTest
 	public void setUp() {
 		System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\chromedriver.exe");
 		driver = new ChromeDriver();
 		wait = new WebDriverWait(driver, 10);
+		editProfilePage = PageFactory.initElements(driver, EditProfilePage.class);
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		driver.manage().window().maximize();
 	}
 
-	@BeforeTest
+	@BeforeClass
 	public void profileSetup() {
-		driver.manage().window().maximize();
 		driver.get(url);
 		driver.findElement(signInUpButton).click();
 		driver.findElement(email).sendKeys("d.bozhevilnyi@gmail.com");
@@ -52,7 +53,6 @@ class EditProfilePageTest {
 	
 	@Test
 	public void changeAvatarTest() {
-		editProfilePage = new EditProfilePage(driver);
 		editProfilePage.changeAvatar(imagePath);
 		wait.until(ExpectedConditions.visibilityOf(editProfilePage.clientSnackbar));
 		Assert.assertEquals(editProfilePage.getClientSnackbarText(), "Avatar is update");
@@ -60,7 +60,6 @@ class EditProfilePageTest {
 	
 	@Test
 	public void changeUsernameTest() {
-		editProfilePage = new EditProfilePage(driver);
 		editProfilePage.changeUserName("Saul");
 		wait.until(ExpectedConditions.visibilityOf(editProfilePage.clientSnackbar));
 		Assert.assertEquals(editProfilePage.getClientSnackbarText(), "Username is changed");
@@ -68,7 +67,6 @@ class EditProfilePageTest {
 	
 	@Test
 	public void chooseGenderTest() {
-		editProfilePage = new EditProfilePage(driver);
 		editProfilePage.chooseGender("Male");
 		wait.until(ExpectedConditions.visibilityOf(editProfilePage.clientSnackbar));
 		Assert.assertEquals(editProfilePage.getClientSnackbarText(), "Set gender successed");
@@ -76,7 +74,6 @@ class EditProfilePageTest {
 	
 	@Test
 	public void setDateOfBirthTest() {
-		editProfilePage = new EditProfilePage(driver);
 		editProfilePage.setDateOfBirth(LocalDate.of(1989, 10, 13));
 		wait.until(ExpectedConditions.visibilityOf(editProfilePage.clientSnackbar));
 		Assert.assertEquals(editProfilePage.getClientSnackbarText(), "Set date of birth successed");
@@ -84,7 +81,6 @@ class EditProfilePageTest {
 	
 	@Test
 	public void chooseFavoriteCategoriesTest() {
-		editProfilePage = new EditProfilePage(driver);
 		editProfilePage.chooseFavoriteCategories("Sea");
 		wait.until(ExpectedConditions.visibilityOf(editProfilePage.clientSnackbar));
 		Assert.assertEquals(editProfilePage.getClientSnackbarText(), "Favarote categoris is updated");
@@ -92,7 +88,6 @@ class EditProfilePageTest {
 	
 	@Test
 	public void changePasswordTest() {
-		editProfilePage = new EditProfilePage(driver);
 		editProfilePage.changePassword("1234", "1234", "1234");
 		wait.until(ExpectedConditions.visibilityOf(editProfilePage.clientSnackbar));
 		Assert.assertEquals(editProfilePage.getClientSnackbarText(), "Failed");
