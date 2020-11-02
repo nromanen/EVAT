@@ -8,7 +8,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.BeforeClass;
 
 public class EventsNotificationPageTest {
 	
@@ -22,16 +22,16 @@ public class EventsNotificationPageTest {
 	private By notificationsButton = By.cssSelector("#root > div.left-sidebar-closed.left-sidebar > div > div > div > div:nth-child(3) > a:nth-child(2) > button");
 	private By notificationsStatus = By.cssSelector("#main > p");
 	
-	@BeforeSuite
+	@BeforeTest
 	public void setUp() {
 		System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\chromedriver.exe");
 		driver = new ChromeDriver();
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		driver.manage().window().maximize();
 	}
 
-	@BeforeTest
+	@BeforeClass
 	public void profileSetup() {
-		driver.manage().window().maximize();
 		driver.get(url);
 		driver.findElement(signInUpButton).click();
 		driver.findElement(email).sendKeys("d.bozhevilnyi@gmail.com");
