@@ -31,43 +31,33 @@ public class EventMenu {
     }
 
     public boolean clickFutureEvents(){
-        if(futureEvents.isEnabled()) {
-            futureEvents.click();
-            return true;
-        }
-        return false;
+        if(futureEvents==null) return false;
+        futureEvents.click();
+        return true;
     }
 
     public boolean clickArchiveEvents(){
-        if(archiveEvents.isEnabled()) {
-            archiveEvents.click();
-            return true;
-        }
-        return false;
+        if(archiveEvents==null) return false;
+        archiveEvents.click();
+        return true;
     }
 
     public boolean clickVisitedEvents(){
-        if(visitedEvents.isEnabled()) {
-            visitedEvents.click();
-            return true;
-        }
-        return false;
+        if(visitedEvents==null) return false;
+        visitedEvents.click();
+        return true;
     }
 
     public boolean clickToGoEvents(){
-        if(toGoEvents.isEnabled()) {
-            toGoEvents.click();
-            return true;
-        }
-        return false;
+        if(toGoEvents==null) return false;
+        toGoEvents.click();
+        return true;
     }
 
     public boolean clickAddEvent(){
-        if(addEvent.isEnabled()) {
-            addEvent.click();
-            return true;
-        }
-        return false;
+        if(addEvent==null) return false;
+        addEvent.click();
+        return true;
     }
 
     public WebElement getFutureEvents() {

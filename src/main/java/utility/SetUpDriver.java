@@ -27,7 +27,7 @@ public class SetUpDriver {
     }
     protected  static WebDriverWait webDriverWait;
     static {
-        webDriverWait= new WebDriverWait(driver,100);
+        webDriverWait= new WebDriverWait(driver,30);
     }
 
 
