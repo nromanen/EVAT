@@ -1,7 +1,6 @@
 package profile;
 
 import java.time.LocalDate;
-import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -13,7 +12,6 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-
 import pages.navBar.EditProfilePage;
 
 class EditProfilePageTest {
@@ -36,7 +34,6 @@ class EditProfilePageTest {
 		driver = new ChromeDriver();
 		wait = new WebDriverWait(driver, 10);
 		editProfilePage = PageFactory.initElements(driver, EditProfilePage.class);
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		driver.manage().window().maximize();
 	}
 
@@ -44,49 +41,49 @@ class EditProfilePageTest {
 	public void profileSetup() {
 		driver.get(url);
 		driver.findElement(signInUpButton).click();
-		driver.findElement(email).sendKeys("d.bozhevilnyi@gmail.com");
-		driver.findElement(password).sendKeys("131089");
+		driver.findElement(email).sendKeys(System.getenv().get("EMAIL_EVENT_EX"));
+		driver.findElement(password).sendKeys(System.getenv().get("PASSWORD_EVENT_EX"));
 		driver.findElement(signin).click();
 		wait.until(ExpectedConditions.elementToBeClickable(editYourProfileButton));
 		driver.findElement(editYourProfileButton).click();
 	}
 	
-	@Test
+	@Test(priority = 1)
 	public void changeAvatarTest() {
 		editProfilePage.changeAvatar(imagePath);
 		wait.until(ExpectedConditions.visibilityOf(editProfilePage.clientSnackbar));
 		Assert.assertEquals(editProfilePage.getClientSnackbarText(), "Avatar is update");
 	}
 	
-	@Test
+	@Test(priority = 2)
 	public void changeUsernameTest() {
 		editProfilePage.changeUserName("Saul");
 		wait.until(ExpectedConditions.visibilityOf(editProfilePage.clientSnackbar));
 		Assert.assertEquals(editProfilePage.getClientSnackbarText(), "Username is changed");
 	}
 	
-	@Test
+	@Test(priority = 3)
 	public void chooseGenderTest() {
 		editProfilePage.chooseGender("Male");
 		wait.until(ExpectedConditions.visibilityOf(editProfilePage.clientSnackbar));
 		Assert.assertEquals(editProfilePage.getClientSnackbarText(), "Set gender successed");
 	}
 	
-	@Test
+	@Test(priority = 4)
 	public void setDateOfBirthTest() {
 		editProfilePage.setDateOfBirth(LocalDate.of(1989, 10, 13));
 		wait.until(ExpectedConditions.visibilityOf(editProfilePage.clientSnackbar));
 		Assert.assertEquals(editProfilePage.getClientSnackbarText(), "Set date of birth successed");
 	}
 	
-	@Test
+	@Test(priority = 5)
 	public void chooseFavoriteCategoriesTest() {
 		editProfilePage.chooseFavoriteCategories("Sea");
 		wait.until(ExpectedConditions.visibilityOf(editProfilePage.clientSnackbar));
 		Assert.assertEquals(editProfilePage.getClientSnackbarText(), "Favarote categoris is updated");
 	}
 	
-	@Test
+	@Test(priority = 6)
 	public void changePasswordTest() {
 		editProfilePage.changePassword("1234", "1234", "1234");
 		wait.until(ExpectedConditions.visibilityOf(editProfilePage.clientSnackbar));

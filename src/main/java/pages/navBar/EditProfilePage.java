@@ -1,13 +1,13 @@
 package pages.navBar;
 
 import java.time.LocalDate;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import utility.EventElement;
 
 public class EditProfilePage {
 
@@ -109,11 +109,13 @@ public class EditProfilePage {
 	}
 	
 	public void clickOnClearAvatarButton() {
-		clearAvatarButton.click();
+		EventElement ee = new EventElement(driver, clearAvatarButton);
+		ee.clickAndWait(clearAvatarButton);
 	}
 	
 	public void clickOnSubmitAvatarButton() {
-		submitAvatarButton.click();
+		EventElement ee = new EventElement(driver, submitAvatarButton);
+		ee.clickAndWait(submitAvatarButton);
 	}
 	
 	public void loadAvatar(String imagePath) {
@@ -205,7 +207,8 @@ public class EditProfilePage {
 	}
 	
 	public void clickOnFavoriteCategoriesDropDownList() {
-		favoriteCategoriesDropDownList.click();
+		EventElement ee = new EventElement(driver, favoriteCategoriesDropDownList);
+		ee.clickAndWait(favoriteCategoriesDropDownList);
 	}
 	
 	public void clickOnEmptyFieldFavoriteCategories() {
@@ -213,7 +216,8 @@ public class EditProfilePage {
 	}
 	
 	public void clickOnFavoriteCategoriesSaveButton() {
-		favoriteCategoriesSaveButton.click();
+		EventElement ee = new EventElement(driver, favoriteCategoriesSaveButton);
+		ee.clickAndWait(favoriteCategoriesSaveButton);
 	}
 	
 	public void selectCategory(String category) {
