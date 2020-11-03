@@ -1,9 +1,16 @@
 package jdbc;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import pages.HomePageNavBar;
+import pages.SignInUpMenu;
+import pages.comuna.ChatWithUserPage;
+import pages.comuna.ComunaPage;
 import pages.homePageSearch.*;
+import pages.navBar.ContactUsPage;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

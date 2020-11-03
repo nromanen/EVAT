@@ -2,6 +2,7 @@ package search;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -21,30 +22,28 @@ public class SearchUserTest {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.get(HomePageSearchMenu.URL);
-        SignInUpMenu signInUpMenu = new SignInUpMenu(driver);
+        SignInUpMenu signInUpMenu = PageFactory.initElements(driver, SignInUpMenu.class);
         String email = "zlotech@rambler.ru";
-        String pass = "123456";
+        String pass = "1234event";
         signInUpMenu.authoriseUser(email,pass);
-        HomePageNavBar homePageNavBar = new HomePageNavBar(driver);
+        HomePageNavBar homePageNavBar = PageFactory.initElements(driver, HomePageNavBar.class);
+        searchUserPage = PageFactory.initElements(driver, SearchUserPage.class);
         homePageNavBar.clickSearchUsersButton();
     }
     @Test
     public void typeInSearchFieldTest(){
-        searchUserPage = new SearchUserPage(driver);
         String text = "Admin";
         searchUserPage.typeInSearchField(text);
         Assert.assertEquals(searchUserPage.getSearchFieldValue(), text);
     }
     @Test
     public void clearSearchFieldTest(){
-        searchUserPage = new SearchUserPage(driver);
         String text = "Admin";
         searchUserPage.typeInSearchField(text).clickClearButton();
         Assert.assertEquals(searchUserPage.getSearchFieldValue(), "");
     }
     @Test
     public void searchUserTest(){
-        searchUserPage = new SearchUserPage(driver);
         String name = "Admin";
         searchUserPage.searchUser(name);
         Assert.assertEquals(searchUserPage.getNumberOfFoundedUsers(), 1);

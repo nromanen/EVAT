@@ -2,6 +2,7 @@ package search;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -20,36 +21,12 @@ public class SearchMenuUITest {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.get(HomePageSearchMenu.URL);
-        searchResultPage = new SearchResultPage(driver);
+        searchResultPage = PageFactory.initElements(driver, SearchResultPage.class);
+        homePageSearchMenu = PageFactory.initElements(driver, HomePageSearchMenu.class);
     }
-//    @Test
-//    public void testClickMoreFiltersButton() {
-//
-//    }
-//
-//    @Test
-//    public void testClickSearchButton() {
-//    }
-//
-//    @Test
-//    public void testClickLessButton() {
-//    }
-//
-//    @Test
-//    public void testClickResetButton() {
-//    }
-//
-//    @Test
-//    public void testClickHashtagButton() {
-//    }
-//
-//    @Test
-//    public void testClickHashtagCloseButton() {
-//    }
 
     @Test
     public void testTypeKeyword() {
-        homePageSearchMenu = new HomePageSearchMenu(driver);
         String keyword = "yes";
         homePageSearchMenu.typeKeyword(keyword);
         Assert.assertEquals(homePageSearchMenu.getKeywordFieldText(), keyword);
@@ -57,7 +34,6 @@ public class SearchMenuUITest {
 
     @Test
     public void testTypeDateFrom() {
-        homePageSearchMenu = new HomePageSearchMenu(driver);
         LocalDate date = LocalDate.of(2020, 12,12);
         homePageSearchMenu.clickMoreFiltersButton().clearDateFrom().typeDateFrom(date);
         Assert.assertEquals(homePageSearchMenu.getDateFromPickerText(), date.getMonthValue() + "/" + date.getDayOfMonth() + "/" + date.getYear());
@@ -65,7 +41,6 @@ public class SearchMenuUITest {
 
     @Test
     public void testTypeDateTo() {
-        homePageSearchMenu = new HomePageSearchMenu(driver);
         LocalDate date = LocalDate.of(2020, 12,12);
         homePageSearchMenu.clickMoreFiltersButton().clearDateTo().typeDateTo(date);
         Assert.assertEquals(homePageSearchMenu.getDateToPickerText(), date.getMonthValue() + "/" + date.getDayOfMonth() + "/" + date.getYear());
@@ -73,7 +48,6 @@ public class SearchMenuUITest {
 
     @Test
     public void testTypeHashtag() {
-        homePageSearchMenu = new HomePageSearchMenu(driver);
         String hashtag = "Summer";
         homePageSearchMenu.clickMoreFiltersButton().typeHashtag(hashtag);
         Assert.assertEquals(homePageSearchMenu.getChosenHashtagText(), hashtag);
