@@ -15,11 +15,8 @@ public class SearchResultPage {
     @FindBy(className = "MuiCardHeader-root")
     public static List<WebElement> numberOfEvents;
 
-    @FindBy(className = "MuiCardHeader-root")
-    public WebElement oneEvent;
-
     @FindBy(css = ".h1")
-    public static WebElement noResultText;
+    public WebElement noResultText;
 
     public int getNumberOfEvents(){
         return numberOfEvents.size();

@@ -41,7 +41,7 @@ public class UserInfoPageTest {
 
     @Test(dataProvider = "providerEmail")
     public void testGetValueUserName(String email) {
-        String name=UserInfoRepository.getInfoByEmail(email,"Name");
+        String name=UserInfoRepository.getColumnByEmail(email,"Name");
         if(name==null)name= email.substring(0,email.indexOf("@"));
         assertEquals(userInfoPage.getValueUserName(),name);
     }
@@ -52,7 +52,7 @@ public class UserInfoPageTest {
     @Test(dataProvider = "providerEmail")
     public void testGetValueAge(String email) {
         String age;
-        LocalDate date=LocalDate.parse(UserInfoRepository.getInfoByEmail(email,"Birthday"));
+        LocalDate date=LocalDate.parse(UserInfoRepository.getColumnByEmail(email,"Birthday"));
         if(date.equals(LocalDate.parse("0001-01-01")))age="---";
         else age= Period.between(date,LocalDate.now()).getYears()+"";
         assertEquals(userInfoPage.getValueAge(),age);
@@ -63,7 +63,7 @@ public class UserInfoPageTest {
     @Test(dataProvider = "providerEmail")
     public void testGetValueGender(String email) {
         String gender="";
-        switch (Integer.parseInt(UserInfoRepository.getInfoByEmail(email,"Gender"))){
+        switch (Integer.parseInt(UserInfoRepository.getColumnByEmail(email,"Gender"))){
             case 0: gender="Other"; break;
             case 1: gender="Male"; break;
             case 2: gender="Female";

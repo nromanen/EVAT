@@ -41,7 +41,7 @@ public class SearchMenuUITest {
 
     @Test
     public void testTypeDateTo() {
-        LocalDate date = LocalDate.of(2020, 12,12);
+        LocalDate date = LocalDate.of(2020, 12, 12);
         homePageSearchMenu.clickMoreFiltersButton().clearDateTo().typeDateTo(date);
         Assert.assertEquals(homePageSearchMenu.getDateToPickerText(), date.getMonthValue() + "/" + date.getDayOfMonth() + "/" + date.getYear());
     }

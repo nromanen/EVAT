@@ -31,7 +31,7 @@ public class ComunaTest {
         comunaPage = PageFactory.initElements(driver, ComunaPage.class);
         homePageNavBar.clickComunaButton();
     }
-    @Test //add -Dfile.encoding=UTF-8 in VM options
+    @Test
     public void goToTheFirstChatTest(){
         ChatWithUserPage chatWithUserPage = PageFactory.initElements(driver, ChatWithUserPage.class);
         comunaPage.goToFirstChat();

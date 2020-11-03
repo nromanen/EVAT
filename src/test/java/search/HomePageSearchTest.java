@@ -6,11 +6,11 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
 import pages.homePageSearch.*;
+import utility.SetUpDriver;
+
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.concurrent.TimeUnit;
@@ -22,13 +22,22 @@ public class HomePageSearchTest {
     SearchResultPage searchResultPage;
     WebDriverWait wait;
 
+    @BeforeSuite
+    public void createHashtagForTests(){
+        String hashtagId = "38F785E3-B43E-46FF-3788-08D85413B488";
+        String hashtagName = "Zoo";
+        SearchRepository.addNewHashtag(hashtagId, hashtagName);
+    }
 
     @BeforeMethod
     public void setUp(){
-        driver = new ChromeDriver();
+        new SetUpDriver();
+        driver = SetUpDriver.getDriver();
+//        driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.get(HomePageSearchMenu.URL);
-        WebDriverWait wait = new WebDriverWait(driver, 30);
+        wait = SetUpDriver.getWebDriverWait();
+//        WebDriverWait wait = new WebDriverWait(driver, 30);
         searchResultPage = PageFactory.initElements(driver, SearchResultPage.class);
         wait.until(ExpectedConditions.visibilityOfAllElements(SearchResultPage.numberOfEvents));
         homePageSearchMenu = PageFactory.initElements(driver, HomePageSearchMenu.class);
@@ -36,7 +45,7 @@ public class HomePageSearchTest {
 
     @Test
     public void searchByKeywordWithOneWordTest() throws SQLException {
-        String[] keywords = new String[]{"гриби", "Бали", "Ба", "Kuta"};
+        String[] keywords = new String[]{"гриби", "Бали", "Єв", "Kuta"};
         SoftAssert softAssert = new SoftAssert();
         for (String keyword: keywords) {
             homePageSearchMenu.searchByKeyword(keyword);
@@ -89,14 +98,14 @@ public class HomePageSearchTest {
     }
     @Test
     public void searchByOneHashtagTest() throws SQLException {
-        String hashtag = "Sea";
+        String hashtag = "Travel";
         homePageSearchMenu.searchByOneHashtag(hashtag);
         Assert.assertEquals(searchResultPage.getNumberOfEvents(), SearchRepository.getNumberOfEventsByOneHashtag(hashtag));
     }
     @Test
     public void searchByTwoHashtagsTest() throws SQLException {
-        String hashtag1 = "Sea";
-        String hashtag2 = "Summer";
+        String hashtag1 = "Swimming";
+        String hashtag2 = "Travel";
         homePageSearchMenu.searchByTwoHashtags(hashtag1, hashtag2);
         Assert.assertEquals(searchResultPage.getNumberOfEvents(), SearchRepository.getNumberOfEventsByTwoHashtags(hashtag1, hashtag2));
     }
@@ -160,7 +169,7 @@ public class HomePageSearchTest {
     public void searchByDatesAndHashtagTest() throws SQLException {
         LocalDate date1 = LocalDate.of(2020, 12, 1);
         LocalDate date2 = LocalDate.of(2020, 12, 20);
-        String hashtag = "Sea";
+        String hashtag = "Travel";
         homePageSearchMenu.searchByDatesAndHashtag(date1, date2, hashtag);
         Assert.assertEquals(searchResultPage.getNumberOfEvents(), SearchRepository.getNumberOfEventsByDatesAndHashtag(date1, date2, hashtag));
     }
@@ -195,13 +204,18 @@ public class HomePageSearchTest {
     }
     @Test
     public void searchByHashtagWithNoEventsTest() throws InterruptedException {
-        homePageSearchMenu.clickMoreFiltersButton().typeHashtag("Golf").clickSearchButton();
-        Thread.sleep(1000);
+        homePageSearchMenu.clickMoreFiltersButton().typeHashtag("Zoo").clickSearchButton();
+        wait.until(ExpectedConditions.visibilityOf(searchResultPage.noResultText));
         Assert.assertEquals(searchResultPage.getNoResultText(), "No Results");
     }
 
     @AfterMethod
     public void closeBrowser(){
         driver.quit();
+    }
+    @AfterSuite
+    public void deleteHashtagForTest(){
+        String hashtagId = "38F785E3-B43E-46FF-3788-08D85413B488";
+        SearchRepository.deleteHashtag(hashtagId);
     }
 }

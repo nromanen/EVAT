@@ -1,32 +1,21 @@
 package jdbc;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import pages.HomePageNavBar;
-import pages.SignInUpMenu;
-import pages.comuna.ChatWithUserPage;
-import pages.comuna.ComunaPage;
-import pages.homePageSearch.*;
-import pages.navBar.ContactUsPage;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
-import java.util.concurrent.TimeUnit;
 
 import static utility.AzureConnection.getConnection;
 
 public class SearchRepository {
-    public static int getNumberOfFoundedEvents(String query) throws SQLException {
-        Statement statement = getConnection().createStatement();
-        ResultSet rs = statement.executeQuery(query);
+    public static int getNumberOfFoundedEvents(String query) {
         int numb = 0;
+        try(Statement statement = getConnection().createStatement();
+        ResultSet rs = statement.executeQuery(query)){
         while (rs.next()) {
             numb = rs.getInt(1);
+        }
+        } catch (SQLException e){
+            e.printStackTrace();
         }
         return numb;
     }
@@ -52,9 +41,17 @@ public class SearchRepository {
         return getNumberOfFoundedEvents(query);
     }
 
-    public static String getLocalDateNow() {
+    public static String getLocalDateNow(){
         LocalDate date = LocalDate.now();
-        return date.getMonthValue() + "/" + date.getDayOfMonth() + "/" + date.getYear();
+        String month = String.valueOf(date.getMonthValue());
+        String day;
+        if (date.getDayOfMonth() >= 10){
+            day = String.valueOf(date.getDayOfMonth());
+        } else {
+            day = "0"+String.valueOf(date.getDayOfMonth());
+        }
+        int year = date.getYear();
+        return month + "/" + day + "/" + year;
     }
 
     public static int getNumberOfEventsByOneHashtag(String hashtag) throws SQLException {
@@ -88,6 +85,20 @@ public class SearchRepository {
     public static int getNumberOfEventsByKeywordWithNInQueryAndDateFromAndHashtag(String keyword, LocalDate date, String hashtag) throws SQLException {
         String query = "select COUNT(Name) from (select TOP(6) Name from [Events] JOIN [EventCategory] ON Events.Id = EventCategory.EventId JOIN [Categories] ON Categories.Id = EventCategory.CategoryId WHERE Title LIKE N'%" + keyword + "%' OR Description LIKE N'%" + keyword + "%' AND Name = '" + hashtag + "' and DateFrom >= '" + date + "' AND IsBlocked = 'false') a";
         return getNumberOfFoundedEvents(query);
+    }
+    public static void addNewHashtag(String hashtagId, String hashtagName){
+        try(Statement statement = getConnection().createStatement()){
+            statement.executeUpdate("INSERT INTO [eventsexpress-test].dbo.Categories (Id, Name) VALUES('"+hashtagId+"', '"+hashtagName+"')");
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+    public static void deleteHashtag(String hashtagId){
+        try(Statement statement = getConnection().createStatement()){
+            statement.executeUpdate("DELETE FROM [eventsexpress-test].dbo.Categories WHERE Id = '"+hashtagId+"'");
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 
 }

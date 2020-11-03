@@ -17,7 +17,7 @@ public class ChatWithUserTest {
     WebDriver driver;
     ChatWithUserPage chatWithUserPage;
 
-    @BeforeMethod //add -Dfile.encoding=UTF-8 in VM options
+    @BeforeMethod
     public void setUp(){
         driver = new ChromeDriver();
         driver.manage().window().maximize();
