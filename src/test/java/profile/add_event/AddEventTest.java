@@ -2,7 +2,6 @@ package profile.add_event;
 
 import jdbc.EventsRepository;
 import org.openqa.selenium.By;
-import org.openqa.selenium.InvalidSelectorException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.*;
@@ -10,7 +9,6 @@ import pages.profile.EventMenu;
 import pages.profile.events_menu_pages.AddEventPage;
 
 import java.io.*;
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import org.openqa.selenium.NoSuchElementException;
@@ -27,7 +25,6 @@ public class AddEventTest {
     private static EventMenu eventMenu;
     private static Properties prop;
     private static WebDriverWait webDriverWait;
-    private static int amountOfEventsBefore;
 
     @BeforeClass
     public static void beforeClass() {
@@ -43,8 +40,8 @@ public class AddEventTest {
         }
     }
 
-    @BeforeMethod
-    public void beforeEveryTest(){
+
+    private void clearPageAddEvent(){
         eventMenu.clickAddEvent();
         addEventPage=new AddEventPage(SetUpProfile.getDriver(),webDriverWait);
     }
@@ -63,7 +60,8 @@ public class AddEventTest {
     @Test(dataProvider = "providerSaveCorrect")
     public void testSaveCorrect(String photo,String title, String participants, String dateFrom, String dateTo,
                                      String description,List<String> hashtagsToEnter,String country,String city)throws NoSuchElementException {
-        amountOfEventsBefore= EventsRepository.getAmountOfEvents();
+        clearPageAddEvent();
+        int amountOfEventsBefore= EventsRepository.getAmountOfEvents();
         addEventPage.loadImage(photo);
         addEventPage.inputTitle(title);
         addEventPage.inputParticipants(participants);
@@ -75,19 +73,14 @@ public class AddEventTest {
         addEventPage.inputCity(city);
         addEventPage.clickSave();
         assertTrue(addEventPage.getCreatedEventMessage().isDisplayed());
-        assertTrue(addEventPage.isPageEmpty());
         assertEquals(EventsRepository.getAmountOfEvents(),amountOfEventsBefore+1);
     }
 
-  /*  @Test(dependsOnMethods = "testSaveCorrect")
+    @Test(dependsOnMethods = "testSaveCorrect")
     public void testEmptyPage(){
-
+        assertTrue(addEventPage.isPageEmpty());
     }
 
-    @Test(dependsOnMethods = "testSaveCorrect")
-    public void testEventAddedToBase(){
-
-    }*/
 
     @DataProvider
     public Object[][] providerSaveWithoutImage(){

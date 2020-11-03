@@ -9,7 +9,7 @@ import java.sql.Statement;
 
 public interface UserInfoRepository {
 
-    static String getInfoByEmail(String email, String column){
+    static String getColumnByEmail(String email, String column){
         String res = null;
         try(Connection connection = AzureConnection.getConnection();
             Statement statement = connection.createStatement();
