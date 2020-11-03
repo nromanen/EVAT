@@ -15,10 +15,15 @@ private WebDriver driver;
 	}
 	
 	@FindBy(xpath = "//button[contains(text(),'Join')]")
+	public
 	WebElement joinEventButton;
 	
 	@FindBy(xpath = "//button[contains(text(),'Leave')]")
+	public
 	WebElement leaveEventButton;
+	
+	@FindBy(css = "#main > div > div > div.col-9 > div.col-12 > div.button-block")
+	WebElement joinEventStatusButton;
 	
 	@FindBy(css = "#main > div > div > div.col-9 > div:nth-child(3) > div > form:nth-child(1) > div.MuiFormControl-root.MuiTextField-root.MuiFormControl-fullWidth > div > input")
 	WebElement commentEventInput;
@@ -26,6 +31,9 @@ private WebDriver driver;
 	@FindBy(xpath = "//span[contains(text(),'Add')]")
 	WebElement addCommentButton;
 
+	@FindBy(css = "#main > div > div > div.col-9 > div:nth-child(3) > div > div.ItemComment > div > div.ItemComment > div:nth-child(2) > button")
+	WebElement deleteCommentButton;
+	
 	@FindBy(css = "#main > div > div > div.col-9 > div:nth-child(3) > div > div.ItemComment > div > div.ItemComment > div > button")
 	WebElement replyCommentButton;
 	
@@ -34,6 +42,27 @@ private WebDriver driver;
 	
 	@FindBy(css = "#main > div > div > div.col-9 > div:nth-child(3) > div > form:nth-child(4) > div.MuiDialogActions-root.MuiDialogActions-spacing > button > span.MuiButton-label")
 	WebElement addReplyCommentButton;
+	
+	@FindBy(css = "#main > div > div > div.col-9 > div:nth-child(3) > div > div.children > div.ItemComment > div > div.ItemComment > div > button")
+	WebElement deleteReplyCommentButton;
+	
+	@FindBy(css = "#main > div > div > div.col-9 > div:nth-child(3) > div > div.ItemComment > div > div:nth-child(1) > div > div > div.mybutton > p:nth-child(3)")
+	WebElement commentText;
+	
+	@FindBy(css = "#main > div > div > div.col-9 > div:nth-child(3) > div > div.children > div.ItemComment > div > div:nth-child(1) > div > div > div.mybutton > p:nth-child(3)")
+	WebElement replyCommentText;
+	
+	public String getCommentText() {
+		return commentText.getText();
+	}
+	
+	public String joinEventStatusText() {
+		return joinEventStatusButton.getText();
+	}
+	
+	public String getReplyCommentText() {
+		return replyCommentText.getText();
+	}
 	
 	public void clickOnJoinEventButton() {
 		joinEventButton.click();
@@ -56,7 +85,11 @@ private WebDriver driver;
 	}
 	
 	public void clickOnAddCommentButton() {
-		commentEventInput.click();
+		addCommentButton.click();
+	}
+	
+	public void clickOnDeleteCommentButton() {
+		deleteCommentButton.click();
 	}
 	
 	public void addCommentToEvent(String comment) {
@@ -70,6 +103,10 @@ private WebDriver driver;
 	
 	public void clickOnAddReplyCommentButton() {
 		addReplyCommentButton.click();
+	}
+	
+	public void clickOnDeleteReplyCommentButton() {
+		deleteReplyCommentButton.click();
 	}
 	
 	public void writeReplyToComment(String replyText) {

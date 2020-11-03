@@ -12,7 +12,7 @@ import pages.SignInUpMenu;
 
 public class AuthorizationTests {
     final String WEBSITE_URL = "https://eventsexpress-test.azurewebsites.net/home/events?page=1";
-    final String DRIVER_PATH = "/Users/illyashulman/EventExpress/geckodriver";
+    final String DRIVER_PATH = "/Users/illyashulman/EventExpressTest/src/test/resources/geckodriver";
     WebDriver driver;
     SignInUpMenu signInUpMenu;
 
@@ -39,19 +39,14 @@ public class AuthorizationTests {
         String userName = "carat98";
 
         signInUpMenu = new SignInUpMenu(driver);
-        signInUpMenu.authoriseUser(login,password);
-       WebDriverWait wait = new WebDriverWait(driver,20);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"root\"]/div[2]/div/div/div/h4")));
-
+        signInUpMenu.authoriseAndWaitUser(login,password,signInUpMenu.userHeader);
         Assert.assertEquals(signInUpMenu.getUserName(),userName);
     }
 
     @Test(dataProvider = "signInData", priority = 3)
     public void testErrorSignInMessages(String email, String password, String correctMessage){
         signInUpMenu = new SignInUpMenu(driver);
-        signInUpMenu.authoriseUser(email,password);
-        WebDriverWait wait = new WebDriverWait(driver,20);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(signInUpMenu.LOGIN_ERROR_MESSAGE_XPATH)));
+        signInUpMenu.authoriseAndWaitUser(email,password,signInUpMenu.errorMessage);
         Assert.assertTrue(signInUpMenu.getLoginError().contains(correctMessage));
     }
 

@@ -11,16 +11,16 @@ public class SearchUserPage {
         this.driver = driver;
     }
     @FindBy(css = ".MuiInputBase-input")
-    WebElement searchField;
+    public WebElement searchField;
 
     @FindBy(css = "button.MuiButton-root:nth-child(1) > span:nth-child(1)")
-    WebElement clearButton;
+    public WebElement clearButton;
 
     @FindBy(css = "button.MuiButtonBase-root:nth-child(2) > span:nth-child(1)")
-    WebElement searchButton;
+    public WebElement searchButton;
 
-    @FindBy(css = ".col-12") //.offset-3
-    List<WebElement> numberOfUsers;
+    @FindBy(css = ".col-12")
+    public List<WebElement> numberOfUsers;
 
     public SearchUserPage typeInSearchField(String text){
         searchField.sendKeys(text);
@@ -34,6 +34,11 @@ public class SearchUserPage {
         clearButton.click();
         return this;
     }
+    public SearchUserPage searchUser(String name){
+        typeInSearchField(name).clickSearchButton();
+        return this;
+    }
+
     public String getSearchFieldValue() {
         return searchField.getAttribute("value");
     }

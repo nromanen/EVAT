@@ -13,10 +13,13 @@ public class SearchResultPage {
         PageFactory.initElements(driver,this);
     }
     @FindBy(className = "MuiCardHeader-root")
-    public List<WebElement> numberOfEvents;
+    public static List<WebElement> numberOfEvents;
+
+    @FindBy(className = "MuiCardHeader-root")
+    public WebElement oneEvent;
 
     @FindBy(css = ".h1")
-    public WebElement noResultText;
+    public static WebElement noResultText;
 
     public int getNumberOfEvents(){
         return numberOfEvents.size();

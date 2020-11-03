@@ -1,31 +1,44 @@
 package pages.navBar;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
+import utility.EventElement;
 
 public class ContactUsPage {
     private WebDriver driver;
-    public ContactUsPage(WebDriver driver) {
+    public ContactUsPage(WebDriver driver){
         this.driver = driver;
+        PageFactory.initElements(driver,this);
     }
+
     @FindBy(css = ".form-control")
-    Select problemType;
+    public WebElement problemTypeDropDownList;
 
     @FindBy(css = ".MuiInputBase-input")
-    WebElement descriptionField;
+    public WebElement descriptionField;
 
     @FindBy(css = ".MuiFormHelperText-root")
-    WebElement emptyDescriptionError;
+    public WebElement emptyDescriptionError;
 
     @FindBy(css = "button.MuiButtonBase-root:nth-child(4)")
-    WebElement clearButton;
+    public WebElement clearButton;
 
     @FindBy(css = "button.MuiButtonBase-root:nth-child(3)")
-    WebElement submitButton;
+    public WebElement submitButton;
 
-    public ContactUsPage selectProblemType(int index){
-        problemType.selectByIndex(index);
+    @FindBy(css = "#client-snackbar")
+    public WebElement confirmedMessage;
+
+    public ContactUsPage clickOnProblemTypeDropDownList(){
+        problemTypeDropDownList.click();
+        return this;
+    }
+    public ContactUsPage selectProblemType(String problem){
+        String problemXpath = String.format("/html/body/div[1]/div[3]/div/div/form/div/select/option[contains(text(), '%s')]", problem);
+        driver.findElement(By.xpath(problemXpath)).click();
         return this;
     }
     public ContactUsPage enterDescription(String text){
@@ -33,7 +46,8 @@ public class ContactUsPage {
         return this;
     }
     public ContactUsPage clickSubmitButton(){
-        submitButton.click();
+        EventElement element = new EventElement(driver, submitButton);
+        element.clickAndWait(confirmedMessage);
         return this;
     }
     public ContactUsPage clickClearButton(){
@@ -45,6 +59,12 @@ public class ContactUsPage {
     }
     public String getTextFromDescriptionField(){
         return descriptionField.getText();
+    }
+    public String getChosenProblemTypeValue(){
+        return problemTypeDropDownList.getAttribute("value");
+    }
+    public String getConfirmedMessageText(){
+        return confirmedMessage.getText();
     }
 }
 

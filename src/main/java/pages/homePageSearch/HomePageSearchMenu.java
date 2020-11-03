@@ -5,10 +5,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import utility.EventElement;
+
 import java.time.LocalDate;
 
 public class HomePageSearchMenu {
-    public static final String URL = "https://eventsexpress-test.azurewebsites.net/home/events?page=1";
+    public static final String URL = "https://eventsexpress-test.azurewebsites.net/home/events/?page=1";
+//    public static final String URL = "https://eventsexpress.azurewebsites.net/home/events?page=1";
     private WebDriver driver;
     public HomePageSearchMenu(WebDriver driver){
         this.driver = driver;
@@ -32,6 +35,9 @@ public class HomePageSearchMenu {
 
     @FindBy(css = "#main > div.sidebar-filter > form > div:nth-child(3) > div.react-datepicker-wrapper > div > input")
     public WebElement  dateToPicker;
+
+    @FindBy(css = "div.form-group:nth-child(3) > div:nth-child(2) > div:nth-child(1) > input:nth-child(1)")
+    public WebElement dateToPickerValue;
 
     @FindBy(css = ".rw-input-reset")
     public WebElement hashtagField;
@@ -57,6 +63,9 @@ public class HomePageSearchMenu {
     @FindBy(css = ".react-datepicker__day--selected")
     public WebElement selectedDayInCalendar;
 
+    @FindBy(css = ".rw-multiselect-tag > span:nth-child(1)")
+    public WebElement chosenHashtag;
+
     @FindBy(css = "")
     public WebElement incorrectKeywordTooSmall;
 
@@ -64,12 +73,18 @@ public class HomePageSearchMenu {
     public WebElement incorrectKeywordTooLong;
 
     public HomePageSearchMenu clickMoreFiltersButton(){
-        moreFiltersButton.click();
+        EventElement element = new EventElement(driver, moreFiltersButton);
+        element.clickAndWait(searchButton);
         return this;
     }
     public HomePageSearchMenu clickSearchButton(){
         searchButton.click();
-        return new HomePageSearchMenu(driver);
+        return this;
+    }
+    public HomePageSearchMenu clickSearchButtonAndWait(){
+        EventElement element = new EventElement(driver, searchButton);
+        element.clickAndWait(SearchResultPage.numberOfEvents);
+        return this;
     }
     public HomePageSearchMenu clickLessButton(){
         lessButton.click();
@@ -77,6 +92,11 @@ public class HomePageSearchMenu {
     }
     public HomePageSearchMenu clickResetButton(){
         resetButton.click();
+        return this;
+    }
+    public HomePageSearchMenu clickResetButtonForClearResults(){
+        EventElement element = new EventElement(driver, resetButton);
+        element.clickAndWait(SearchResultPage.numberOfEvents);
         return this;
     }
     public HomePageSearchMenu clickHashtagButton(){
@@ -127,83 +147,85 @@ public class HomePageSearchMenu {
         return this;
     }
     public HomePageSearchMenu typeIncorrectHashtag(String hashtag){
+        EventElement element = new EventElement(driver, hashtagButton);
         hashtagField.sendKeys(hashtag);
+        element.clickAndWait(incorrectHashtag);
         return this;
     }
     public HomePageSearchMenu searchByKeyword(String keyword){
-        this.typeKeyword(keyword);
-        this.clickSearchButton();
+        typeKeyword(keyword);
+        clickSearchButtonAndWait();
         return this;
     }
     public HomePageSearchMenu searchByTwoDates(LocalDate date1, LocalDate date2){
-        this.clickMoreFiltersButton();
-        this.clearDateFrom();
-        this.typeDateFrom(date1);
-        this.clearDateTo();
-        this.typeDateTo(date2);
-        this.clickSearchButton();
+        clickMoreFiltersButton();
+        clearDateFrom();
+        typeDateFrom(date1);
+        clearDateTo();
+        typeDateTo(date2);
+        clickSearchButtonAndWait();
         return this;
     }
     public HomePageSearchMenu searchByDateFrom(LocalDate date){
-        this.clickMoreFiltersButton();
-        this.clearDateFrom();
-        this.typeDateFrom(date);
-        this.clickSearchButton();
+        clickMoreFiltersButton();
+        clearDateFrom();
+        typeDateFrom(date);
+        clickSearchButtonAndWait();
         return this;
     }
     public HomePageSearchMenu searchByDateTo(LocalDate date){
-        this.clickMoreFiltersButton();
-        this.clearDateTo();
-        this.typeDateTo(date);
-        this.clickSearchButton();
+        clickMoreFiltersButton();
+        clearDateTo();
+        typeDateTo(date);
+        clickSearchButtonAndWait();
         return this;
     }
     public HomePageSearchMenu searchByOneHashtag(String hashtag){
-        this.clickMoreFiltersButton();
-        this.typeHashtag(hashtag);
-        this.clickSearchButton();
+        clickMoreFiltersButton();
+        typeHashtag(hashtag);
+        clickSearchButtonAndWait();
         return this;
     }
     public HomePageSearchMenu searchByTwoHashtags(String hashtag1, String hashtag2){
-        this.clickMoreFiltersButton();
-        this.typeHashtag(hashtag1);
-        this.typeHashtag(hashtag2);
-        this.clickSearchButton();
+        clickMoreFiltersButton();
+        typeHashtag(hashtag1);
+        typeHashtag(hashtag2);
+        clickSearchButtonAndWait();
         return this;
     }
 
     public HomePageSearchMenu searchByKeywordAndDateFrom(String keyword, LocalDate date){
-        this.typeKeyword(keyword);
-        this.clickMoreFiltersButton();
-        this.clearDateFrom();
-        this.typeDateFrom(date);
-        this.clickSearchButton();
+        typeKeyword(keyword);
+        clickMoreFiltersButton();
+        clearDateFrom();
+        typeDateFrom(date);
+        clickSearchButtonAndWait();
         return this;
     }
     public HomePageSearchMenu searchByKeywordAndHashtag(String keyword, String hashtag){
-        this.typeKeyword(keyword);
-        this.clickMoreFiltersButton();
-        this.typeHashtag(hashtag);
-        this.clickSearchButton();
+        typeKeyword(keyword);
+        clickMoreFiltersButton();
+        typeHashtag(hashtag);
+        clickSearchButtonAndWait();
         return this;
     }
     public HomePageSearchMenu searchByDatesAndHashtag(LocalDate date1, LocalDate date2, String hashtag){
-        this.clickMoreFiltersButton();
-        this.clearDateFrom();
-        this.typeDateFrom(date1);
-        this.clearDateTo();
-        this.typeDateTo(date2);
-        this.typeHashtag(hashtag);
-        this.clickSearchButton();
+        clickMoreFiltersButton();
+        clearDateFrom();
+        typeDateFrom(date1);
+        clearDateTo();
+        typeDateTo(date2);
+        typeHashtag(hashtag);
+        clickSearchButtonAndWait();
         return this;
     }
     public HomePageSearchMenu searchByKeywordAndDateAndHashtag(String keyword, LocalDate date, String hashtag) {
-        this.typeKeyword(keyword);
-        this.clickMoreFiltersButton();
-        this.clearDateFrom();
-        this.typeDateFrom(date);
-        this.typeHashtag(hashtag);
-        this.clickSearchButton();
+        typeKeyword(keyword);
+        clickMoreFiltersButton();
+        clearDateFrom();
+        typeDateFrom(date);
+        typeHashtag(hashtag);
+        clickSearchButtonAndWait();
         return this;
     }
 
@@ -222,8 +244,14 @@ public class HomePageSearchMenu {
     public String getDateFromPickerText(){
         return dateFromPickerValue.getAttribute("value");
     }
+    public String getDateToPickerText(){
+        return dateToPickerValue.getAttribute("value");
+    }
     public String getHashtagFieldText(){
         return hashtagField.getAttribute("value");
+    }
+    public String getChosenHashtagText(){
+        return chosenHashtag.getText();
     }
     public String getSelectedDayInCalendarValue(){
         return selectedDayInCalendar.getText();
