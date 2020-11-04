@@ -33,7 +33,7 @@ public class AEventDefaultBehaviorTest {
         new EventMenu(SetUpProfile.getDriver()).clickAddEvent();
         addEventPage=new AddEventPage(SetUpProfile.getDriver(),SetUpProfile.getWebDriverWait());
         prop=SetUpProfile.getProp();
-        try (InputStream input = new FileInputStream("src\\test\\resources\\forProfile\\testDataAddEvent.properties")) {
+        try (InputStream input = new FileInputStream("src\\test\\resources\\forProfile\\testDataProfile.properties")) {
             prop.load(input);
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -54,7 +54,7 @@ public class AEventDefaultBehaviorTest {
 
     @Test(dataProvider = "dataProviderLoadImage",dependsOnMethods="testLoadImage")
     public void testGetValueImage(String nameFileImg){
-        assertEquals(addEventPage.getValueImage(),nameFileImg.substring(nameFileImg.lastIndexOf('/')+1));
+        assertEquals(addEventPage.getValueImage(),nameFileImg.substring(nameFileImg.lastIndexOf('\\')+1));
     }
 
     @Test(dependsOnMethods="testGetValueImage")

@@ -50,5 +50,14 @@ public interface EventsRepository {
         return res;
     }
 
-
+    static void deleteEvents(String title,String description, String ownerId){
+        try(Connection connection = AzureConnection.getConnection();
+            Statement statement = connection.createStatement()){
+            statement.executeQuery("delete from dbo.Events " +
+                    "where Events.Title like '"+title+"' and Events.Description like '"+description+
+                    "' and Events.OwnerId like '"+ownerId+"'");
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
 }

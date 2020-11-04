@@ -30,7 +30,7 @@ public class ErrorsAddEventTest {
         new EventMenu(SetUpProfile.getDriver()).clickAddEvent();
         addEventPage=new AddEventPage(SetUpProfile.getDriver(),SetUpProfile.getWebDriverWait());
         prop=SetUpProfile.getProp();
-        try (InputStream input = new FileInputStream("src\\test\\resources\\forProfile\\testDataAddEvent.properties")) {
+        try (InputStream input = new FileInputStream("src\\test\\resources\\forProfile\\testDataProfile.properties")) {
             prop.load(input);
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -328,7 +328,6 @@ public class ErrorsAddEventTest {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    //@BeforeGroups("WithoutData")
     @Test
     public void createEventWithoutData(){
         addEventPage=new AddEventPage(SetUpProfile.getDriver(),SetUpProfile.getWebDriverWait());
@@ -347,7 +346,8 @@ public class ErrorsAddEventTest {
         assertEquals(addEventPage.getRequiredImage().getText(),prop.getProperty("errorRequired"));
     }
 
-    @Test(dependsOnMethods = "emptyImageErrorText",dataProvider = "providerCorrectImage",expectedExceptions=NoSuchElementException.class)
+    @Test(dependsOnMethods = "emptyImageErrorText",dataProvider = "providerCorrectImage",
+            expectedExceptions={NoSuchElementException.class,StaleElementReferenceException.class})
     public void disappearanceRequiredErrorImage(String photo){
         addEventPage.loadImage(photo);
         addEventPage.getRequiredImage().isDisplayed();

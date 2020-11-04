@@ -15,6 +15,8 @@ public class SetUpDriver {
 
     protected static Properties prop = new Properties();
     protected static WebDriver driver;
+    protected static WebDriverWait webDriverWait;
+
     static {
         try (InputStream input = new FileInputStream("src/main/resources/driver.properties")) {
             prop.load(input);
@@ -24,12 +26,8 @@ public class SetUpDriver {
         System.setProperty(prop.getProperty("webDriverKey"),prop.getProperty("webDriverValue"));
         if(prop.getProperty("browser").equals("chrome")) driver = new ChromeDriver();
         else if(prop.getProperty("browser").equals("gecko"))driver = new FirefoxDriver();
-    }
-    protected  static WebDriverWait webDriverWait;
-    static {
         webDriverWait= new WebDriverWait(driver,30);
     }
-
 
     public void cleanUp(){
         driver.manage().deleteAllCookies();
