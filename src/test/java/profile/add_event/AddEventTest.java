@@ -2,6 +2,7 @@ package profile.add_event;
 
 import jdbc.EventsRepository;
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.*;
@@ -16,8 +17,7 @@ import profile.SetUpProfile;
 
 import java.util.Properties;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
 public class AddEventTest {
 
@@ -42,6 +42,7 @@ public class AddEventTest {
 
 
     private void clearPageAddEvent(){
+        eventMenu.clickFutureEvents();
         eventMenu.clickAddEvent();
         addEventPage=new AddEventPage(SetUpProfile.getDriver(),webDriverWait);
     }
@@ -72,6 +73,7 @@ public class AddEventTest {
         addEventPage.inputCountry(country);
         addEventPage.inputCity(city);
         addEventPage.clickSave();
+        System.out.println("Hello");
         assertTrue(addEventPage.getCreatedEventMessage().isDisplayed());
         assertEquals(EventsRepository.getAmountOfEvents(),amountOfEventsBefore+1);
     }
@@ -95,6 +97,7 @@ public class AddEventTest {
     @Test(dataProvider = "providerSaveWithoutImage")
     public void negativeSaveWithoutImage(String title, String participants, String dateFrom, String dateTo,
                                     String description,List<String> hashtagsToEnter,String country,String city){
+        clearPageAddEvent();
         int amountOfEventsBefore= EventsRepository.getAmountOfEvents();
         addEventPage.inputTitle(title);
         addEventPage.inputParticipants(participants);
@@ -105,7 +108,18 @@ public class AddEventTest {
         addEventPage.inputCountry(country);
         addEventPage.inputCity(city);
         addEventPage.clickSave();
+        assertTrue(addEventPage.getRequiredImage().isDisplayed());
         assertEquals(EventsRepository.getAmountOfEvents(),amountOfEventsBefore);
+    }
+
+    @Test(expectedExceptions=NoSuchElementException.class, dependsOnMethods = "negativeSaveWithoutImage")
+    public void notAppearCreatedEventMessageImage(){
+        assertFalse(addEventPage.getCreatedEventMessage().isDisplayed());
+    }
+
+    @Test(dependsOnMethods = "negativeSaveWithoutImage")
+    public void testNotEmptyPageImage(){
+        assertFalse(addEventPage.isPageEmpty());
     }
 
     @DataProvider
@@ -121,6 +135,7 @@ public class AddEventTest {
     @Test(dataProvider = "providerSaveWithoutTitle")
     public void negativeSaveWithoutTitle(String photo, String participants, String dateFrom, String dateTo,
                                 String description,List<String> hashtagsToEnter,String country,String city)throws NoSuchElementException {
+        clearPageAddEvent();
         int amountOfEventsBefore= EventsRepository.getAmountOfEvents();
         addEventPage.loadImage(photo);
         addEventPage.inputParticipants(participants);
@@ -131,7 +146,18 @@ public class AddEventTest {
         addEventPage.inputCountry(country);
         addEventPage.inputCity(city);
         addEventPage.clickSave();
+        assertTrue(addEventPage.getRequiredTitle().isDisplayed());
         assertEquals(EventsRepository.getAmountOfEvents(),amountOfEventsBefore);
+    }
+
+    @Test(expectedExceptions=NoSuchElementException.class, dependsOnMethods = "negativeSaveWithoutTitle")
+    public void notAppearCreatedEventMessageTitle(){
+        assertFalse(addEventPage.getCreatedEventMessage().isDisplayed());
+    }
+
+    @Test(dependsOnMethods = "negativeSaveWithoutTitle")
+    public void testNotEmptyPageTitle(){
+        assertFalse(addEventPage.isPageEmpty());
     }
 
     @DataProvider
@@ -147,6 +173,7 @@ public class AddEventTest {
     @Test(dataProvider = "providerSaveWithoutDescription")
     public void negativeSaveWithoutDescription(String photo,String title, String participants, String dateFrom, String dateTo,
                                 List<String> hashtagsToEnter,String country,String city)throws NoSuchElementException {
+        clearPageAddEvent();
         int amountOfEventsBefore= EventsRepository.getAmountOfEvents();
         addEventPage.loadImage(photo);
         addEventPage.inputTitle(title);
@@ -157,7 +184,18 @@ public class AddEventTest {
         addEventPage.inputCountry(country);
         addEventPage.inputCity(city);
         addEventPage.clickSave();
+        assertTrue(addEventPage.getRequiredDescription().isDisplayed());
         assertEquals(EventsRepository.getAmountOfEvents(),amountOfEventsBefore);
+    }
+
+    @Test(expectedExceptions=NoSuchElementException.class, dependsOnMethods = "negativeSaveWithoutDescription")
+    public void notAppearCreatedEventMessageDescription(){
+        assertFalse(addEventPage.getCreatedEventMessage().isDisplayed());
+    }
+
+    @Test(dependsOnMethods = "negativeSaveWithoutDescription")
+    public void testNotEmptyPageDescription(){
+        assertFalse(addEventPage.isPageEmpty());
     }
 
     @DataProvider
@@ -172,6 +210,7 @@ public class AddEventTest {
     @Test(dataProvider = "providerSaveWithoutHashtags")
     public void negativeSaveWithoutHashtags(String photo,String title, String participants, String dateFrom, String dateTo,
                                 String description,String country,String city)throws NoSuchElementException {
+        clearPageAddEvent();
         int amountOfEventsBefore= EventsRepository.getAmountOfEvents();
         addEventPage.loadImage(photo);
         addEventPage.inputTitle(title);
@@ -182,7 +221,18 @@ public class AddEventTest {
         addEventPage.inputCountry(country);
         addEventPage.inputCity(city);
         addEventPage.clickSave();
+        assertTrue(addEventPage.getRequiredHashtags().isDisplayed());
         assertEquals(EventsRepository.getAmountOfEvents(),amountOfEventsBefore);
+    }
+
+    @Test(expectedExceptions=NoSuchElementException.class, dependsOnMethods = "negativeSaveWithoutHashtags")
+    public void notAppearCreatedEventMessageHashtags(){
+        assertFalse(addEventPage.getCreatedEventMessage().isDisplayed());
+    }
+
+    @Test(dependsOnMethods = "negativeSaveWithoutHashtags")
+    public void testNotEmptyPageHashtags(){
+        assertFalse(addEventPage.isPageEmpty());
     }
 
     @DataProvider
@@ -197,6 +247,7 @@ public class AddEventTest {
     @Test(dataProvider = "providerSaveWithoutCountry")
     public void negativeSaveWithoutCountry(String photo,String title, String participants, String dateFrom, String dateTo,
                                 String description,List<String> hashtagsToEnter)throws NoSuchElementException {
+        clearPageAddEvent();
         int amountOfEventsBefore= EventsRepository.getAmountOfEvents();
         addEventPage.loadImage(photo);
         addEventPage.inputTitle(title);
@@ -206,7 +257,18 @@ public class AddEventTest {
         addEventPage.inputDescription(description);
         addEventPage.inputHashtags(hashtagsToEnter);
         addEventPage.clickSave();
-        assertEquals(EventsRepository.getAmountOfEvents(),amountOfEventsBefore+1);
+        assertTrue(addEventPage.getRequiredCountry().isDisplayed());
+        assertEquals(EventsRepository.getAmountOfEvents(),amountOfEventsBefore);
+    }
+
+    @Test(expectedExceptions=NoSuchElementException.class, dependsOnMethods = "negativeSaveWithoutCountry")
+    public void notAppearCreatedEventMessageCountry(){
+        assertFalse(addEventPage.getCreatedEventMessage().isDisplayed());
+    }
+
+    @Test(dependsOnMethods = "negativeSaveWithoutCountry")
+    public void testNotEmptyPageCountry(){
+        assertFalse(addEventPage.isPageEmpty());
     }
 
     @DataProvider
@@ -221,6 +283,7 @@ public class AddEventTest {
     @Test(dataProvider = "providerSaveWithoutCity")
     public void negativeSaveWithoutCity(String photo,String title, String participants, String dateFrom, String dateTo,
                                            String description,List<String> hashtagsToEnter,String country)throws NoSuchElementException {
+        clearPageAddEvent();
         int amountOfEventsBefore= EventsRepository.getAmountOfEvents();
         addEventPage.loadImage(photo);
         addEventPage.inputTitle(title);
@@ -231,14 +294,25 @@ public class AddEventTest {
         addEventPage.inputHashtags(hashtagsToEnter);
         addEventPage.inputCountry(country);
         addEventPage.clickSave();
-        assertEquals(EventsRepository.getAmountOfEvents(),amountOfEventsBefore+1);
+        assertTrue(addEventPage.getRequiredCity().isDisplayed());
+        assertEquals(EventsRepository.getAmountOfEvents(),amountOfEventsBefore);
     }
 
+    @Test(expectedExceptions=NoSuchElementException.class, dependsOnMethods = "negativeSaveWithoutCity")
+    public void notAppearCreatedEventMessageCity(){
+        assertFalse(addEventPage.getCreatedEventMessage().isDisplayed());
+    }
+
+    @Test(dependsOnMethods = "negativeSaveWithoutCity")
+    public void testNotEmptyPageCity(){
+        assertFalse(addEventPage.isPageEmpty());
+    }
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
     @Test
     public void testIsPageEmpty() {
+        clearPageAddEvent();
         assertTrue(addEventPage.isPageEmpty());
     }
 
@@ -246,6 +320,7 @@ public class AddEventTest {
     @Test(dataProvider = "providerSaveCorrect")
     public void testIsPageFull(String photo,String title, String participants, String dateFrom, String dateTo,
                                String description,List<String> hashtagsToEnter,String country,String city) {
+        clearPageAddEvent();
         addEventPage.loadImage(photo);
         addEventPage.inputTitle(title);
         addEventPage.inputParticipants(participants);
@@ -258,8 +333,5 @@ public class AddEventTest {
         assertTrue(addEventPage.isPageFull());
     }
 
-    @AfterMethod
-    public void afterEveryTest(){
-        eventMenu.clickFutureEvents();
-    }
+
 }
