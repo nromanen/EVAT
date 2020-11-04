@@ -1,5 +1,6 @@
 package search;
 
+import jdbc.SearchRepository;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
@@ -46,7 +47,7 @@ public class SearchUserTest {
     public void searchUserTest(){
         String name = "Admin";
         searchUserPage.searchUser(name);
-        Assert.assertEquals(searchUserPage.getNumberOfFoundedUsers(), 1);
+        Assert.assertEquals(searchUserPage.getNumberOfFoundedUsers(), SearchRepository.getNumberOfUsersByNameWithNInQuery(name));
     }
 
     @AfterMethod

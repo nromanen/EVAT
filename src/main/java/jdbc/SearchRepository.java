@@ -54,35 +54,35 @@ public class SearchRepository {
         return month + "/" + day + "/" + year;
     }
 
-    public static int getNumberOfEventsByOneHashtag(String hashtag) throws SQLException {
+    public static int getNumberOfEventsByOneHashtag(String hashtag) {
         LocalDate date = LocalDate.now();
         String query = "select COUNT(Name) from (select TOP(6) Name from [Events] JOIN [EventCategory] ON Events.Id = EventCategory.EventId JOIN [Categories] ON Categories.Id = EventCategory.CategoryId where Name = '" + hashtag + "' and DateFrom >= '" + date + "' AND IsBlocked = 'false') a";
         return getNumberOfFoundedEvents(query);
     }
 
-    public static int getNumberOfEventsByTwoHashtags(String hashtag1, String hashtag2) throws SQLException {
+    public static int getNumberOfEventsByTwoHashtags(String hashtag1, String hashtag2) {
         LocalDate date = LocalDate.now();
         String query = "select COUNT(CardId) from (select DISTINCT TOP(6) Events.Id AS CardId from [Events] JOIN [EventCategory] ON Events.Id = EventCategory.EventId JOIN [Categories] ON Categories.Id = EventCategory.CategoryId where Name = '" + hashtag1 + "' and DateFrom >= '" + date + "' or Name = '" + hashtag2 + "' and DateFrom >= '" + date + "' AND IsBlocked = 'false') a";
         return getNumberOfFoundedEvents(query);
     }
 
-    public static int getNumberOfEventsWithKeywordWithNInQueryAndDateFrom(String keyword, LocalDate date) throws SQLException {
+    public static int getNumberOfEventsWithKeywordWithNInQueryAndDateFrom(String keyword, LocalDate date) {
         String query = "select COUNT(Id) from [Events] where Title LIKE N'%" + keyword + "%' OR Description LIKE N'%" + keyword + "%' AND DateFrom >= '" + date + "' AND IsBlocked = 'false'";
         return getNumberOfFoundedEvents(query);
     }
 
-    public static int getNumberOfEventsByKeywordAndHashtag(String keyword, String hashtag) throws SQLException {
+    public static int getNumberOfEventsByKeywordAndHashtag(String keyword, String hashtag) {
         LocalDate date = LocalDate.now();
         String query = "select COUNT(Name) from (select TOP(6) Name from [Events] JOIN [EventCategory] ON Events.Id = EventCategory.EventId JOIN [Categories] ON Categories.Id = EventCategory.CategoryId WHERE Title LIKE N'%" + keyword + "%' OR Description LIKE N'%" + keyword + "%' AND Name = '" + hashtag + "' and DateFrom >= '" + date + "' AND IsBlocked = 'false') a";
         return getNumberOfFoundedEvents(query);
     }
 
-    public static int getNumberOfEventsByDatesAndHashtag(LocalDate date1, LocalDate date2, String hashtag) throws SQLException {
+    public static int getNumberOfEventsByDatesAndHashtag(LocalDate date1, LocalDate date2, String hashtag) {
         String query = "select COUNT(Name) from (select TOP(6) Name from [Events] JOIN [EventCategory] ON Events.Id = EventCategory.EventId JOIN [Categories] ON Categories.Id = EventCategory.CategoryId WHERE DateFrom >= '" + date1 + "' AND DateTo <= '" + date2 + "'AND Name = '" + hashtag + "' AND IsBlocked = 'false') a";
         return getNumberOfFoundedEvents(query);
     }
 
-    public static int getNumberOfEventsByKeywordWithNInQueryAndDateFromAndHashtag(String keyword, LocalDate date, String hashtag) throws SQLException {
+    public static int getNumberOfEventsByKeywordWithNInQueryAndDateFromAndHashtag(String keyword, LocalDate date, String hashtag) {
         String query = "select COUNT(Name) from (select TOP(6) Name from [Events] JOIN [EventCategory] ON Events.Id = EventCategory.EventId JOIN [Categories] ON Categories.Id = EventCategory.CategoryId WHERE Title LIKE N'%" + keyword + "%' OR Description LIKE N'%" + keyword + "%' AND Name = '" + hashtag + "' and DateFrom >= '" + date + "' AND IsBlocked = 'false') a";
         return getNumberOfFoundedEvents(query);
     }
@@ -99,6 +99,10 @@ public class SearchRepository {
         }catch (SQLException e){
             e.printStackTrace();
         }
+    }
+    public static int getNumberOfUsersByNameWithNInQuery(String userName){
+        String query = "SELECT COUNT(Id) FROM [eventsexpress-test].dbo.Users WHERE Name = N'"+userName+"'";
+        return getNumberOfFoundedEvents(query);
     }
 
 }
