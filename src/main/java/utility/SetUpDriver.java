@@ -17,16 +17,25 @@ public class SetUpDriver {
     protected static WebDriver driver;
     protected static WebDriverWait webDriverWait;
 
-    static {
-        try (InputStream input = new FileInputStream("src/main/resources/driver.properties")) {
-            prop.load(input);
-        } catch (IOException ex) {
-            ex.printStackTrace();
+    private SetUpDriver() { }
+
+    public static WebDriver getWebDriver(){
+        if(driver==null) {
+            try (InputStream input = new FileInputStream("src/main/resources/driver.properties")) {
+                prop.load(input);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            System.setProperty(prop.getProperty("webDriverKey"), prop.getProperty("webDriverValue"));
+            switch (prop.getProperty("browser")) {
+                case "gecko":
+                    driver = new FirefoxDriver(); break;
+                default:
+                    driver = new ChromeDriver();
+            }
         }
-        System.setProperty(prop.getProperty("webDriverKey"),prop.getProperty("webDriverValue"));
-        if(prop.getProperty("browser").equals("chrome")) driver = new ChromeDriver();
-        else if(prop.getProperty("browser").equals("gecko"))driver = new FirefoxDriver();
         webDriverWait= new WebDriverWait(driver,30);
+        return driver;
     }
 
     public void cleanUp(){
@@ -35,6 +44,10 @@ public class SetUpDriver {
 
     public static void tearDown(){
         driver.close();
+    }
+
+    public static void driverQuit(){
+        driver.quit();
     }
 
     public static Properties getProp() {
