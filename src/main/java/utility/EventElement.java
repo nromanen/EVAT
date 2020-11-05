@@ -7,12 +7,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.List;
 
 public class EventElement implements WebElement {
-    private WebDriver driver;
     private WebElement element;
     private WebDriverWait wait;
 
     public EventElement(WebDriver driver, WebElement element) {
-        this.driver = driver;
         this.element = element;
         wait = new WebDriverWait(driver,30);
     }
