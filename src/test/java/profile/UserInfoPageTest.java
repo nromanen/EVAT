@@ -20,13 +20,14 @@ public class UserInfoPageTest {
 
     UserInfoPage userInfoPage;
     Properties prop;
+    SetUpProfile setUpProfile;
 
     @BeforeClass
     public void setUp() {
-        new SetUpProfile();
-        SetUpProfile.getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#main > div.mt-2 > header > div > div > div > div")));
-        userInfoPage = new UserInfoPage(SetUpProfile.getDriver());
-        prop=SetUpProfile.getProp();
+        setUpProfile=new SetUpProfile();
+        setUpProfile.getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#main > div.mt-2 > header > div > div > div > div")));
+        userInfoPage = new UserInfoPage(setUpProfile.getDriver());
+        prop=new Properties();
         try (InputStream input = new FileInputStream("src\\test\\resources\\forProfile\\testDataUserInfo.properties")) {
             prop.load(input);
         } catch (IOException ex) {
@@ -84,5 +85,10 @@ public class UserInfoPageTest {
     @Test(dataProvider = "providerEmail")
     public void testGetValueInterests(String email) {
         assertEquals(userInfoPage.getValueInterests(),UserInfoRepository.getUserInterests(email));
+    }
+
+    @AfterClass
+    public void afterClass(){
+        setUpProfile.driverQuit();
     }
 }

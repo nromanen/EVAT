@@ -22,13 +22,11 @@ public class AddEventPage{
     WebDriver driver;
     WebDriverWait webDriverWait;
 
-    private final String findFileUploaderString="#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div.preview-container > div > input[type=file]";
-    private final By findFileUploader=By.cssSelector(findFileUploaderString);
-    @FindBy(how = How.CSS, using = findFileUploaderString)
+    @FindBy(how = How.CSS, using = "#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div.preview-container > div > input[type=file]")
     private WebElement fileUploader;
 
+    @FindBy(how = How.CSS, using = "#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div.preview-container > div > div > img")
     private WebElement image;
-    private final By imageSelector=By.cssSelector("#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div.preview-container > div > div > img");
 
     @FindBy(how = How.CSS, using = "#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div:nth-child(3) > div > div > input")
     private WebElement title;
@@ -57,50 +55,50 @@ public class AddEventPage{
     @FindBy(how =How.CSS, using = "#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > button")
     private WebElement clear;
 
+    @FindBy(how = How.CSS, using = "")
     private WebElement errorIncorrectResolutionPhoto;
-    private final By findErrorIncorrectResolutionPhoto=By.name("");
 
+    @FindBy(how = How.CSS, using = "")
     private WebElement errorIncorrectPhotoSize;
-    private final By findErrorIncorrectSizePhoto =By.name("");
 
+    @FindBy(how = How.CSS, using = "")
     private WebElement errorIncorrectTitle;
-    private final By findErrorIncorrectTitle=By.cssSelector("");
 
+    @FindBy(how = How.CSS, using = "")
     private WebElement errorIncorrectTitleNoOneLetter;
-    private final By findErrorTitleNoOneLetter=By.cssSelector("");
 
+    @FindBy(how = How.CSS, using = "")
     private WebElement errorIncorrectDescription;
-    private final By findErrorIncorrectDescription=By.cssSelector("");
 
+    @FindBy(how = How.CSS, using = "")
     private WebElement errorTooManyHashtags;
-    private final By findErrorTooManyHashtags=By.cssSelector("");
 
+    @FindBy(how = How.CSS, using = "")
     private WebElement errorTooManyParticipants;
-    private final By findErrorTooManyParticipants=By.cssSelector("");
 
     @FindBy(how = How.CSS, using = "#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > button > span.MuiTouchRipple-root")
     private WebElement save;
 
+    @FindBy(how = How.CSS, using = "#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div.preview-container > div.error")
     private WebElement requiredImage;
-    private final By findRequiredImage=By.cssSelector("#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div.preview-container > div.error");
 
+    @FindBy(how = How.CSS,using = "#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div:nth-child(3) > div > p")
     private WebElement requiredTitle;
-    private final By findRequiredTitle=By.cssSelector("#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div:nth-child(3) > div > p");
 
+    @FindBy(how = How.CSS, using = "#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div:nth-child(6) > div > p")
     private WebElement requiredDescription;
-    private final By findRequiredDescription=By.cssSelector("#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div:nth-child(6) > div > p");
 
+    @FindBy(how = How.CSS,using = "#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div:nth-child(7) > p")
     private WebElement requiredHashtags;
-    private final By findRequiredHashtags=By.cssSelector("#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div:nth-child(7) > p");
 
+    @FindBy(how = How.CSS, using = "#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div:nth-child(8) > div > p")
     private WebElement requiredCountry;
-    private final By findRequiredCountry=By.cssSelector("#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div:nth-child(8) > div > p");
 
+    @FindBy(how = How.CSS, using = "#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div:nth-child(9) > div > p")
     private WebElement requiredCity;
-    private final By findRequiredCity=By.cssSelector("#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div:nth-child(9) > div > p");
 
+    @FindBy(how = How.CSS, using = "#client-snackbar")
     private WebElement createdEventMessage;
-    private final By findCreatedEventMessage=By.cssSelector("#client-snackbar");
 
 
     public AddEventPage(WebDriver driver, WebDriverWait wait) {
@@ -109,25 +107,11 @@ public class AddEventPage{
         webDriverWait=wait;
         webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(findCountry));
         country=new Select(driver.findElement(findCountry));
-
-    }
-
-    public WebElement initElement(By findElement){
-        try {
-            return driver.findElement(findElement);
-        } catch (NoSuchElementException e){
-            e.printStackTrace();
-        }
-       return null;
     }
 
     public boolean loadImage(String nameFileImg) {
         if (fileUploader==null) return false;
         fileUploader.sendKeys(nameFileImg);
-        image = driver.findElement(imageSelector);
-        fileUploader=null;
-        errorIncorrectResolutionPhoto=initElement(findErrorIncorrectResolutionPhoto);
-        errorIncorrectPhotoSize=initElement(findErrorIncorrectSizePhoto);
         return true;
     }
 
@@ -137,17 +121,13 @@ public class AddEventPage{
     }
 
     public boolean inputTitle(String text) {
-        if (title==null) return false;
         title.sendKeys(text);
-        errorIncorrectTitle=initElement(findErrorIncorrectTitle);
-        errorIncorrectTitleNoOneLetter=initElement(findErrorTitleNoOneLetter);
         return true;
     }
 
     public boolean inputParticipants(String value){
         if(participants==null) return false;
         participants.sendKeys(value);
-        errorTooManyParticipants=initElement(findErrorTooManyParticipants);
         return true;
     }
 
@@ -199,7 +179,6 @@ public class AddEventPage{
     public boolean inputDescription(String text) {
         if (description==null)return false;
         description.sendKeys(text);
-        errorIncorrectDescription=initElement(findErrorIncorrectDescription);
         return true;
     }
 
@@ -210,7 +189,6 @@ public class AddEventPage{
             hashtags.sendKeys(Keys.ENTER);
         }
         hashtags.sendKeys(Keys.ESCAPE);
-        errorTooManyHashtags=initElement(findErrorTooManyHashtags);
         return true;
     }
 
@@ -257,26 +235,36 @@ public class AddEventPage{
     public boolean clickClear(){
         if(clear==null)return false;
         clear.click();
-        fileUploader=driver.findElement(findFileUploader);
-        image=null;
         return true;
+    }
+
+    public boolean isAppearCreatedEventMessage(){
+        webDriverWait.until(ExpectedConditions.visibilityOf(createdEventMessage));
+        if(createdEventMessage.isDisplayed())return true;
+        return false;
     }
 
     public boolean isPageEmpty(){
         List<WebElement> hashtags = driver.findElements(By.cssSelector("#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div:nth-child(7) > div > div.rw-widget-input.rw-widget-picker.rw-widget-container > div > ul >li"));
-        if(initElement(imageSelector)==null &&
-                title.getAttribute("value").isEmpty() &&
+        if(title.getAttribute("value").isEmpty() &&
                 participants.getAttribute("value").isEmpty() &&
                 description.getAttribute("value").isEmpty() &&
                 hashtags.isEmpty() &&
-                country.getFirstSelectedOption().getText().isBlank())
-            return true;
+                country.getFirstSelectedOption().getText().isBlank()){
+            try{
+                image.isDisplayed();
+                return false;
+            }
+            catch (NoSuchElementException e){
+                return true;
+            }
+        }
         return false;
     }
 
     public boolean isPageFull(){
         List<WebElement> hashtags = driver.findElements(By.cssSelector("#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div:nth-child(7) > div > div.rw-widget-input.rw-widget-picker.rw-widget-container > div > ul >li"));
-        if(fileUploader==null &&
+        if(image.isEnabled() &&
                 !title.getAttribute("value").isEmpty() &&
                 !participants.getAttribute("value").isEmpty() &&
                 !dateFrom.getAttribute("value").isEmpty() &&
@@ -292,21 +280,6 @@ public class AddEventPage{
     public boolean clickSave(){
         if(save==null)return false;
         save.submit();
-        if(isPageFull()) {
-            try {
-                webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(findCreatedEventMessage));
-                createdEventMessage = initElement(findCreatedEventMessage);
-            } catch (TimeoutException e){
-                e.printStackTrace();
-            }
-        }else {
-            if (fileUploader != null) requiredImage = initElement(findRequiredImage);
-            if (title != null) requiredTitle = initElement(findRequiredTitle);
-            if (description != null) requiredDescription = initElement(findRequiredDescription);
-            if (hashtags != null) requiredHashtags = initElement(findRequiredHashtags);
-            if (country != null) requiredCountry = initElement(findRequiredCountry);
-            if (city != null) requiredCity = initElement(findRequiredCity);
-        }
         return true;
     }
 

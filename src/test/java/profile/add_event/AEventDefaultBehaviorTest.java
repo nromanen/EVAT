@@ -2,8 +2,10 @@ package profile.add_event;
 
 import jdbc.EventsRepository;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -25,14 +27,15 @@ public class AEventDefaultBehaviorTest {
 
     AddEventPage addEventPage;
     Properties prop;
+    SetUpProfile setUpProfile;
 
     @BeforeClass
     public void beforeClass() {
-        new SetUpProfile();
-        SetUpProfile.getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#full-width-tab-4")));
-        new EventMenu(SetUpProfile.getDriver()).clickAddEvent();
-        addEventPage=new AddEventPage(SetUpProfile.getDriver(),SetUpProfile.getWebDriverWait());
-        prop=SetUpProfile.getProp();
+        setUpProfile=new SetUpProfile();
+        setUpProfile.getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#full-width-tab-4")));
+        new EventMenu(setUpProfile.getDriver()).clickAddEvent();
+        addEventPage=new AddEventPage(setUpProfile.getDriver(),setUpProfile.getWebDriverWait());
+        prop=new Properties();
         try (InputStream input = new FileInputStream("src\\test\\resources\\forProfile\\testDataProfile.properties")) {
             prop.load(input);
         } catch (IOException ex) {
@@ -57,10 +60,10 @@ public class AEventDefaultBehaviorTest {
         assertEquals(addEventPage.getValueImage(),nameFileImg.substring(nameFileImg.lastIndexOf('\\')+1));
     }
 
-    @Test(dependsOnMethods="testGetValueImage")
+    @Test(dependsOnMethods="testGetValueImage", expectedExceptions = NoSuchElementException.class)
     public void testClickClear(){
         addEventPage.clickClear();
-        assertFalse(addEventPage.getFileUploader().isSelected());
+        addEventPage.getImage().isEnabled();
     }
 
 
@@ -192,6 +195,10 @@ public class AEventDefaultBehaviorTest {
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    @AfterClass
+    public void afterClass(){
+        setUpProfile.driverQuit();
+    }
 
 
 }

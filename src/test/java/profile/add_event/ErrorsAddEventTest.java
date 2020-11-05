@@ -20,16 +20,17 @@ import static org.testng.Assert.*;
 
 public class ErrorsAddEventTest {
 
-    private static AddEventPage addEventPage;
-    private static Properties prop;
+    AddEventPage addEventPage;
+    SetUpProfile setUpProfile;
+    Properties prop;
 
     @BeforeClass
-    public static void beforeClass() {
-        new SetUpProfile();
-        SetUpProfile.getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#full-width-tab-4")));
-        new EventMenu(SetUpProfile.getDriver()).clickAddEvent();
-        addEventPage=new AddEventPage(SetUpProfile.getDriver(),SetUpProfile.getWebDriverWait());
-        prop=SetUpProfile.getProp();
+    public void beforeClass() {
+        setUpProfile=new SetUpProfile();
+        setUpProfile.getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#full-width-tab-4")));
+        new EventMenu(setUpProfile.getDriver()).clickAddEvent();
+        addEventPage=new AddEventPage(setUpProfile.getDriver(),setUpProfile.getWebDriverWait());
+        prop=setUpProfile.getProp();
         try (InputStream input = new FileInputStream("src\\test\\resources\\forProfile\\testDataProfile.properties")) {
             prop.load(input);
         } catch (IOException ex) {
@@ -80,8 +81,7 @@ public class ErrorsAddEventTest {
         return new Object[][]{{prop.getProperty("incorrectFormatPhoto")}};//TODO: change absolute path in the file testData
     }
 
-    @Test(dataProvider = "negativeProviderLoadImage",
-            expectedExceptions={NoSuchElementException.class, StaleElementReferenceException.class})
+    @Test(dataProvider = "negativeProviderLoadImage")
     public void notLoadImageIncorrectFormat(String nameFileImg){
         addEventPage.loadImage(nameFileImg);
         addEventPage.getImage().isEnabled();
@@ -94,8 +94,8 @@ public class ErrorsAddEventTest {
         return new Object[][]{{prop.getProperty("smallResolutionPhoto")},{prop.getProperty("bigResolutionPhoto")}};//TODO: change absolute path in the file testData
     }
 
-    @Test(dataProvider = "negativeProviderLoadImage", expectedExceptions={NoSuchElementException.class, StaleElementReferenceException.class})
-    public void notLoadImageIncorrectResolution(String nameFileImg)throws NoSuchElementException{
+    @Test(dataProvider = "negativeProviderLoadImage")
+    public void notLoadImageIncorrectResolution(String nameFileImg){
         addEventPage.loadImage(nameFileImg);
         assertFalse(addEventPage.getImage().isEnabled());
     }
@@ -129,9 +129,8 @@ public class ErrorsAddEventTest {
         return new Object[][]{{prop.getProperty("bigPhoto")}};//TODO: change absolute path in the file testData
     }
 
-    @Test(dataProvider = "negativeProviderLoadImage",
-            expectedExceptions={NoSuchElementException.class, StaleElementReferenceException.class})
-    public void notLoadImageIncorrectSize(String nameFileImg)throws NoSuchElementException{
+    @Test(dataProvider = "negativeProviderLoadImage")
+    public void notLoadImageIncorrectSize(String nameFileImg){
         addEventPage.loadImage(nameFileImg);
         assertFalse(addEventPage.getImage().isEnabled());
     }
@@ -330,7 +329,7 @@ public class ErrorsAddEventTest {
 
     @Test
     public void createEventWithoutData(){
-        addEventPage=new AddEventPage(SetUpProfile.getDriver(),SetUpProfile.getWebDriverWait());
+        addEventPage=new AddEventPage(setUpProfile.getDriver(),setUpProfile.getWebDriverWait());
         assertTrue(addEventPage.clickSave());
     }
 
@@ -450,5 +449,8 @@ public class ErrorsAddEventTest {
         assertFalse(addEventPage.getRequiredCity().isEnabled());
     }
 
-
+    @AfterClass
+    public void afterClass(){
+        setUpProfile.driverQuit();
+    }
 }

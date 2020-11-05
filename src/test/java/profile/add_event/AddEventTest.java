@@ -3,7 +3,6 @@ package profile.add_event;
 import jdbc.EventsRepository;
 import jdbc.UserInfoRepository;
 import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.*;
@@ -26,14 +25,15 @@ public class AddEventTest {
     private static EventMenu eventMenu;
     private static Properties prop;
     private static WebDriverWait webDriverWait;
+    SetUpProfile setUpProfile;
 
     @BeforeClass
-    public static void beforeClass() {
-        new SetUpProfile();
-        SetUpProfile.getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#full-width-tab-4")));
-        eventMenu=new EventMenu(SetUpProfile.getDriver());
-        prop=SetUpProfile.getProp();
-        webDriverWait=SetUpProfile.getWebDriverWait();
+    public void beforeClass() {
+        setUpProfile=new SetUpProfile();
+        setUpProfile.getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#full-width-tab-4")));
+        eventMenu=new EventMenu(setUpProfile.getDriver());
+        prop=new Properties();
+        webDriverWait=setUpProfile.getWebDriverWait();
         try (InputStream input = new FileInputStream("src\\test\\resources\\forProfile\\testDataProfile.properties")) {
             prop.load(input);
         } catch (IOException ex) {
@@ -41,11 +41,10 @@ public class AddEventTest {
         }
     }
 
-
     private void clearPageAddEvent(){
         eventMenu.clickFutureEvents();
         eventMenu.clickAddEvent();
-        addEventPage=new AddEventPage(SetUpProfile.getDriver(),webDriverWait);
+        addEventPage=new AddEventPage(setUpProfile.getDriver(),webDriverWait);
     }
 
 
@@ -74,7 +73,7 @@ public class AddEventTest {
         addEventPage.inputCity(city);
         addEventPage.inputHashtags(hashtagsToEnter);
         addEventPage.clickSave();
-        assertTrue(addEventPage.getCreatedEventMessage().isDisplayed());
+        assertTrue(addEventPage.isAppearCreatedEventMessage());
         assertEquals(EventsRepository.getAmountOfEvents(),amountOfEventsBefore+1);
     }
 
@@ -329,7 +328,6 @@ public class AddEventTest {
         addEventPage.inputDescription(description);
         addEventPage.inputCountry(country);
         addEventPage.inputCity(city);
-
         addEventPage.inputHashtags(hashtagsToEnter);
         assertTrue(addEventPage.isPageFull());
     }
@@ -341,4 +339,8 @@ public class AddEventTest {
                 UserInfoRepository.getColumnByEmail(prop.getProperty("email"),"Id"));
     }
 
+    @AfterClass
+    public void afterClass(){
+        setUpProfile.driverQuit();
+    }
 }
