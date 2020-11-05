@@ -15,7 +15,6 @@ import pages.navBar.SearchUserPage;
 
 public class SearchUserTest {
     WebDriver driver;
-    HomePageSearchMenu homePageSearchMenu;
     SearchUserPage searchUserPage;
 
     @BeforeMethod

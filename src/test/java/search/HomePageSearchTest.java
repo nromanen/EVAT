@@ -22,7 +22,7 @@ public class HomePageSearchTest {
     SearchResultPage searchResultPage;
     WebDriverWait wait;
 
-    @BeforeSuite
+    @BeforeClass
     public void createHashtagForTests(){
         String hashtagId = "38F785E3-B43E-46FF-3788-08D85413B488";
         String hashtagName = "Zoo";
@@ -31,13 +31,10 @@ public class HomePageSearchTest {
 
     @BeforeMethod
     public void setUp(){
-        new SetUpDriver();
-        driver = SetUpDriver.getDriver();
-//        driver = new ChromeDriver();
+        driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.get(HomePageSearchMenu.URL);
-        wait = SetUpDriver.getWebDriverWait();
-//        WebDriverWait wait = new WebDriverWait(driver, 30);
+        WebDriverWait wait = new WebDriverWait(driver, 30);
         searchResultPage = PageFactory.initElements(driver, SearchResultPage.class);
         wait.until(ExpectedConditions.visibilityOfAllElements(SearchResultPage.numberOfEvents));
         homePageSearchMenu = PageFactory.initElements(driver, HomePageSearchMenu.class);
@@ -45,7 +42,7 @@ public class HomePageSearchTest {
 
     @Test
     public void searchByKeywordWithOneWordTest() throws SQLException {
-        String[] keywords = new String[]{"гриби", "Бали", "Єв", "Kuta"};
+        String[] keywords = new String[]{"гриби", "Бали", "Ба", "Kuta"};
         SoftAssert softAssert = new SoftAssert();
         for (String keyword: keywords) {
             homePageSearchMenu.searchByKeyword(keyword);
@@ -184,12 +181,12 @@ public class HomePageSearchTest {
     @Test
     public void searchByHashtagWithIncorrectValueTest() {
         homePageSearchMenu.clickMoreFiltersButton().typeIncorrectHashtag("1");
-        Assert.assertEquals("The filter returned no results", homePageSearchMenu.getIncorrectHashtagText());
+        Assert.assertEquals(homePageSearchMenu.getIncorrectHashtagText(), "The filter returned no results");
     }
     @Test
     public void searchByDateWithIncorrectValueTest() {
         homePageSearchMenu.clickMoreFiltersButton().clearDateFrom().typeDateFrom(LocalDate.of(2020, 5, 5));
-        Assert.assertEquals(SearchRepository.getLocalDateNow(), homePageSearchMenu.getDateFromPickerText());
+        Assert.assertEquals(homePageSearchMenu.getDateFromPickerText(), SearchRepository.getLocalDateNow());
     }
     @Test
     public void searchByDateWithAnotherFormatTest() throws InterruptedException {
@@ -213,7 +210,7 @@ public class HomePageSearchTest {
     public void closeBrowser(){
         driver.quit();
     }
-    @AfterSuite
+    @AfterClass
     public void deleteHashtagForTest(){
         String hashtagId = "38F785E3-B43E-46FF-3788-08D85413B488";
         SearchRepository.deleteHashtag(hashtagId);
