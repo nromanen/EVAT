@@ -12,14 +12,16 @@ import pages.SignInUpMenu;
 import pages.homePageSearch.HomePageSearchMenu;
 import pages.navBar.ContactUsPage;
 import pages.navBar.SearchUserPage;
+import utility.SetUpDriver;
 
 public class ContactUsTest {
-    WebDriver driver;
     ContactUsPage contactUsPage;
+    SetUpDriver setUpDriver;
 
     @BeforeMethod
     public void setUp(){
-        driver = new ChromeDriver();
+        setUpDriver = new SetUpDriver();
+        WebDriver driver = setUpDriver.getDriver();
         driver.manage().window().maximize();
         driver.get(HomePageSearchMenu.URL);
         SignInUpMenu signInUpMenu = PageFactory.initElements(driver, SignInUpMenu.class);
@@ -63,7 +65,7 @@ public class ContactUsTest {
 
     @AfterMethod
     public void closeBrowser(){
-        driver.quit();
+        setUpDriver.driverQuit();
     }
 
 }

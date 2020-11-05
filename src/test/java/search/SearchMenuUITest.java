@@ -14,19 +14,18 @@ import utility.SetUpDriver;
 import java.time.LocalDate;
 
 public class SearchMenuUITest {
-    WebDriver driver;
     HomePageSearchMenu homePageSearchMenu;
     SearchResultPage searchResultPage;
-    WebDriverWait wait;
+    SetUpDriver setUpDriver;
+
 
     @BeforeMethod
     public void setUp(){
-        driver = SetUpDriver.getDriver();
-//        driver = new ChromeDriver();
+        setUpDriver = new SetUpDriver();
+        WebDriver driver = setUpDriver.getDriver();
         driver.manage().window().maximize();
         driver.get(HomePageSearchMenu.URL);
-        wait = SetUpDriver.getWebDriverWait();
-//        WebDriverWait wait = new WebDriverWait(driver, 30);
+        WebDriverWait wait = setUpDriver.getWebDriverWait();
         searchResultPage = PageFactory.initElements(driver, SearchResultPage.class);
         homePageSearchMenu = PageFactory.initElements(driver, HomePageSearchMenu.class);
     }
@@ -62,6 +61,6 @@ public class SearchMenuUITest {
 
     @AfterMethod
     public void closeBrowser(){
-        driver.quit();
+        setUpDriver.driverQuit();
     }
 }

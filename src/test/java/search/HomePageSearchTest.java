@@ -17,10 +17,9 @@ import java.util.concurrent.TimeUnit;
 
 
 public class HomePageSearchTest {
-    WebDriver driver;
     HomePageSearchMenu homePageSearchMenu;
     SearchResultPage searchResultPage;
-    WebDriverWait wait;
+    SetUpDriver setUpDriver;
 
     @BeforeClass
     public void createHashtagForTests(){
@@ -31,10 +30,11 @@ public class HomePageSearchTest {
 
     @BeforeMethod
     public void setUp(){
-        driver = new ChromeDriver();
+        setUpDriver = new SetUpDriver();
+        WebDriver driver = setUpDriver.getDriver();
         driver.manage().window().maximize();
         driver.get(HomePageSearchMenu.URL);
-        wait = new WebDriverWait(driver, 30);
+        WebDriverWait wait = setUpDriver.getWebDriverWait();
         searchResultPage = PageFactory.initElements(driver, SearchResultPage.class);
         wait.until(ExpectedConditions.visibilityOfAllElements(SearchResultPage.numberOfEvents));
         homePageSearchMenu = PageFactory.initElements(driver, HomePageSearchMenu.class);
@@ -200,15 +200,16 @@ public class HomePageSearchTest {
         softAssert.assertAll();
     }
     @Test
-    public void searchByHashtagWithNoEventsTest() throws InterruptedException {
+    public void searchByHashtagWithNoEventsTest() {
         homePageSearchMenu.clickMoreFiltersButton().typeHashtag("Zoo").clickSearchButton();
+        WebDriverWait wait = setUpDriver.getWebDriverWait();
         wait.until(ExpectedConditions.visibilityOf(searchResultPage.noResultText));
         Assert.assertEquals(searchResultPage.getNoResultText(), "No Results");
     }
 
     @AfterMethod
     public void closeBrowser(){
-        driver.quit();
+        setUpDriver.driverQuit();
     }
     @AfterClass
     public void deleteHashtagForTest(){

@@ -12,14 +12,16 @@ import pages.SignInUpMenu;
 import pages.comuna.ChatWithUserPage;
 import pages.comuna.ComunaPage;
 import pages.homePageSearch.HomePageSearchMenu;
+import utility.SetUpDriver;
 
 public class ChatWithUserTest {
-    WebDriver driver;
     ChatWithUserPage chatWithUserPage;
+    SetUpDriver setUpDriver;
 
     @BeforeMethod
     public void setUp(){
-        driver = new ChromeDriver();
+        setUpDriver = new SetUpDriver();
+        WebDriver driver = setUpDriver.getDriver();
         driver.manage().window().maximize();
         driver.get(HomePageSearchMenu.URL);
         SignInUpMenu signInUpMenu = PageFactory.initElements(driver, SignInUpMenu.class);
@@ -55,6 +57,6 @@ public class ChatWithUserTest {
 
     @AfterMethod
     public void closeBrowser(){
-        driver.quit();
+        setUpDriver.driverQuit();
     }
 }

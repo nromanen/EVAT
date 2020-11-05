@@ -12,14 +12,16 @@ import pages.HomePageNavBar;
 import pages.SignInUpMenu;
 import pages.homePageSearch.HomePageSearchMenu;
 import pages.navBar.SearchUserPage;
+import utility.SetUpDriver;
 
 public class SearchUserTest {
-    WebDriver driver;
     SearchUserPage searchUserPage;
+    SetUpDriver setUpDriver;
 
     @BeforeMethod
     public void setUp(){
-        driver = new ChromeDriver();
+        setUpDriver = new SetUpDriver();
+        WebDriver driver = setUpDriver.getDriver();
         driver.manage().window().maximize();
         driver.get(HomePageSearchMenu.URL);
         SignInUpMenu signInUpMenu = PageFactory.initElements(driver, SignInUpMenu.class);
@@ -51,6 +53,6 @@ public class SearchUserTest {
 
     @AfterMethod
     public void closeBrowser(){
-        driver.quit();
+        setUpDriver.driverQuit();
     }
 }
