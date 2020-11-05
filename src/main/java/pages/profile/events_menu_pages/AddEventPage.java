@@ -116,7 +116,7 @@ public class AddEventPage{
         try {
             return driver.findElement(findElement);
         } catch (NoSuchElementException e){
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
        return null;
     }
@@ -209,12 +209,14 @@ public class AddEventPage{
             hashtags.sendKeys(str);
             hashtags.sendKeys(Keys.ENTER);
         }
+        hashtags.sendKeys(Keys.ESCAPE);
         errorTooManyHashtags=initElement(findErrorTooManyHashtags);
         return true;
     }
 
     public boolean inputCountry(String text) {
         if (country != null && country.getOptions()!= null) {
+            webDriverWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div:nth-child(8) > div > div > select > option:nth-child(2)")));
             country.selectByVisibleText(text);
             if(city==null){
                 webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(findCity));
@@ -234,7 +236,7 @@ public class AddEventPage{
         if(country.getFirstSelectedOption()==null ) return false;
         else
             if (city.getOptions() != null) {
-                webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#age-native-simple > option:nth-child(2)")));
+                webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div:nth-child(9) > div > div > select > option:nth-child(2)")));
                 city.selectByVisibleText(text);
                 return true;
             }
@@ -261,28 +263,27 @@ public class AddEventPage{
     }
 
     public boolean isPageEmpty(){
-        List<WebElement> hashtags = driver.findElements(By.cssSelector("#rw_1_taglist > li > span"));
+        List<WebElement> hashtags = driver.findElements(By.cssSelector("#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div:nth-child(7) > div > div.rw-widget-input.rw-widget-picker.rw-widget-container > div > ul >li"));
         if(initElement(imageSelector)==null &&
                 title.getAttribute("value").isEmpty() &&
                 participants.getAttribute("value").isEmpty() &&
                 description.getAttribute("value").isEmpty() &&
                 hashtags.isEmpty() &&
-                country.getFirstSelectedOption().getText().isBlank() &&
-                city==null)
+                country.getFirstSelectedOption().getText().isBlank())
             return true;
         return false;
     }
 
     public boolean isPageFull(){
-        List<WebElement> hashtags = driver.findElements(By.cssSelector("#rw_1_taglist > li > span"));
-        if(image!=null &&
+        List<WebElement> hashtags = driver.findElements(By.cssSelector("#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div:nth-child(7) > div > div.rw-widget-input.rw-widget-picker.rw-widget-container > div > ul >li"));
+        if(fileUploader==null &&
                 !title.getAttribute("value").isEmpty() &&
                 !participants.getAttribute("value").isEmpty() &&
                 !dateFrom.getAttribute("value").isEmpty() &&
                 !description.getAttribute("value").isEmpty() &&
                 !hashtags.isEmpty() &&
                 !country.getFirstSelectedOption().getText().isBlank() &&
-                city!=null)
+                !city.getFirstSelectedOption().getText().isBlank())
             return true;
         return false;
     }
@@ -296,7 +297,7 @@ public class AddEventPage{
                 webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(findCreatedEventMessage));
                 createdEventMessage = initElement(findCreatedEventMessage);
             } catch (TimeoutException e){
-                System.out.println(e.getMessage());
+                e.printStackTrace();
             }
         }else {
             if (fileUploader != null) requiredImage = initElement(findRequiredImage);

@@ -1,6 +1,7 @@
 package profile.add_event;
 
 import jdbc.EventsRepository;
+import jdbc.UserInfoRepository;
 import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -33,7 +34,7 @@ public class AddEventTest {
         eventMenu=new EventMenu(SetUpProfile.getDriver());
         prop=SetUpProfile.getProp();
         webDriverWait=SetUpProfile.getWebDriverWait();
-        try (InputStream input = new FileInputStream("src\\test\\resources\\forProfile\\testDataAddEvent.properties")) {
+        try (InputStream input = new FileInputStream("src\\test\\resources\\forProfile\\testDataProfile.properties")) {
             prop.load(input);
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -69,11 +70,10 @@ public class AddEventTest {
         addEventPage.inputDateFrom(dateFrom);
         addEventPage.inputDateTo(dateTo);
         addEventPage.inputDescription(description);
-        addEventPage.inputHashtags(hashtagsToEnter);
         addEventPage.inputCountry(country);
         addEventPage.inputCity(city);
+        addEventPage.inputHashtags(hashtagsToEnter);
         addEventPage.clickSave();
-        System.out.println("Hello");
         assertTrue(addEventPage.getCreatedEventMessage().isDisplayed());
         assertEquals(EventsRepository.getAmountOfEvents(),amountOfEventsBefore+1);
     }
@@ -104,9 +104,9 @@ public class AddEventTest {
         addEventPage.inputDateFrom(dateFrom);
         addEventPage.inputDateTo(dateTo);
         addEventPage.inputDescription(description);
-        addEventPage.inputHashtags(hashtagsToEnter);
         addEventPage.inputCountry(country);
         addEventPage.inputCity(city);
+        addEventPage.inputHashtags(hashtagsToEnter);
         addEventPage.clickSave();
         assertTrue(addEventPage.getRequiredImage().isDisplayed());
         assertEquals(EventsRepository.getAmountOfEvents(),amountOfEventsBefore);
@@ -142,9 +142,9 @@ public class AddEventTest {
         addEventPage.inputDateFrom(dateFrom);
         addEventPage.inputDateTo(dateTo);
         addEventPage.inputDescription(description);
-        addEventPage.inputHashtags(hashtagsToEnter);
         addEventPage.inputCountry(country);
         addEventPage.inputCity(city);
+        addEventPage.inputHashtags(hashtagsToEnter);
         addEventPage.clickSave();
         assertTrue(addEventPage.getRequiredTitle().isDisplayed());
         assertEquals(EventsRepository.getAmountOfEvents(),amountOfEventsBefore);
@@ -180,9 +180,9 @@ public class AddEventTest {
         addEventPage.inputParticipants(participants);
         addEventPage.inputDateFrom(dateFrom);
         addEventPage.inputDateTo(dateTo);
-        addEventPage.inputHashtags(hashtagsToEnter);
         addEventPage.inputCountry(country);
         addEventPage.inputCity(city);
+        addEventPage.inputHashtags(hashtagsToEnter);
         addEventPage.clickSave();
         assertTrue(addEventPage.getRequiredDescription().isDisplayed());
         assertEquals(EventsRepository.getAmountOfEvents(),amountOfEventsBefore);
@@ -291,8 +291,8 @@ public class AddEventTest {
         addEventPage.inputDateFrom(dateFrom);
         addEventPage.inputDateTo(dateTo);
         addEventPage.inputDescription(description);
-        addEventPage.inputHashtags(hashtagsToEnter);
         addEventPage.inputCountry(country);
+        addEventPage.inputHashtags(hashtagsToEnter);
         addEventPage.clickSave();
         assertTrue(addEventPage.getRequiredCity().isDisplayed());
         assertEquals(EventsRepository.getAmountOfEvents(),amountOfEventsBefore);
@@ -327,11 +327,18 @@ public class AddEventTest {
         addEventPage.inputDateFrom(dateFrom);
         addEventPage.inputDateTo(dateTo);
         addEventPage.inputDescription(description);
-        addEventPage.inputHashtags(hashtagsToEnter);
         addEventPage.inputCountry(country);
         addEventPage.inputCity(city);
+
+        addEventPage.inputHashtags(hashtagsToEnter);
         assertTrue(addEventPage.isPageFull());
     }
 
+
+    @AfterClass
+    public void clearEnteredData(){
+        EventsRepository.deleteEvents(prop.getProperty("correctTitle"),prop.getProperty("correctDescription"),
+                UserInfoRepository.getColumnByEmail(prop.getProperty("email"),"Id"));
+    }
 
 }
