@@ -34,7 +34,7 @@ public class HomePageSearchTest {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.get(HomePageSearchMenu.URL);
-        WebDriverWait wait = new WebDriverWait(driver, 30);
+        wait = new WebDriverWait(driver, 30);
         searchResultPage = PageFactory.initElements(driver, SearchResultPage.class);
         wait.until(ExpectedConditions.visibilityOfAllElements(SearchResultPage.numberOfEvents));
         homePageSearchMenu = PageFactory.initElements(driver, HomePageSearchMenu.class);
@@ -171,7 +171,7 @@ public class HomePageSearchTest {
         Assert.assertEquals(searchResultPage.getNumberOfEvents(), SearchRepository.getNumberOfEventsByDatesAndHashtag(date1, date2, hashtag));
     }
     @Test
-    public void searchByKeywordAndAndDateAndHashtagTest() throws SQLException {
+    public void searchByKeywordAndDateAndHashtagTest() throws SQLException {
         String keyword = "гриби";
         LocalDate date = LocalDate.of(2020, 11, 1);
         String hashtag = "Mount";

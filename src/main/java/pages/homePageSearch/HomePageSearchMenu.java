@@ -143,11 +143,6 @@ public class HomePageSearchMenu {
     public HomePageSearchMenu typeHashtag(String hashtag){
         hashtagField.sendKeys(hashtag);
         hashtagField.sendKeys(Keys.ENTER);
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         hashtagField.sendKeys(Keys.ESCAPE);
         return this;
     }
