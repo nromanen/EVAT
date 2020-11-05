@@ -3,12 +3,14 @@ package search;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import pages.homePageSearch.HomePageSearchMenu;
 import pages.homePageSearch.SearchResultPage;
+import utility.SetUpDriver;
+
 import java.time.LocalDate;
 
 public class SearchMenuUITest {
@@ -21,6 +23,7 @@ public class SearchMenuUITest {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.get(HomePageSearchMenu.URL);
+        WebDriverWait wait = new WebDriverWait(driver, 30);
         searchResultPage = PageFactory.initElements(driver, SearchResultPage.class);
         homePageSearchMenu = PageFactory.initElements(driver, HomePageSearchMenu.class);
     }
@@ -48,8 +51,9 @@ public class SearchMenuUITest {
 
     @Test
     public void testTypeHashtag() {
-        String hashtag = "Summer";
-        homePageSearchMenu.clickMoreFiltersButton().typeHashtag(hashtag);
+        String hashtag = "Mount";
+        homePageSearchMenu.clickMoreFiltersButton();
+        homePageSearchMenu.typeHashtag(hashtag);
         Assert.assertEquals(homePageSearchMenu.getChosenHashtagText(), hashtag);
     }
 

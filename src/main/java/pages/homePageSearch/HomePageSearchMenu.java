@@ -1,10 +1,13 @@
 package pages.homePageSearch;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.Select;
+import pages.navBar.ContactUsPage;
 import utility.EventElement;
 
 import java.time.LocalDate;
@@ -18,11 +21,8 @@ public class HomePageSearchMenu {
         PageFactory.initElements(driver,this);
     }
 
-    @FindBy(name = "search")
-    public WebElement keywordField;
-
     @FindBy(css = ".MuiInputBase-input")
-    public WebElement keywordFieldValue;
+    public WebElement keywordField;
 
     @FindBy(css = ".box > div:nth-child(2) > button:nth-child(1) > span:nth-child(1)")
     public WebElement  moreFiltersButton;
@@ -143,9 +143,15 @@ public class HomePageSearchMenu {
     public HomePageSearchMenu typeHashtag(String hashtag){
         hashtagField.sendKeys(hashtag);
         hashtagField.sendKeys(Keys.ENTER);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         hashtagField.sendKeys(Keys.ESCAPE);
         return this;
     }
+
     public HomePageSearchMenu typeIncorrectHashtag(String hashtag){
         EventElement element = new EventElement(driver, hashtagButton);
         hashtagField.sendKeys(hashtag);
@@ -239,7 +245,7 @@ public class HomePageSearchMenu {
         return incorrectKeywordTooLong.getText();
     }
     public String getKeywordFieldText(){
-        return keywordFieldValue.getAttribute("value");
+        return keywordField.getAttribute("value");
     }
     public String getDateFromPickerText(){
         return dateFromPickerValue.getAttribute("value");

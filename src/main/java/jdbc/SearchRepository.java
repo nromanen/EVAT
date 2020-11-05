@@ -1,4 +1,11 @@
 package jdbc;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import pages.homePageSearch.HomePageSearchMenu;
+import pages.homePageSearch.SearchResultPage;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -105,4 +112,17 @@ public class SearchRepository {
         return getNumberOfFoundedEvents(query);
     }
 
+//    public static void main(String[] args) {
+////        deleteHashtag("38F785E3-B43E-46FF-3788-08D85413B488");
+//        WebDriver driver = new ChromeDriver();
+//        driver.manage().window().maximize();
+//        driver.get(HomePageSearchMenu.URL);
+//        WebDriverWait wait = new WebDriverWait(driver, 30);
+//        SearchResultPage searchResultPage = PageFactory.initElements(driver, SearchResultPage.class);
+//        HomePageSearchMenu homePageSearchMenu = PageFactory.initElements(driver, HomePageSearchMenu.class);
+//        String hashtag = "Mount";
+//        homePageSearchMenu.clickMoreFiltersButton();
+//        homePageSearchMenu.typeHashtag(hashtag);
+//        System.out.println(homePageSearchMenu.getChosenHashtagText());
+//    }
 }
