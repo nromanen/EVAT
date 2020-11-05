@@ -17,13 +17,16 @@ public class SearchMenuUITest {
     WebDriver driver;
     HomePageSearchMenu homePageSearchMenu;
     SearchResultPage searchResultPage;
+    WebDriverWait wait;
 
     @BeforeMethod
     public void setUp(){
-        driver = new ChromeDriver();
+        driver = SetUpDriver.getDriver();
+//        driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.get(HomePageSearchMenu.URL);
-        WebDriverWait wait = new WebDriverWait(driver, 30);
+        wait = SetUpDriver.getWebDriverWait();
+//        WebDriverWait wait = new WebDriverWait(driver, 30);
         searchResultPage = PageFactory.initElements(driver, SearchResultPage.class);
         homePageSearchMenu = PageFactory.initElements(driver, HomePageSearchMenu.class);
     }
@@ -44,7 +47,7 @@ public class SearchMenuUITest {
 
     @Test
     public void testTypeDateTo() {
-        LocalDate date = LocalDate.of(2020, 12, 12);
+        LocalDate date = LocalDate.of(2020, 12, 13);
         homePageSearchMenu.clickMoreFiltersButton().clearDateTo().typeDateTo(date);
         Assert.assertEquals(homePageSearchMenu.getDateToPickerText(), date.getMonthValue() + "/" + date.getDayOfMonth() + "/" + date.getYear());
     }
