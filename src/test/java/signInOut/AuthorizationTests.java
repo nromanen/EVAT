@@ -1,31 +1,26 @@
 package signInOut;
-
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
 import pages.SignInUpMenu;
+import pages.homePageSearch.HomePageSearchMenu;
+import utility.SetUpDriver;
 
 public class AuthorizationTests {
-    final String WEBSITE_URL = "https://eventsexpress-test.azurewebsites.net/home/events?page=1";
-    final String DRIVER_PATH = "/Users/illyashulman/EventExpressTest/src/test/resources/geckodriver";
-    WebDriver driver;
     SignInUpMenu signInUpMenu;
+    SetUpDriver setUpDriver;
 
-    @BeforeTest
-    public void setup(){
-        System.setProperty("webdriver.gecko.driver", DRIVER_PATH);
-        driver = new FirefoxDriver();
-    }
+
     @BeforeMethod
-    public void loadPage(){
-        driver.get(WEBSITE_URL);
+    public void setup(){
+        setUpDriver = new SetUpDriver();
+        WebDriver driver = setUpDriver.getDriver();
+        driver.manage().window().maximize();
+        driver.get(HomePageSearchMenu.URL);
+        signInUpMenu = PageFactory.initElements(driver, SignInUpMenu.class);
     }
-
     @DataProvider(name = "signInData")
     public Object[][] provideSignInData(){
         return new Object[][]{{"carat98@icloud.com","1234567","\"Invalid password\""},
@@ -37,15 +32,12 @@ public class AuthorizationTests {
         String login = "carat98@icloud.com";
         String password = "12345678";
         String userName = "carat98";
-
-        signInUpMenu = new SignInUpMenu(driver);
         signInUpMenu.authoriseAndWaitUser(login,password,signInUpMenu.userHeader);
         Assert.assertEquals(signInUpMenu.getUserName(),userName);
     }
 
     @Test(dataProvider = "signInData", priority = 3)
     public void testErrorSignInMessages(String email, String password, String correctMessage){
-        signInUpMenu = new SignInUpMenu(driver);
         signInUpMenu.authoriseAndWaitUser(email,password,signInUpMenu.errorMessage);
         Assert.assertTrue(signInUpMenu.getLoginError().contains(correctMessage));
     }
@@ -54,8 +46,6 @@ public class AuthorizationTests {
     public void testClearButton(){
         String login = "carat98@icloud.com";
         String password = "12345678";
-
-        signInUpMenu = new SignInUpMenu(driver);
         signInUpMenu.clickSignInOut();
         signInUpMenu.clickEmail();
         signInUpMenu.setEmail(login);
@@ -72,22 +62,18 @@ public class AuthorizationTests {
     public void testCancelButton(){
         String login = "carat98@icloud.com";
         String password = "12345678";
-
-        signInUpMenu = new SignInUpMenu(driver);
         signInUpMenu.clickSignInOut();
         signInUpMenu.clickEmail();
         signInUpMenu.setEmail(login);
         signInUpMenu.clickPassword();
         signInUpMenu.setPassword(password);
         signInUpMenu.clickCancel();
-
         Assert.assertTrue(signInUpMenu.signInOut.isDisplayed());
     }
 
-
-    @AfterSuite
+    @AfterMethod
     public void closeBrowser(){
-        driver.quit();
+        setUpDriver.driverQuit();
     }
 
 }

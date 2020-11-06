@@ -1,27 +1,27 @@
 package signInOut;
 
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
 import pages.SignInUpMenu;
+import pages.homePageSearch.HomePageSearchMenu;
+import utility.SetUpDriver;
 
 
 public class RegistrationTests {
-    final String WEBSITE_URL = "https://eventsexpress-test.azurewebsites.net/home/events?page=1";
-    final String DRIVER_PATH = "/Users/illyashulman/EventExpressTest/src/test/resources/geckodriver";
-    WebDriver driver;
     SignInUpMenu signInUpMenu;
+    SetUpDriver setUpDriver;
 
-    @BeforeTest
+
+   @BeforeMethod
     public void setup() {
-        System.setProperty("webdriver.gecko.driver", DRIVER_PATH);
-        driver = new FirefoxDriver();
-
+        setUpDriver = new SetUpDriver();
+        WebDriver driver = setUpDriver.getDriver();
+        driver.manage().window().maximize();
+        driver.get(HomePageSearchMenu.URL);
+        signInUpMenu = PageFactory.initElements(driver, SignInUpMenu.class);
     }
 
     @DataProvider(name = "registerData")
@@ -37,22 +37,15 @@ public class RegistrationTests {
     }
     @Test(priority=3)
     public void testRegistrationWithExistingEmail() {
-        driver.get(WEBSITE_URL);
         String email = "carat98@icloud.com";
         String password = "090909iS";
-        signInUpMenu = new SignInUpMenu(driver);
-        SignInUpMenu signInUpMenu = new SignInUpMenu(driver);
         signInUpMenu.registerUser(email, password,password);
         Assert.assertEquals(signInUpMenu.getRegistrationErrorMessage(), "Email already exists in database");
     }
 
     @Test(priority = 2)
     public void testRegistrationWithEmptyMandatoryFields() {
-
-        driver.get(WEBSITE_URL);
         String correctMessage = "Required";
-
-        signInUpMenu = new SignInUpMenu(driver);
         signInUpMenu.clickSignInOut();
         signInUpMenu.clickRegisterButton();
         signInUpMenu.clickEmail();
@@ -68,8 +61,6 @@ public class RegistrationTests {
 
     @Test(dataProvider = "registerData",priority = 1)
     public void testPasswordField(String email, String password, String confirmPassword, String correctError){
-        driver.get(WEBSITE_URL);
-        signInUpMenu = new SignInUpMenu(driver);
         signInUpMenu.registerUser(email,password,confirmPassword);
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertEquals(signInUpMenu.getPasswordErrorMessage(),correctError);
@@ -79,14 +70,12 @@ public class RegistrationTests {
 
     @Test(dataProvider = "emailData",priority = 0)
     public void testEmailField(String email,String password, String correctMessage){
-        driver.get(WEBSITE_URL);
-        signInUpMenu = new SignInUpMenu(driver);
         signInUpMenu.registerUser(email,password,password);
         Assert.assertEquals(signInUpMenu.getEmailErrorMessage(),correctMessage);
     }
 
-    @AfterSuite
+    @AfterMethod
     public void closeBrowser(){
-        driver.quit();
+        setUpDriver.driverQuit();
     }
 }
