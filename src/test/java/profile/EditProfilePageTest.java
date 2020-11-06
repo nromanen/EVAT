@@ -11,6 +11,8 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+
+import pages.SignInUpMenu;
 import pages.navBar.EditProfilePage;
 import utility.SetUpDriver;
 
@@ -20,12 +22,11 @@ public class EditProfilePageTest {
 	private WebDriverWait wait;
 	private SetUpDriver setUpDriver;
 	private EditProfilePage editProfilePage;
+	private SignInUpMenu signInUpMenu;
 	
-	private String url = "https://eventsexpress.azurewebsites.net/home/events?page=1";
-	private By signInUpButton = By.xpath("//span[contains(text(),'Sign In/Up')]");
-	private By email = By.name("email");
-	private By password = By.name("password");
-	private By signin = By.cssSelector(".MuiDialogActions-root > button:nth-child(2)");
+	private String url = "https://eventsexpress-test.azurewebsites.net/home/events?page=1";
+	private String email = "d.bozhevilnyi@gmail.com";
+	private String pass = "131089";
 	private By editYourProfileButton = By.xpath("//*[@id=\"root\"]/div[2]/div/div/div/div[2]/a[1]/button/span[1]");
 	private String imagePath = "C:\\resources\\img.jpg";
 
@@ -35,16 +36,14 @@ public class EditProfilePageTest {
 		driver = setUpDriver.getDriver();
 		wait = setUpDriver.getWebDriverWait();
 		editProfilePage = PageFactory.initElements(driver, EditProfilePage.class);
+		signInUpMenu = PageFactory.initElements(driver, SignInUpMenu.class);
 		driver.manage().window().maximize();
 	}
 
 	@BeforeClass
 	public void profileSetup() {
 		driver.get(url);
-		driver.findElement(signInUpButton).click();
-		driver.findElement(email).sendKeys("d.bozhevilnyi@gmail.com");
-		driver.findElement(password).sendKeys("131089");
-		driver.findElement(signin).click();
+		signInUpMenu.authoriseUser(email,pass);
 		wait.until(ExpectedConditions.elementToBeClickable(editYourProfileButton));
 		driver.findElement(editYourProfileButton).click();
 	}
