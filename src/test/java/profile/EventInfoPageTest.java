@@ -4,7 +4,6 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -15,11 +14,13 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import pages.EventInfoPage;
+import utility.SetUpDriver;
 
 public class EventInfoPageTest {
 	
 	private WebDriver driver;
 	private WebDriverWait wait;
+	private SetUpDriver setUpDriver;
 	private EventInfoPage eventInfoPage;
 	
 	private String url = "https://eventsexpress.azurewebsites.net/home/events?page=1";
@@ -32,9 +33,9 @@ public class EventInfoPageTest {
 
 	@BeforeTest
 	public void setUp() {
-		System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\chromedriver.exe");
-		driver = new ChromeDriver();
-		wait = new WebDriverWait(driver, 10);
+		setUpDriver = new SetUpDriver();
+		driver = setUpDriver.getDriver();
+		wait = setUpDriver.getWebDriverWait();
 		eventInfoPage = PageFactory.initElements(driver, EventInfoPage.class);
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		driver.manage().window().maximize();
@@ -47,7 +48,7 @@ public class EventInfoPageTest {
 		driver.findElement(email).sendKeys("d.bozhevilnyi@gmail.com");
 		driver.findElement(password).sendKeys("131089");
 		driver.findElement(signin).click();
-//		wait.until(ExpectedConditions.elementToBeClickable(eventInfoButton));
+		wait.until(ExpectedConditions.elementToBeClickable(eventInfoButton));
 		driver.findElement(eventInfoButton).click();
 	}
 	
@@ -72,7 +73,7 @@ public class EventInfoPageTest {
 	
 	@Test(priority = 4)
 	public void leaveEvent() {
-		eventInfoPage.joinEvent();
+		eventInfoPage.leaveEvent();
 		wait.until(ExpectedConditions.elementToBeClickable(eventInfoPage.joinEventButton));
 		Assert.assertEquals(eventInfoPage.joinEventStatusText(), "Join");
 	}
@@ -84,6 +85,6 @@ public class EventInfoPageTest {
 
 	@AfterTest
 	public void closeUp() {
-		driver.close();
+		setUpDriver.driverQuit();
 	}
 }
