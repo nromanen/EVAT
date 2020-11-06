@@ -2,10 +2,12 @@ package profile;
 
 import java.util.concurrent.TimeUnit;
 import org.testng.annotations.Test;
+
+import utility.SetUpDriver;
+
 import org.testng.annotations.BeforeTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
@@ -13,6 +15,7 @@ import org.testng.annotations.BeforeClass;
 public class EventsNotificationPageTest {
 	
 	private WebDriver driver;
+	private SetUpDriver setUpDriver;
 	
 	private String url = "https://eventsexpress.azurewebsites.net/home/events?page=1";
 	private By signInUpButton = By.xpath("//span[contains(text(),'Sign In/Up')]");
@@ -24,8 +27,8 @@ public class EventsNotificationPageTest {
 	
 	@BeforeTest
 	public void setUp() {
-		System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\chromedriver.exe");
-		driver = new ChromeDriver();
+		setUpDriver = new SetUpDriver();
+		driver = setUpDriver.getDriver();
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		driver.manage().window().maximize();
 	}
@@ -47,6 +50,6 @@ public class EventsNotificationPageTest {
 
 	@AfterTest
 	public void closeUp() {
-		driver.close();
+		setUpDriver.driverQuit();
 	}
 }
