@@ -110,12 +110,12 @@ public class EditProfilePage {
 	
 	public void clickOnClearAvatarButton() {
 		EventElement ee = new EventElement(driver, clearAvatarButton);
-		ee.clickAndWait(clearAvatarButton);
+		ee.click();
 	}
 	
 	public void clickOnSubmitAvatarButton() {
 		EventElement ee = new EventElement(driver, submitAvatarButton);
-		ee.clickAndWait(submitAvatarButton);
+		ee.click();
 	}
 	
 	public void loadAvatar(String imagePath) {
@@ -151,7 +151,8 @@ public class EditProfilePage {
 	}
 	
 	public void clickOnGenderField() {
-		genderField.click();
+		EventElement ee = new EventElement(driver, genderField);
+		ee.clickAndWait(chooseGenderDropDownList);
 	}
 	
 	public void clickOnChooseGenderDropDownList() {
@@ -203,12 +204,12 @@ public class EditProfilePage {
 	}
 	
 	public void clickOnFavoriteCategoriesField() {
-		favoriteCategoriesField.click();
+		EventElement ee = new EventElement(driver, favoriteCategoriesField);
+		ee.clickAndWait(favoriteCategoriesDropDownList);
 	}
 	
 	public void clickOnFavoriteCategoriesDropDownList() {
-		EventElement ee = new EventElement(driver, favoriteCategoriesDropDownList);
-		ee.clickAndWait(favoriteCategoriesDropDownList);
+		favoriteCategoriesDropDownList.click();
 	}
 	
 	public void clickOnEmptyFieldFavoriteCategories() {
@@ -216,8 +217,7 @@ public class EditProfilePage {
 	}
 	
 	public void clickOnFavoriteCategoriesSaveButton() {
-		EventElement ee = new EventElement(driver, favoriteCategoriesSaveButton);
-		ee.clickAndWait(favoriteCategoriesSaveButton);
+		favoriteCategoriesSaveButton.click();
 	}
 	
 	public void selectCategory(String category) {
@@ -225,9 +225,10 @@ public class EditProfilePage {
 		driver.findElement(By.xpath(categoryXpath)).click();
 	}
 	
-	public void chooseFavoriteCategories(String category) {
+	public void chooseFavoriteCategories(String category) throws InterruptedException {
 		clickOnFavoriteCategoriesField();
 		clickOnFavoriteCategoriesDropDownList();
+		Thread.sleep(500);
 		selectCategory(category);
 		clickOnEmptyFieldFavoriteCategories();
 		clickOnFavoriteCategoriesSaveButton();
