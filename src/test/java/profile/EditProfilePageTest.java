@@ -3,7 +3,6 @@ package profile;
 import java.time.LocalDate;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -13,11 +12,13 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import pages.navBar.EditProfilePage;
+import utility.SetUpDriver;
 
 class EditProfilePageTest {
 
 	private WebDriver driver;
 	private WebDriverWait wait;
+	private SetUpDriver setUpDriver;
 	private EditProfilePage editProfilePage;
 	
 	private String url = "https://eventsexpress.azurewebsites.net/home/events?page=1";
@@ -30,9 +31,9 @@ class EditProfilePageTest {
 
 	@BeforeTest
 	public void setUp() {
-		System.setProperty("webdriver.chrome.driver", "src\\main\\resources\\chromedriver.exe");
-		driver = new ChromeDriver();
-		wait = new WebDriverWait(driver, 10);
+		setUpDriver = new SetUpDriver();
+		driver = setUpDriver.getDriver();
+		wait = setUpDriver.getWebDriverWait();
 		editProfilePage = PageFactory.initElements(driver, EditProfilePage.class);
 		driver.manage().window().maximize();
 	}
@@ -41,49 +42,49 @@ class EditProfilePageTest {
 	public void profileSetup() {
 		driver.get(url);
 		driver.findElement(signInUpButton).click();
-		driver.findElement(email).sendKeys(System.getenv().get("EMAIL_EVENT_EX"));
-		driver.findElement(password).sendKeys(System.getenv().get("PASSWORD_EVENT_EX"));
+		driver.findElement(email).sendKeys("d.bozhevilnyi@gmail.com");
+		driver.findElement(password).sendKeys("131089");
 		driver.findElement(signin).click();
 		wait.until(ExpectedConditions.elementToBeClickable(editYourProfileButton));
 		driver.findElement(editYourProfileButton).click();
 	}
 	
-	@Test(priority = 1)
+	@Test
 	public void changeAvatarTest() {
 		editProfilePage.changeAvatar(imagePath);
 		wait.until(ExpectedConditions.visibilityOf(editProfilePage.clientSnackbar));
 		Assert.assertEquals(editProfilePage.getClientSnackbarText(), "Avatar is update");
 	}
 	
-	@Test(priority = 2)
+	@Test
 	public void changeUsernameTest() {
 		editProfilePage.changeUserName("Saul");
 		wait.until(ExpectedConditions.visibilityOf(editProfilePage.clientSnackbar));
 		Assert.assertEquals(editProfilePage.getClientSnackbarText(), "Username is changed");
 	}
 	
-	@Test(priority = 3)
+	@Test
 	public void chooseGenderTest() {
 		editProfilePage.chooseGender("Male");
 		wait.until(ExpectedConditions.visibilityOf(editProfilePage.clientSnackbar));
 		Assert.assertEquals(editProfilePage.getClientSnackbarText(), "Set gender successed");
 	}
 	
-	@Test(priority = 4)
+	@Test
 	public void setDateOfBirthTest() {
 		editProfilePage.setDateOfBirth(LocalDate.of(1989, 10, 13));
 		wait.until(ExpectedConditions.visibilityOf(editProfilePage.clientSnackbar));
 		Assert.assertEquals(editProfilePage.getClientSnackbarText(), "Set date of birth successed");
 	}
 	
-	@Test(priority = 5)
-	public void chooseFavoriteCategoriesTest() {
-		editProfilePage.chooseFavoriteCategories("Sea");
+	@Test
+	public void chooseFavoriteCategoriesTest() throws InterruptedException {
+		editProfilePage.chooseFavoriteCategories("Summer");
 		wait.until(ExpectedConditions.visibilityOf(editProfilePage.clientSnackbar));
 		Assert.assertEquals(editProfilePage.getClientSnackbarText(), "Favarote categoris is updated");
 	}
 	
-	@Test(priority = 6)
+	@Test
 	public void changePasswordTest() {
 		editProfilePage.changePassword("1234", "1234", "1234");
 		wait.until(ExpectedConditions.visibilityOf(editProfilePage.clientSnackbar));
@@ -92,6 +93,6 @@ class EditProfilePageTest {
 	
 	@AfterTest
 	public void closeUp() {
-		driver.close();
+		setUpDriver.driverQuit();
 	}
 }
