@@ -14,7 +14,7 @@ import org.testng.annotations.Test;
 import pages.navBar.EditProfilePage;
 import utility.SetUpDriver;
 
-class EditProfilePageTest {
+public class EditProfilePageTest {
 
 	private WebDriver driver;
 	private WebDriverWait wait;
