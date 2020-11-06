@@ -47,7 +47,7 @@ public class EventsNotificationPageTest {
 		Assert.assertEquals(driver.findElement(notificationsStatus).getText(), "You don't have notifications");
 	}
 
-	@AfterTest
+	@AfterTest(alwaysRun = true)
 	public void closeUp() {
 		setUpDriver.driverQuit();
 	}
