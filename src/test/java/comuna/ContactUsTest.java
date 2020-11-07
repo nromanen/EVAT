@@ -32,38 +32,38 @@ public class ContactUsTest {
         homePageNavBar.clickContactUsButton();
         contactUsPage = PageFactory.initElements(driver, ContactUsPage.class);
     }
-    @Test
+    @Test(description = "CHIS-152")
     public void selectProblemTypeTest(){
         String problem = "Bad Event";
         contactUsPage.selectProblemType(problem);
         Assert.assertEquals(contactUsPage.getChosenProblemTypeValue(), "badEvent");
     }
-    @Test
+    @Test(description = "CHIS-153")
     public void enterDescriptionTest(){
         String text = "I have a problem";
         contactUsPage.enterDescription(text);
         Assert.assertEquals(contactUsPage.getTextFromDescriptionField(), text);
     }
-    @Test
+    @Test(description = "CHIS-154")
     public void clearButtonTest(){
         String text = "I have a problem";
         contactUsPage.enterDescription(text).clickClearButton();
         Assert.assertEquals(contactUsPage.getTextFromDescriptionField(), "");
     }
-    @Test
+    @Test(description = "CHIS-155")
     public void sendMessageTest(){
         String text = "I have a problem";
         contactUsPage.enterDescription(text).clickSubmitButton();
         Assert.assertEquals(contactUsPage.getConfirmedMessageText(), "Message was succesfully sended");
     }
-    @Test
+    @Test(description = "CHIS-156")
     public void emptyDescriptionErrorTest(){
         String text = "";
         contactUsPage.enterDescription(text).selectProblemType("Bad User");
         Assert.assertEquals(contactUsPage.getEmptyDescriptionError(), "Required");
     }
 
-    @AfterMethod
+    @AfterMethod(alwaysRun = true)
     public void closeBrowser(){
         setUpDriver.driverQuit();
     }

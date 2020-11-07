@@ -1,7 +1,5 @@
 package comuna;
-
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -34,13 +32,13 @@ public class ChatWithUserTest {
         homePageNavBar.clickComunaButton();
         comunaPage.goToFirstChat();
     }
-    @Test
+    @Test(description = "CHIS-147")
     public void enterMessageTest(){
         String message = "Hello";
         chatWithUserPage.enterMessage(message);
         Assert.assertEquals(chatWithUserPage.getTextFromMessageField(), message);
     }
-    @Test
+    @Test(description = "CHIS-148")
     public void sendMessageTest() throws InterruptedException {
         String message = "Hello";
         int numberOfMessages = chatWithUserPage.getNumberOfMessages();
@@ -49,13 +47,13 @@ public class ChatWithUserTest {
         Assert.assertEquals(chatWithUserPage.getNumberOfMessages(), numberOfMessages + 1);
     }
 
-    @Test
+    @Test(description = "CHIS-149")
     public void getTextSentMessageTest(){
         String messageText = chatWithUserPage.getTextSentMessage().substring(0, 6);
         Assert.assertEquals(messageText, "привіт");
     }
 
-    @AfterMethod
+    @AfterMethod(alwaysRun = true)
     public void closeBrowser(){
         setUpDriver.driverQuit();
     }

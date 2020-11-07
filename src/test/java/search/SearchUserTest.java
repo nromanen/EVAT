@@ -1,8 +1,6 @@
 package search;
-
 import jdbc.SearchRepository;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -32,27 +30,27 @@ public class SearchUserTest {
         searchUserPage = PageFactory.initElements(driver, SearchUserPage.class);
         homePageNavBar.clickSearchUsersButton();
     }
-    @Test
+    @Test(description = "CHIS-144")
     public void typeInSearchFieldTest(){
         String text = "Admin";
         searchUserPage.typeInSearchField(text);
         Assert.assertEquals(searchUserPage.getSearchFieldValue(), text);
     }
-    @Test
+    @Test(description = "CHIS-145")
     public void clearSearchFieldTest(){
         String text = "Admin";
         searchUserPage.typeInSearchField(text).clickClearButton();
         Assert.assertEquals(searchUserPage.getSearchFieldValue(), "");
     }
-    @Test
+    @Test(description = "CHIS-146")
     public void searchUserTest(){
         String name = "Admin";
         searchUserPage.searchUser(name);
         Assert.assertEquals(searchUserPage.getNumberOfFoundedUsers(), SearchRepository.getNumberOfUsersByNameWithNInQuery(name));
     }
-
-    @AfterMethod
+    @AfterMethod(alwaysRun = true)
     public void closeBrowser(){
         setUpDriver.driverQuit();
     }
+
 }

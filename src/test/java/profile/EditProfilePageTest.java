@@ -90,7 +90,7 @@ public class EditProfilePageTest {
 		Assert.assertEquals(editProfilePage.getClientSnackbarText(), "Failed");
 	}
 	
-	@AfterTest
+	@AfterTest(alwaysRun = true)
 	public void closeUp() {
 		setUpDriver.driverQuit();
 	}

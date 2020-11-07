@@ -1,7 +1,5 @@
 package comuna;
-
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -12,7 +10,6 @@ import pages.SignInUpMenu;
 import pages.comuna.ChatWithUserPage;
 import pages.comuna.ComunaPage;
 import pages.homePageSearch.HomePageSearchMenu;
-import pages.navBar.ContactUsPage;
 import utility.SetUpDriver;
 
 public class ComunaTest {
@@ -35,17 +32,17 @@ public class ComunaTest {
         comunaPage = PageFactory.initElements(driver, ComunaPage.class);
         homePageNavBar.clickComunaButton();
     }
-    @Test
+    @Test(description = "CHIS-150")
     public void goToTheFirstChatTest(){
         comunaPage.goToFirstChat();
         String title = chatWithUserPage.getChatTitleText().substring(0,26);
         Assert.assertEquals(title, "Chat with Марина Маринівна");
     }
-    @Test
+    @Test(description = "CHIS-151")
     public void getNumberOfChatsTest(){
         Assert.assertEquals(comunaPage.getNumberOfUsersChats(), 2);
     }
-    @AfterMethod
+    @AfterMethod(alwaysRun = true)
     public void closeBrowser(){
         setUpDriver.driverQuit();
     }

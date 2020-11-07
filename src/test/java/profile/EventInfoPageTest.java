@@ -81,7 +81,7 @@ public class EventInfoPageTest {
 		eventInfoPage.clickOnDeleteCommentButton();
 	}
 
-	@AfterTest
+	@AfterTest(alwaysRun = true)
 	public void closeUp() {
 		setUpDriver.driverQuit();
 	}
