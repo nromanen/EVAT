@@ -45,7 +45,7 @@ public class AddEventPage{
 
     @FindBy(how = How.CSS, using = "#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div:nth-child(7) > div > div.rw-widget-input.rw-widget-picker.rw-widget-container > div > input")
     private WebElement hashtags;
-    private final By findListOfHashtags=By.cssSelector("#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div:nth-child(7) > div > div.rw-widget-input.rw-widget-picker.rw-widget-container > div > ul >li");
+    private final By findListOfHashtags=By.cssSelector("#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div:nth-child(7) > div > div.rw-widget-input.rw-widget-picker.rw-widget-container > div > ul >li>span");
 
     private final By selectorCountryOption=By.cssSelector("#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div:nth-child(8) > div > div > select > option:nth-child(2)");
     private Select country;
@@ -193,7 +193,7 @@ public class AddEventPage{
         country.selectByVisibleText(text);
         try {
             city.getFirstSelectedOption();
-        }catch (NoSuchElementException e){
+        }catch (NoSuchElementException | NullPointerException e){
             webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(findCity));
             city = new Select(driver.findElement(findCity));
         }
@@ -260,7 +260,6 @@ public class AddEventPage{
 
 
     public boolean clickSave(){
-        if(save==null)return false;
         save.submit();
         return true;
     }
@@ -493,5 +492,9 @@ public class AddEventPage{
 
     public void setDriver(WebDriver driver) {
         this.driver = driver;
+    }
+
+    public By getFindListOfHashtags() {
+        return findListOfHashtags;
     }
 }

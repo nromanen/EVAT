@@ -1,17 +1,12 @@
 package profile.add_event;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.*;
 import pages.profile.EventMenu;
 import pages.profile.events_menu_pages.AddEventPage;
 import profile.SetUpProfile;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -27,20 +22,14 @@ public class ErrorsAddEventTest {
     @BeforeClass
     public void beforeClass() {
         setUpProfile=new SetUpProfile();
-        setUpProfile.getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#full-width-tab-4")));
         new EventMenu(setUpProfile.getDriver()).clickAddEvent();
         addEventPage=new AddEventPage(setUpProfile.getDriver(),setUpProfile.getWebDriverWait());
         prop=setUpProfile.getProp();
-        try (InputStream input = new FileInputStream("src\\test\\resources\\forProfile\\testDataProfile.properties")) {
-            prop.load(input);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
     }
 
     @DataProvider
     public Object[][] providerCorrectImage(){
-        return new Object[][]{{prop.getProperty("correctPhoto")}};//TODO: change absolute path in the file testData
+        return new Object[][]{{prop.getProperty("correctPhoto")}};
     }
 
     @DataProvider
@@ -78,31 +67,31 @@ public class ErrorsAddEventTest {
 
     @DataProvider
     public Object[][] negativeProviderLoadImage(){
-        return new Object[][]{{prop.getProperty("incorrectFormatPhoto")}};//TODO: change absolute path in the file testData
+        return new Object[][]{{prop.getProperty("incorrectFormatPhoto")}};
     }
 
     @Test(dataProvider = "negativeProviderLoadImage")
     public void notLoadImageIncorrectFormat(String nameFileImg){
         addEventPage.loadImage(nameFileImg);
-        addEventPage.getImage().isEnabled();
+        assertTrue(addEventPage.getFileUploader().isEnabled());
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @DataProvider
     public Object[][] providerIncorrectResolution(){
-        return new Object[][]{{prop.getProperty("smallResolutionPhoto")},{prop.getProperty("bigResolutionPhoto")}};//TODO: change absolute path in the file testData
+        return new Object[][]{{prop.getProperty("smallResolutionPhoto")},{prop.getProperty("bigResolutionPhoto")}};
     }
 
     @Test(dataProvider = "negativeProviderLoadImage")
     public void notLoadImageIncorrectResolution(String nameFileImg){
         addEventPage.loadImage(nameFileImg);
-        assertFalse(addEventPage.getImage().isEnabled());
+        assertTrue(addEventPage.getFileUploader().isEnabled());
     }
 
     @DataProvider
     public Object[][] providerErrorLoadIncorrectResolution(){
-        return new Object[][]{{prop.getProperty("errorIncorrectResolutionPhoto")}};//TODO: change absolute path in the file testData
+        return new Object[][]{{prop.getProperty("errorIncorrectResolutionPhoto")}};
     }
 
     @Test(dependsOnMethods = "notLoadImageIncorrectResolution")
@@ -126,7 +115,7 @@ public class ErrorsAddEventTest {
 
     @DataProvider
     public Object[][] providerIncorrectSize(){
-        return new Object[][]{{prop.getProperty("bigPhoto")}};//TODO: change absolute path in the file testData
+        return new Object[][]{{prop.getProperty("bigPhoto")}};
     }
 
     @Test(dataProvider = "negativeProviderLoadImage")

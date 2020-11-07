@@ -26,7 +26,7 @@ public class SetUpDriver {
         System.setProperty(prop.getProperty("webDriverKey"),prop.getProperty("webDriverValue"));
         if(prop.getProperty("browser").equals("chrome")) driver = new ChromeDriver();
         else if(prop.getProperty("browser").equals("gecko"))driver = new FirefoxDriver();
-        webDriverWait= new WebDriverWait(driver,30);
+        webDriverWait= new WebDriverWait(driver,100);
     }
 
     public void cleanUp(){

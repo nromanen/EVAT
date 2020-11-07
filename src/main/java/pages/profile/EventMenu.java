@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
+import utility.EventElement;
 
 public class EventMenu {
 
@@ -31,32 +32,27 @@ public class EventMenu {
     }
 
     public boolean clickFutureEvents(){
-        if(futureEvents==null) return false;
-        futureEvents.click();
+        new EventElement(driver, futureEvents).click();
         return true;
     }
 
     public boolean clickArchiveEvents(){
-        if(archiveEvents==null) return false;
-        archiveEvents.click();
+        new EventElement(driver, archiveEvents).click();
         return true;
     }
 
     public boolean clickVisitedEvents(){
-        if(visitedEvents==null) return false;
-        visitedEvents.click();
+        new EventElement(driver, visitedEvents).click();
         return true;
     }
 
     public boolean clickToGoEvents(){
-        if(toGoEvents==null) return false;
-        toGoEvents.click();
+        new EventElement(driver, toGoEvents).click();
         return true;
     }
 
     public boolean clickAddEvent(){
-        if(addEvent==null) return false;
-        addEvent.click();
+        new EventElement(driver, addEvent).click();
         return true;
     }
 
