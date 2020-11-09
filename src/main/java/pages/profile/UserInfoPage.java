@@ -90,14 +90,4 @@ public class UserInfoPage{
         this.interests = interests;
     }
 
-    @Override
-    public String toString() {
-        return "UserInfoPage{" +
-                "userName=" + userName +
-                ", age=" + age +
-                ", gender=" + gender +
-                ", email=" + email +
-                ", interests=" + interests +
-                '}';
-    }
 }

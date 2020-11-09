@@ -1,8 +1,5 @@
 package profile;
 
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.HomePageNavBar;
 import pages.SignInUpMenu;
 import utility.SetUpDriver;
@@ -14,23 +11,25 @@ import java.util.Properties;
 
 public class SetUpProfile extends SetUpDriver {
 
-    private Properties prop = new Properties();
+    private final Properties propertiesSetUpProfile = new Properties();
+    private final Properties prop = new Properties();
 
     public SetUpProfile() {
         super();
-        try (InputStream input = new FileInputStream("src/test/resources/forProfile/entering.properties")) {
-            prop.load(input);
+        try (InputStream enteringProp = new FileInputStream("src/test/resources/forProfile/entering.properties");
+             InputStream testDataProfileProp = new FileInputStream("src/test/resources/forProfile/testDataProfile.properties")) {
+            propertiesSetUpProfile.load(enteringProp);
+            prop.load(testDataProfileProp);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
         signingIn();
         goToProfilePage();
-
     }
 
     public void signingIn() {
-        driver.get(prop.getProperty("homePage"));
-        new SignInUpMenu(driver).authoriseUser(prop.getProperty("email"),prop.getProperty("password"));
+        driver.get(propertiesSetUpProfile.getProperty("homePage"));
+        new SignInUpMenu(driver).authoriseUser(propertiesSetUpProfile.getProperty("email"), propertiesSetUpProfile.getProperty("password"));
     }
 
     public  void goToProfilePage(){
@@ -39,5 +38,10 @@ public class SetUpProfile extends SetUpDriver {
 
     public void driverQuit(){
         driver.quit();
+    }
+
+    @Override
+    public Properties getProp() {
+        return prop;
     }
 }

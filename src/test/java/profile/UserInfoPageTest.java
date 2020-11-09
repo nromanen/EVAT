@@ -1,15 +1,10 @@
 package profile;
 
 import jdbc.UserInfoRepository;
-import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.*;
 
 import pages.profile.UserInfoPage;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.Properties;
@@ -25,14 +20,8 @@ public class UserInfoPageTest {
     @BeforeClass
     public void setUp() {
         setUpProfile=new SetUpProfile();
-        setUpProfile.getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#main > div.mt-2 > header > div > div > div > div")));
         userInfoPage = new UserInfoPage(setUpProfile.getDriver());
-        prop=new Properties();
-        try (InputStream input = new FileInputStream("src\\test\\resources\\forProfile\\testDataUserInfo.properties")) {
-            prop.load(input);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        prop=setUpProfile.getProp();
     }
 
     @DataProvider

@@ -1,7 +1,5 @@
 package profile;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -15,9 +13,8 @@ public class EventMenuTest {
     SetUpProfile setUpProfile;
 
     @BeforeTest
-    public void setUp() {
+    public void setUp(){
         setUpProfile=new SetUpProfile();
-        setUpProfile.getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#main > div.mt-2 > header > div > div > div > div")));
         eventMenuTest = new EventMenu(setUpProfile.getDriver());
     }
 

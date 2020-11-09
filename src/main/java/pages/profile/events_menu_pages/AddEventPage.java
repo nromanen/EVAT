@@ -45,10 +45,13 @@ public class AddEventPage{
 
     @FindBy(how = How.CSS, using = "#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div:nth-child(7) > div > div.rw-widget-input.rw-widget-picker.rw-widget-container > div > input")
     private WebElement hashtags;
+    private final By findListOfHashtags=By.cssSelector("#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div:nth-child(7) > div > div.rw-widget-input.rw-widget-picker.rw-widget-container > div > ul >li>span");
 
+    private final By selectorCountryOption=By.cssSelector("#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div:nth-child(8) > div > div > select > option:nth-child(2)");
     private Select country;
     private final By findCountry=By.name("countryId");
 
+    private final By selectorCityOption=By.cssSelector("#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div:nth-child(9) > div > div > select > option:nth-child(2)");
     private Select city;
     private final By findCity=By.name("cityId");
 
@@ -110,13 +113,11 @@ public class AddEventPage{
     }
 
     public boolean loadImage(String nameFileImg) {
-        if (fileUploader==null) return false;
         fileUploader.sendKeys(nameFileImg);
         return true;
     }
 
     public String getValueImage(){
-        if (image==null) return "";
         return image.getAttribute("alt");
     }
 
@@ -126,7 +127,6 @@ public class AddEventPage{
     }
 
     public boolean inputParticipants(String value){
-        if(participants==null) return false;
         participants.sendKeys(value);
         return true;
     }
@@ -159,7 +159,6 @@ public class AddEventPage{
     }
 
     public boolean inputDateFrom(String date){
-        if (dateFrom==null) return false;
         dateFrom.sendKeys(Keys.CONTROL + "A");
         dateFrom.sendKeys(Keys.DELETE);
         dateFrom.sendKeys(date);
@@ -168,7 +167,6 @@ public class AddEventPage{
     }
 
     public boolean inputDateTo(String date) {
-        if (dateTo==null) return false;
         dateTo.sendKeys(Keys.CONTROL + "A");
         dateTo.sendKeys(Keys.DELETE);
         dateTo.sendKeys(date);
@@ -177,13 +175,11 @@ public class AddEventPage{
     }
 
     public boolean inputDescription(String text) {
-        if (description==null)return false;
         description.sendKeys(text);
         return true;
     }
 
     public boolean inputHashtags(List<String> hashtagsToEnter) {
-        if (hashtags==null) return false;
         for (String str : hashtagsToEnter) {
             hashtags.sendKeys(str);
             hashtags.sendKeys(Keys.ENTER);
@@ -193,59 +189,45 @@ public class AddEventPage{
     }
 
     public boolean inputCountry(String text) {
-        if (country != null && country.getOptions()!= null) {
-            webDriverWait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div:nth-child(8) > div > div > select > option:nth-child(2)")));
-            country.selectByVisibleText(text);
-            if(city==null){
-                webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(findCity));
-                city = new Select(driver.findElement(findCity));
-            }
-            return true;
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(selectorCountryOption));
+        country.selectByVisibleText(text);
+        try {
+            city.getFirstSelectedOption();
+        }catch (NoSuchElementException | NullPointerException e){
+            webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(findCity));
+            city = new Select(driver.findElement(findCity));
         }
-        return false;
+        return true;
     }
 
     public int countriesAmount(){
-        if (country != null && country.getOptions()!= null) return country.getOptions().size();
-        return -1;
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(selectorCountryOption));
+        return country.getOptions().size();
     }
 
     public boolean inputCity(String text){
-        if(country.getFirstSelectedOption()==null ) return false;
-        else
-            if (city.getOptions() != null) {
-                webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div:nth-child(9) > div > div > select > option:nth-child(2)")));
-                city.selectByVisibleText(text);
-                return true;
-            }
-        return false;
+       webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(selectorCityOption));
+       city.selectByVisibleText(text);
+       return true;
     }
 
     public int citiesAmount(){
-        if(country.getFirstSelectedOption()==null ) return -1;
-        else
-            if (city.getOptions() != null) {
-                webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#age-native-simple > option:nth-child(2)")));
-                return city.getOptions().size();
-            }
-
-        return -1;
+        webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(selectorCityOption));
+        return city.getOptions().size();
     }
 
     public boolean clickClear(){
-        if(clear==null)return false;
         clear.click();
         return true;
     }
 
     public boolean isAppearCreatedEventMessage(){
         webDriverWait.until(ExpectedConditions.visibilityOf(createdEventMessage));
-        if(createdEventMessage.isDisplayed())return true;
-        return false;
+        return createdEventMessage.isDisplayed();
     }
 
     public boolean isPageEmpty(){
-        List<WebElement> hashtags = driver.findElements(By.cssSelector("#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div:nth-child(7) > div > div.rw-widget-input.rw-widget-picker.rw-widget-container > div > ul >li"));
+        List<WebElement> hashtags = driver.findElements(findListOfHashtags);
         if(title.getAttribute("value").isEmpty() &&
                 participants.getAttribute("value").isEmpty() &&
                 description.getAttribute("value").isEmpty() &&
@@ -263,7 +245,7 @@ public class AddEventPage{
     }
 
     public boolean isPageFull(){
-        List<WebElement> hashtags = driver.findElements(By.cssSelector("#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div:nth-child(7) > div > div.rw-widget-input.rw-widget-picker.rw-widget-container > div > ul >li"));
+        List<WebElement> hashtags = driver.findElements(findListOfHashtags);
         if(image.isEnabled() &&
                 !title.getAttribute("value").isEmpty() &&
                 !participants.getAttribute("value").isEmpty() &&
@@ -278,17 +260,8 @@ public class AddEventPage{
 
 
     public boolean clickSave(){
-        if(save==null)return false;
         save.submit();
         return true;
-    }
-
-    public WebDriver getDriver() {
-        return driver;
-    }
-
-    public void setDriver(WebDriver driver) {
-        this.driver = driver;
     }
 
     @Override
@@ -511,5 +484,17 @@ public class AddEventPage{
 
     public void setCreatedEventMessage(WebElement createdEventMessage) {
         this.createdEventMessage = createdEventMessage;
+    }
+
+    public WebDriver getDriver() {
+        return driver;
+    }
+
+    public void setDriver(WebDriver driver) {
+        this.driver = driver;
+    }
+
+    public By getFindListOfHashtags() {
+        return findListOfHashtags;
     }
 }

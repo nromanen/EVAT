@@ -1,10 +1,8 @@
 package profile.add_event;
 
 import jdbc.EventsRepository;
-import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
@@ -13,9 +11,6 @@ import pages.profile.EventMenu;
 import pages.profile.events_menu_pages.AddEventPage;
 import profile.SetUpProfile;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -32,22 +27,16 @@ public class AEventDefaultBehaviorTest {
     @BeforeClass
     public void beforeClass() {
         setUpProfile=new SetUpProfile();
-        setUpProfile.getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#full-width-tab-4")));
         new EventMenu(setUpProfile.getDriver()).clickAddEvent();
         addEventPage=new AddEventPage(setUpProfile.getDriver(),setUpProfile.getWebDriverWait());
-        prop=new Properties();
-        try (InputStream input = new FileInputStream("src\\test\\resources\\forProfile\\testDataProfile.properties")) {
-            prop.load(input);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        prop= setUpProfile.getProp();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @DataProvider
     public Object[][] dataProviderLoadImage(){
-        return new Object[][]{{prop.getProperty("correctPhoto")}};//TODO: change absolute path in the file testData
+        return new Object[][]{{prop.getProperty("correctPhoto")}};
     }
 
     @Test(dataProvider = "dataProviderLoadImage")
@@ -147,7 +136,7 @@ public class AEventDefaultBehaviorTest {
     public void testInputHashtags(List<String> hashtagsToEnter) {
         addEventPage.getHashtags().clear();
         addEventPage.inputHashtags(hashtagsToEnter);
-        List<WebElement> webElements = addEventPage.getDriver().findElements(By.cssSelector("#rw_1_taglist > li > span"));
+        List<WebElement> webElements = addEventPage.getDriver().findElements(addEventPage.getFindListOfHashtags());
         List<String> list = new ArrayList<>();
         for(WebElement element: webElements)list.add(element.getText());
         assertEquals(list, hashtagsToEnter);

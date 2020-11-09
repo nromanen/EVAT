@@ -2,14 +2,11 @@ package profile.add_event;
 
 import jdbc.EventsRepository;
 import jdbc.UserInfoRepository;
-import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.*;
 import pages.profile.EventMenu;
 import pages.profile.events_menu_pages.AddEventPage;
 
-import java.io.*;
 import java.util.Arrays;
 import java.util.List;
 import org.openqa.selenium.NoSuchElementException;
@@ -30,15 +27,9 @@ public class AddEventTest {
     @BeforeClass
     public void beforeClass() {
         setUpProfile=new SetUpProfile();
-        setUpProfile.getWebDriverWait().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#full-width-tab-4")));
         eventMenu=new EventMenu(setUpProfile.getDriver());
-        prop=new Properties();
+        prop=setUpProfile.getProp();
         webDriverWait=setUpProfile.getWebDriverWait();
-        try (InputStream input = new FileInputStream("src\\test\\resources\\forProfile\\testDataProfile.properties")) {
-            prop.load(input);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
     }
 
     private void clearPageAddEvent(){
@@ -73,7 +64,7 @@ public class AddEventTest {
         addEventPage.inputCity(city);
         addEventPage.inputHashtags(hashtagsToEnter);
         addEventPage.clickSave();
-        assertTrue(addEventPage.isAppearCreatedEventMessage());
+        assertTrue(addEventPage.isAppearCreatedEventMessage(),"Message don't appear");
         assertEquals(EventsRepository.getAmountOfEvents(),amountOfEventsBefore+1);
     }
 
@@ -133,7 +124,7 @@ public class AddEventTest {
 
     @Test(dataProvider = "providerSaveWithoutTitle")
     public void negativeSaveWithoutTitle(String photo, String participants, String dateFrom, String dateTo,
-                                String description,List<String> hashtagsToEnter,String country,String city)throws NoSuchElementException {
+                                String description,List<String> hashtagsToEnter,String country,String city){
         clearPageAddEvent();
         int amountOfEventsBefore= EventsRepository.getAmountOfEvents();
         addEventPage.loadImage(photo);
@@ -171,7 +162,7 @@ public class AddEventTest {
 
     @Test(dataProvider = "providerSaveWithoutDescription")
     public void negativeSaveWithoutDescription(String photo,String title, String participants, String dateFrom, String dateTo,
-                                List<String> hashtagsToEnter,String country,String city)throws NoSuchElementException {
+                                List<String> hashtagsToEnter,String country,String city){
         clearPageAddEvent();
         int amountOfEventsBefore= EventsRepository.getAmountOfEvents();
         addEventPage.loadImage(photo);
@@ -208,7 +199,7 @@ public class AddEventTest {
 
     @Test(dataProvider = "providerSaveWithoutHashtags")
     public void negativeSaveWithoutHashtags(String photo,String title, String participants, String dateFrom, String dateTo,
-                                String description,String country,String city)throws NoSuchElementException {
+                                String description,String country,String city){
         clearPageAddEvent();
         int amountOfEventsBefore= EventsRepository.getAmountOfEvents();
         addEventPage.loadImage(photo);
@@ -245,7 +236,7 @@ public class AddEventTest {
 
     @Test(dataProvider = "providerSaveWithoutCountry")
     public void negativeSaveWithoutCountry(String photo,String title, String participants, String dateFrom, String dateTo,
-                                String description,List<String> hashtagsToEnter)throws NoSuchElementException {
+                                String description,List<String> hashtagsToEnter){
         clearPageAddEvent();
         int amountOfEventsBefore= EventsRepository.getAmountOfEvents();
         addEventPage.loadImage(photo);
@@ -281,7 +272,7 @@ public class AddEventTest {
 
     @Test(dataProvider = "providerSaveWithoutCity")
     public void negativeSaveWithoutCity(String photo,String title, String participants, String dateFrom, String dateTo,
-                                           String description,List<String> hashtagsToEnter,String country)throws NoSuchElementException {
+                                           String description,List<String> hashtagsToEnter,String country){
         clearPageAddEvent();
         int amountOfEventsBefore= EventsRepository.getAmountOfEvents();
         addEventPage.loadImage(photo);
