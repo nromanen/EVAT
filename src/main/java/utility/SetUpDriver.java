@@ -38,7 +38,10 @@ public class SetUpDriver {
     }
 
     public void driverQuit(){
-        driver.quit();
+        if (null != driver){
+            driver.quit();
+        }
+        driver = null;
     }
 
     public Properties getProp() {
