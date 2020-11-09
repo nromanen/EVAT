@@ -88,7 +88,7 @@ public class HomePageSearchTest {
     }
     @Test(description = "CHIS-55")
     public void searchByOneDateFromTest() throws SQLException {
-        LocalDate date = LocalDate.of(2020, 11, 5);
+        LocalDate date = LocalDate.of(2020, 11, 15);
         homePageSearchMenu.searchByDateFrom(date);
         wait.until(ExpectedConditions.numberOfElementsToBe(By.className("MuiCardHeader-root"), SearchRepository.getNumberOfEventsWithDateFrom(date)));
         Assert.assertEquals(searchResultPage.getNumberOfEvents(), SearchRepository.getNumberOfEventsWithDateFrom(date));
