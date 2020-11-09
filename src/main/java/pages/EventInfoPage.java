@@ -26,6 +26,7 @@ private WebDriver driver;
 	WebElement joinEventStatusButton;
 	
 	@FindBy(css = "#main > div > div > div.col-9 > div:nth-child(3) > div > form:nth-child(1) > div.MuiFormControl-root.MuiTextField-root.MuiFormControl-fullWidth > div > input")
+	public
 	WebElement commentEventInput;
 	
 	@FindBy(xpath = "//span[contains(text(),'Add')]")

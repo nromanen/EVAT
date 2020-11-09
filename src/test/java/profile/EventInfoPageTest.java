@@ -1,14 +1,11 @@
 package profile;
 
-import java.util.concurrent.TimeUnit;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeTest;
@@ -38,7 +35,6 @@ public class EventInfoPageTest {
 		wait = setUpDriver.getWebDriverWait();
 		eventInfoPage = PageFactory.initElements(driver, EventInfoPage.class);
 		signInUpMenu = PageFactory.initElements(driver, SignInUpMenu.class);
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		driver.manage().window().maximize();
 	}
 
@@ -48,18 +44,21 @@ public class EventInfoPageTest {
 		signInUpMenu.authoriseUser(email,pass);
 		wait.until(ExpectedConditions.elementToBeClickable(eventInfoButton));
 		driver.findElement(eventInfoButton).click();
+		wait.until(ExpectedConditions.elementToBeClickable(eventInfoPage.commentEventInput));
 	}
 	
 	@Test(priority = 1)
-	public void addComment() {
+	public void addComment() throws InterruptedException {
 		eventInfoPage.addCommentToEvent(comment);
+		Thread.sleep(500); // TODO
 		Assert.assertEquals(eventInfoPage.getCommentText(), "auto generated comment");
 	}
 	
 	@Test(priority = 2)
-	public void replyOnComment() {
+	public void replyOnComment() throws InterruptedException {
 		eventInfoPage.replyOnComment(comment);
 		Assert.assertEquals(eventInfoPage.getCommentText(), "auto generated comment");
+		eventInfoPage.clickOnDeleteCommentButton();
 	}
 	
 	@Test(priority = 3)
@@ -76,11 +75,6 @@ public class EventInfoPageTest {
 		Assert.assertEquals(eventInfoPage.joinEventStatusText(), "Join");
 	}
 	
-	@AfterClass
-	public void cleanUp() {
-		eventInfoPage.clickOnDeleteCommentButton();
-	}
-
 	@AfterTest(alwaysRun = true)
 	public void closeUp() {
 		setUpDriver.driverQuit();
