@@ -109,13 +109,11 @@ public class EditProfilePage {
 	}
 	
 	public void clickOnClearAvatarButton() {
-		EventElement ee = new EventElement(driver, clearAvatarButton);
-		ee.click();
+		new EventElement(driver, clearAvatarButton).click();
 	}
 	
 	public void clickOnSubmitAvatarButton() {
-		EventElement ee = new EventElement(driver, submitAvatarButton);
-		ee.click();
+		new EventElement(driver, submitAvatarButton).click();
 	}
 	
 	public void loadAvatar(String imagePath) {
@@ -151,8 +149,7 @@ public class EditProfilePage {
 	}
 	
 	public void clickOnGenderField() {
-		EventElement ee = new EventElement(driver, genderField);
-		ee.clickAndWait(chooseGenderDropDownList);
+		new EventElement(driver, genderField).clickAndWait(chooseGenderDropDownList);
 	}
 	
 	public void clickOnChooseGenderDropDownList() {
@@ -204,8 +201,7 @@ public class EditProfilePage {
 	}
 	
 	public void clickOnFavoriteCategoriesField() {
-		EventElement ee = new EventElement(driver, favoriteCategoriesField);
-		ee.clickAndWait(favoriteCategoriesDropDownList);
+		new EventElement(driver, favoriteCategoriesField).clickAndWait(favoriteCategoriesDropDownList);
 	}
 	
 	public void clickOnFavoriteCategoriesDropDownList() {
@@ -228,7 +224,7 @@ public class EditProfilePage {
 	public void chooseFavoriteCategories(String category) throws InterruptedException {
 		clickOnFavoriteCategoriesField();
 		clickOnFavoriteCategoriesDropDownList();
-		Thread.sleep(500);
+		Thread.sleep(500); // TODO
 		selectCategory(category);
 		clickOnEmptyFieldFavoriteCategories();
 		clickOnFavoriteCategoriesSaveButton();

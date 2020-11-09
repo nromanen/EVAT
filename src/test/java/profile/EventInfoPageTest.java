@@ -55,7 +55,7 @@ public class EventInfoPageTest {
 	}
 	
 	@Test(priority = 2)
-	public void replyOnComment() throws InterruptedException {
+	public void replyOnComment() {
 		eventInfoPage.replyOnComment(comment);
 		Assert.assertEquals(eventInfoPage.getCommentText(), "auto generated comment");
 		eventInfoPage.clickOnDeleteCommentButton();
