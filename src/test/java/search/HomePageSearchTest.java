@@ -1,7 +1,7 @@
 package search;
 import jdbc.SearchRepository;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -10,16 +10,16 @@ import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
 import pages.homePageSearch.*;
 import utility.SetUpDriver;
-
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.concurrent.TimeUnit;
 
 
 public class HomePageSearchTest {
     HomePageSearchMenu homePageSearchMenu;
     SearchResultPage searchResultPage;
     SetUpDriver setUpDriver;
+    WebDriverWait wait;
+    WebDriver driver;
 
     @BeforeClass
     public void createHashtagForTests(){
@@ -29,14 +29,15 @@ public class HomePageSearchTest {
     }
 
     @BeforeMethod
-    public void setUp(){
+    public void setUp() throws SQLException {
         setUpDriver = new SetUpDriver();
-        WebDriver driver = setUpDriver.getDriver();
+        driver = setUpDriver.getDriver();
         driver.manage().window().maximize();
         driver.get(HomePageSearchMenu.URL);
-        WebDriverWait wait = setUpDriver.getWebDriverWait();
+        wait = setUpDriver.getWebDriverWait();
         searchResultPage = PageFactory.initElements(driver, SearchResultPage.class);
-        wait.until(ExpectedConditions.visibilityOfAllElements(SearchResultPage.numberOfEvents));
+        wait.until(ExpectedConditions.invisibilityOf(driver.findElement(By.cssSelector("#notfound > div > div > div > div"))));
+        wait.until(ExpectedConditions.numberOfElementsToBe(By.className("MuiCardHeader-root"), SearchRepository.getNumberOfAllEvents()));
         homePageSearchMenu = PageFactory.initElements(driver, HomePageSearchMenu.class);
     }
 
@@ -46,8 +47,10 @@ public class HomePageSearchTest {
         SoftAssert softAssert = new SoftAssert();
         for (String keyword: keywords) {
             homePageSearchMenu.searchByKeyword(keyword);
+            wait.until(ExpectedConditions.numberOfElementsToBe(By.className("MuiCardHeader-root"), SearchRepository.getNumberOfEventsWithKeywordInTitleOrDescriptionWithNInQuery(keyword)));
             softAssert.assertEquals(searchResultPage.getNumberOfEvents(), SearchRepository.getNumberOfEventsWithKeywordInTitleOrDescriptionWithNInQuery(keyword));
-            homePageSearchMenu.clickResetButtonForClearResults();
+            homePageSearchMenu.clickResetButton();
+            wait.until(ExpectedConditions.numberOfElementsToBe(By.className("MuiCardHeader-root"), SearchRepository.getNumberOfAllEvents()));
         }
         softAssert.assertAll();
     }
@@ -68,6 +71,7 @@ public class HomePageSearchTest {
     public void clearResultsTest() throws SQLException {
         String keyword = "Bali";
         homePageSearchMenu.searchByKeyword(keyword);
+        wait.until(ExpectedConditions.numberOfElementsToBe(By.className("MuiCardHeader-root"), SearchRepository.getNumberOfEventsWithKeywordInTitleOrDescriptionWithNInQuery(keyword)));
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertEquals(searchResultPage.getNumberOfEvents(), SearchRepository.getNumberOfEventsWithKeywordInTitleOrDescriptionWithNInQuery(keyword));
         homePageSearchMenu.clickResetButton();
@@ -79,24 +83,28 @@ public class HomePageSearchTest {
         LocalDate date1 = LocalDate.of(2020, 11, 14);
         LocalDate date2 = LocalDate.of(2020, 11, 28);
         homePageSearchMenu.searchByTwoDates(date1, date2);
+        wait.until(ExpectedConditions.numberOfElementsToBe(By.className("MuiCardHeader-root"), SearchRepository.getNumberOfEventsWithTwoDates(date1, date2)));
         Assert.assertEquals(searchResultPage.getNumberOfEvents(), SearchRepository.getNumberOfEventsWithTwoDates(date1, date2));
     }
     @Test(description = "CHIS-55")
     public void searchByOneDateFromTest() throws SQLException {
         LocalDate date = LocalDate.of(2020, 11, 5);
         homePageSearchMenu.searchByDateFrom(date);
+        wait.until(ExpectedConditions.numberOfElementsToBe(By.className("MuiCardHeader-root"), SearchRepository.getNumberOfEventsWithDateFrom(date)));
         Assert.assertEquals(searchResultPage.getNumberOfEvents(), SearchRepository.getNumberOfEventsWithDateFrom(date));
     }
     @Test(description = "CHIS-57")
     public void searchByOneDateToTest() throws SQLException {
         LocalDate date = LocalDate.of(2020, 11, 30);
         homePageSearchMenu.searchByDateTo(date);
+        wait.until(ExpectedConditions.numberOfElementsToBe(By.className("MuiCardHeader-root"), SearchRepository.getNumberOfEventsFromNowTillDateTo(date)));
         Assert.assertEquals(searchResultPage.getNumberOfEvents(), SearchRepository.getNumberOfEventsFromNowTillDateTo(date));
     }
     @Test(description = "CHIS-58")
     public void searchByOneHashtagTest() throws SQLException {
         String hashtag = "Travel";
         homePageSearchMenu.searchByOneHashtag(hashtag);
+        wait.until(ExpectedConditions.numberOfElementsToBe(By.className("MuiCardHeader-root"), SearchRepository.getNumberOfEventsByOneHashtag(hashtag)));
         Assert.assertEquals(searchResultPage.getNumberOfEvents(), SearchRepository.getNumberOfEventsByOneHashtag(hashtag));
     }
     @Test(description = "CHIS-59")
@@ -104,6 +112,7 @@ public class HomePageSearchTest {
         String hashtag1 = "Swimming";
         String hashtag2 = "Travel";
         homePageSearchMenu.searchByTwoHashtags(hashtag1, hashtag2);
+        wait.until(ExpectedConditions.numberOfElementsToBe(By.className("MuiCardHeader-root"), SearchRepository.getNumberOfEventsByTwoHashtags(hashtag1, hashtag2)));
         Assert.assertEquals(searchResultPage.getNumberOfEvents(), SearchRepository.getNumberOfEventsByTwoHashtags(hashtag1, hashtag2));
     }
     @Test(description = "CHIS-95")
@@ -112,8 +121,10 @@ public class HomePageSearchTest {
         SoftAssert softAssert = new SoftAssert();
         for (String keyword: keywords) {
             homePageSearchMenu.searchByKeyword(keyword);
+            wait.until(ExpectedConditions.numberOfElementsToBe(By.className("MuiCardHeader-root"), SearchRepository.getNumberOfEventsWithKeywordInTitleOrDescriptionWithNInQuery(keyword)));
             softAssert.assertEquals(searchResultPage.getNumberOfEvents(), SearchRepository.getNumberOfEventsWithKeywordInTitleOrDescriptionWithNInQuery(keyword));
-            homePageSearchMenu.clickResetButtonForClearResults();
+            homePageSearchMenu.clickResetButton();
+            wait.until(ExpectedConditions.numberOfElementsToBe(By.className("MuiCardHeader-root"), SearchRepository.getNumberOfAllEvents()));
         }
         softAssert.assertAll();
     }
@@ -128,6 +139,7 @@ public class HomePageSearchTest {
         LocalDate date1 = LocalDate.of(2020, 12, 5);
         LocalDate date2 = LocalDate.of(2020, 12, 10);
         homePageSearchMenu.searchByTwoDates(date1, date2);
+        wait.until(ExpectedConditions.numberOfElementsToBe(By.className("MuiCardHeader-root"), SearchRepository.getNumberOfEventsWithTwoDates(date1, date2)));
         Assert.assertEquals(searchResultPage.getNumberOfEvents(), SearchRepository.getNumberOfEventsWithTwoDates(date1, date2));
     }
     @Test(description = "CHIS-141")
@@ -153,6 +165,7 @@ public class HomePageSearchTest {
         String keyword = "Mexico";
         LocalDate date = LocalDate.of(2020, 11, 10);
         homePageSearchMenu.searchByKeywordAndDateFrom(keyword, date);
+        wait.until(ExpectedConditions.numberOfElementsToBe(By.className("MuiCardHeader-root"), SearchRepository.getNumberOfEventsWithKeywordWithNInQueryAndDateFrom(keyword, date)));
         Assert.assertEquals(searchResultPage.getNumberOfEvents(), SearchRepository.getNumberOfEventsWithKeywordWithNInQueryAndDateFrom(keyword, date));
     }
     @Test(description = "CHIS-108")
@@ -160,6 +173,7 @@ public class HomePageSearchTest {
         String keyword = "гриби";
         String hashtag = "Mount";
         homePageSearchMenu.searchByKeywordAndHashtag(keyword, hashtag);
+        wait.until(ExpectedConditions.numberOfElementsToBe(By.className("MuiCardHeader-root"), SearchRepository.getNumberOfEventsByKeywordAndHashtag(keyword, hashtag)));
         Assert.assertEquals(searchResultPage.getNumberOfEvents(), SearchRepository.getNumberOfEventsByKeywordAndHashtag(keyword, hashtag));
     }
     @Test(description = "CHIS-99")
@@ -168,6 +182,7 @@ public class HomePageSearchTest {
         LocalDate date2 = LocalDate.of(2020, 12, 20);
         String hashtag = "Travel";
         homePageSearchMenu.searchByDatesAndHashtag(date1, date2, hashtag);
+        wait.until(ExpectedConditions.numberOfElementsToBe(By.className("MuiCardHeader-root"), SearchRepository.getNumberOfEventsByDatesAndHashtag(date1, date2, hashtag)));
         Assert.assertEquals(searchResultPage.getNumberOfEvents(), SearchRepository.getNumberOfEventsByDatesAndHashtag(date1, date2, hashtag));
     }
     @Test(description = "CHIS-109")
@@ -176,6 +191,7 @@ public class HomePageSearchTest {
         LocalDate date = LocalDate.of(2020, 11, 1);
         String hashtag = "Mount";
         homePageSearchMenu.searchByKeywordAndDateAndHashtag(keyword, date, hashtag);
+        wait.until(ExpectedConditions.numberOfElementsToBe(By.className("MuiCardHeader-root"), SearchRepository.getNumberOfEventsByKeywordWithNInQueryAndDateFromAndHashtag(keyword, date, hashtag)));
         Assert.assertEquals(searchResultPage.getNumberOfEvents(), SearchRepository.getNumberOfEventsByKeywordWithNInQueryAndDateFromAndHashtag(keyword, date, hashtag));
     }
     @Test(description = "CHIS-110")

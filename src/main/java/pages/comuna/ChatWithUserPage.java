@@ -7,7 +7,7 @@ import org.openqa.selenium.support.PageFactory;
 import java.util.List;
 
 public class ChatWithUserPage {
-    private WebDriver driver;
+    WebDriver driver;
     public ChatWithUserPage(WebDriver driver){
         this.driver = driver;
         PageFactory.initElements(driver,this);

@@ -111,18 +111,12 @@ public class SearchRepository {
         String query = "SELECT COUNT(Id) FROM [eventsexpress-test].dbo.Users WHERE Name = N'"+userName+"'";
         return getNumberOfFoundedEvents(query);
     }
-
+    public static int getNumberOfAllEvents() throws SQLException {
+        LocalDate date = LocalDate.now();
+        String query = "select COUNT(Id) from (select TOP(6) * from [Events] where DateFrom >= '" + date + "' AND IsBlocked = 'false') a";
+        return getNumberOfFoundedEvents(query);
+    }
 //    public static void main(String[] args) {
-////        deleteHashtag("38F785E3-B43E-46FF-3788-08D85413B488");
-//        WebDriver driver = new ChromeDriver();
-//        driver.manage().window().maximize();
-//        driver.get(HomePageSearchMenu.URL);
-//        WebDriverWait wait = new WebDriverWait(driver, 30);
-//        SearchResultPage searchResultPage = PageFactory.initElements(driver, SearchResultPage.class);
-//        HomePageSearchMenu homePageSearchMenu = PageFactory.initElements(driver, HomePageSearchMenu.class);
-//        String hashtag = "Mount";
-//        homePageSearchMenu.clickMoreFiltersButton();
-//        homePageSearchMenu.typeHashtag(hashtag);
-//        System.out.println(homePageSearchMenu.getChosenHashtagText());
+//        deleteHashtag("38F785E3-B43E-46FF-3788-08D85413B488");
 //    }
 }

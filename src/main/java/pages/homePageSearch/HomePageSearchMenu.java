@@ -51,10 +51,10 @@ public class HomePageSearchMenu {
     @FindBy(css = ".box > div:nth-child(5) > button:nth-child(1) > span:nth-child(1)")
     public WebElement  lessButton;
 
-    @FindBy(css = "button.MuiButton-textPrimary:nth-child(1) > span:nth-child(1)")
+    @FindBy(css = "button.MuiButton-textPrimary:nth-child(1)")
     public WebElement  resetButton;
 
-    @FindBy(css = "button.MuiButtonBase-root:nth-child(2) > span:nth-child(1)")
+    @FindBy(xpath = "//span[contains(text(),'Search')]")
     public WebElement  searchButton;
 
     @FindBy(css = ".rw-list-empty")
@@ -73,19 +73,14 @@ public class HomePageSearchMenu {
     public WebElement incorrectKeywordTooLong;
 
     public HomePageSearchMenu clickMoreFiltersButton(){
-        EventElement element = new EventElement(driver, moreFiltersButton);
-        element.clickAndWait(searchButton);
+        moreFiltersButton.click();
         return this;
     }
     public HomePageSearchMenu clickSearchButton(){
         searchButton.click();
         return this;
     }
-    public HomePageSearchMenu clickSearchButtonAndWait(){
-        EventElement element = new EventElement(driver, searchButton);
-        element.clickAndWait(SearchResultPage.numberOfEvents);
-        return this;
-    }
+
     public HomePageSearchMenu clickLessButton(){
         lessButton.click();
         return this;
@@ -94,11 +89,7 @@ public class HomePageSearchMenu {
         resetButton.click();
         return this;
     }
-    public HomePageSearchMenu clickResetButtonForClearResults(){
-        EventElement element = new EventElement(driver, resetButton);
-        element.clickAndWait(SearchResultPage.numberOfEvents);
-        return this;
-    }
+
     public HomePageSearchMenu clickHashtagButton(){
         hashtagButton.click();
         return this;
@@ -155,7 +146,7 @@ public class HomePageSearchMenu {
     }
     public HomePageSearchMenu searchByKeyword(String keyword){
         typeKeyword(keyword);
-        clickSearchButtonAndWait();
+        clickSearchButton();
         return this;
     }
     public HomePageSearchMenu searchByTwoDates(LocalDate date1, LocalDate date2){
@@ -164,34 +155,34 @@ public class HomePageSearchMenu {
         typeDateFrom(date1);
         clearDateTo();
         typeDateTo(date2);
-        clickSearchButtonAndWait();
+        clickSearchButton();
         return this;
     }
     public HomePageSearchMenu searchByDateFrom(LocalDate date){
         clickMoreFiltersButton();
         clearDateFrom();
         typeDateFrom(date);
-        clickSearchButtonAndWait();
+        clickSearchButton();
         return this;
     }
     public HomePageSearchMenu searchByDateTo(LocalDate date){
         clickMoreFiltersButton();
         clearDateTo();
         typeDateTo(date);
-        clickSearchButtonAndWait();
+        clickSearchButton();
         return this;
     }
     public HomePageSearchMenu searchByOneHashtag(String hashtag){
         clickMoreFiltersButton();
         typeHashtag(hashtag);
-        clickSearchButtonAndWait();
+        clickSearchButton();
         return this;
     }
     public HomePageSearchMenu searchByTwoHashtags(String hashtag1, String hashtag2){
         clickMoreFiltersButton();
         typeHashtag(hashtag1);
         typeHashtag(hashtag2);
-        clickSearchButtonAndWait();
+        clickSearchButton();
         return this;
     }
 
@@ -200,14 +191,14 @@ public class HomePageSearchMenu {
         clickMoreFiltersButton();
         clearDateFrom();
         typeDateFrom(date);
-        clickSearchButtonAndWait();
+        clickSearchButton();
         return this;
     }
     public HomePageSearchMenu searchByKeywordAndHashtag(String keyword, String hashtag){
         typeKeyword(keyword);
         clickMoreFiltersButton();
         typeHashtag(hashtag);
-        clickSearchButtonAndWait();
+        clickSearchButton();
         return this;
     }
     public HomePageSearchMenu searchByDatesAndHashtag(LocalDate date1, LocalDate date2, String hashtag){
@@ -217,7 +208,7 @@ public class HomePageSearchMenu {
         clearDateTo();
         typeDateTo(date2);
         typeHashtag(hashtag);
-        clickSearchButtonAndWait();
+        clickSearchButton();
         return this;
     }
     public HomePageSearchMenu searchByKeywordAndDateAndHashtag(String keyword, LocalDate date, String hashtag) {
@@ -226,7 +217,7 @@ public class HomePageSearchMenu {
         clearDateFrom();
         typeDateFrom(date);
         typeHashtag(hashtag);
-        clickSearchButtonAndWait();
+        clickSearchButton();
         return this;
     }
 
