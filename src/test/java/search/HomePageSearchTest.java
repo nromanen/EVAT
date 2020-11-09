@@ -36,7 +36,7 @@ public class HomePageSearchTest {
         driver.get(HomePageSearchMenu.URL);
         wait = setUpDriver.getWebDriverWait();
         searchResultPage = PageFactory.initElements(driver, SearchResultPage.class);
-        wait.until(ExpectedConditions.invisibilityOf(driver.findElement(By.cssSelector("#notfound > div > div > div > div"))));
+        wait.until(ExpectedConditions.invisibilityOf(driver.findElement(By.id("notfound"))));
         wait.until(ExpectedConditions.numberOfElementsToBe(By.className("MuiCardHeader-root"), SearchRepository.getNumberOfAllEvents()));
         homePageSearchMenu = PageFactory.initElements(driver, HomePageSearchMenu.class);
     }
