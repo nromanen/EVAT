@@ -1,6 +1,5 @@
 package comuna;
 import baseTest.BaseTest;
-import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
