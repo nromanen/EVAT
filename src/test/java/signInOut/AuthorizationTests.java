@@ -6,6 +6,7 @@ import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
 import pages.SignInUpMenu;
 import pages.homePageSearch.HomePageSearchMenu;
+import utility.EventElement;
 import utility.SetUpDriver;
 
 public class AuthorizationTests {
@@ -33,13 +34,15 @@ public class AuthorizationTests {
         String password = "12345678";
         String userName = "carat98";
         signInUpMenu.authoriseAndWaitUser(login,password,signInUpMenu.userHeader);
+        new EventElement(setUpDriver.getDriver(), signInUpMenu.userName).waitUntilDisplayed();
         Assert.assertEquals(signInUpMenu.getUserName(),userName);
     }
 
     @Test(dataProvider = "signInData", priority = 3)
     public void testErrorSignInMessages(String email, String password, String correctMessage){
         signInUpMenu.authoriseAndWaitUser(email,password,signInUpMenu.errorMessage);
-        Assert.assertTrue(signInUpMenu.getLoginError().contains(correctMessage));
+        new EventElement(setUpDriver.getDriver(), signInUpMenu.errorMessage).waitUntilDisplayed();
+        Assert.assertTrue(signInUpMenu.getLoginError().equals(correctMessage));
     }
 
     @Test(priority = 1)

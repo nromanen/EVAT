@@ -15,6 +15,9 @@ public class EventElement implements WebElement {
         wait = new WebDriverWait(driver,30);
     }
 
+    public void waitUntilDisplayed(){
+        wait.until(ExpectedConditions.visibilityOf(element));
+    }
     @Override
     public void click() {
         wait.until(ExpectedConditions.visibilityOf(element));

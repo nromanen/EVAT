@@ -7,6 +7,7 @@ import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
 import pages.SignInUpMenu;
 import pages.homePageSearch.HomePageSearchMenu;
+import utility.EventElement;
 import utility.SetUpDriver;
 
 
@@ -40,6 +41,7 @@ public class RegistrationTests {
         String email = "carat98@icloud.com";
         String password = "090909iS";
         signInUpMenu.registerUser(email, password,password);
+        new EventElement(setUpDriver.getDriver(), signInUpMenu.registrationErrorMessage).waitUntilDisplayed();
         Assert.assertEquals(signInUpMenu.getRegistrationErrorMessage(), "Email already exists in database");
     }
 

@@ -14,13 +14,13 @@ public class SignInUpMenu {
 
     WebDriver driver;
 
-    @FindBy(css = "body > div.MuiDialog-root > div.MuiDialog-container.MuiDialog-scrollPaper > div > div > div.MuiTypography-root.MuiTypography-body1 > div > div > div.text-center")
+    @FindBy(xpath = "/html/body/div[2]/div[3]/div/div/div[2]/div/div/div[2]/p")
     public WebElement errorMessage;
 
-    @FindBy(xpath = "/html/body/div[2]/div[3]/div/div/div[2]/div/div/div[2]")
+    @FindBy(css = ".text-danger")
     WebElement loginErrorMessage;
 
-    @FindBy(css = "#root > div.left-sidebar-opened.left-sidebar > div")
+    @FindBy(css = ".d-inline-block")
     public WebElement userHeader;
 
     @FindBy(css = ".MuiDialogActions-root > button:nth-child(2)")
@@ -50,8 +50,8 @@ public class SignInUpMenu {
     @FindBy(css = "body > div.MuiDialog-root > div.MuiDialog-container.MuiDialog-scrollPaper > div > div > button")
     WebElement cancel;
 
-    @FindBy(css = "body > div.MuiDialog-root > div.MuiDialog-container.MuiDialog-scrollPaper > div > div > div.MuiTypography-root.MuiTypography-body1 > p")
-    WebElement registrationErrorMessage;
+    @FindBy(css = ".text-danger")
+    public WebElement registrationErrorMessage;
 
     @FindBy(css = ".register > form:nth-child(1) > div:nth-child(1) > div:nth-child(1) > p:nth-child(3)")
     WebElement emailErrorMessage;

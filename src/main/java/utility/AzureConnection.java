@@ -10,7 +10,7 @@ public class AzureConnection {
 
     public static Connection getConnection() {
         Connection connection = null;
-        try (InputStream input = new FileInputStream("src/main/resources/azure.properties")) {
+        try (InputStream input = new FileInputStream("/Users/illyashulman/EventExpress/src/main/resources/azure.properties")) {
             Properties prop = new Properties();
             prop.load(input);
             connection = DriverManager.getConnection(prop.getProperty("url"), prop.getProperty("user"), prop.getProperty("password"));
