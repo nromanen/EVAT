@@ -35,12 +35,12 @@ public class ComunaTest {
     @Test(description = "CHIS-150")
     public void goToTheFirstChatTest(){
         comunaPage.goToFirstChat();
-        String title = chatWithUserPage.getChatTitleText().substring(0,26);
-        Assert.assertEquals(title, "Chat with Марина Маринівна");
+        String title = chatWithUserPage.getChatTitleText().substring(0,25);
+        Assert.assertEquals(title, "Chat with Katty Ihnatyeva");
     }
     @Test(description = "CHIS-151")
     public void getNumberOfChatsTest(){
-        Assert.assertEquals(comunaPage.getNumberOfUsersChats(), 2);
+        Assert.assertEquals(comunaPage.getNumberOfUsersChats(), 3);
     }
     @AfterMethod(alwaysRun = true)
     public void closeBrowser(){
