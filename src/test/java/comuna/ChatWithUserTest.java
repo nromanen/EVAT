@@ -49,8 +49,8 @@ public class ChatWithUserTest {
 
     @Test(description = "CHIS-149")
     public void getTextSentMessageTest(){
-        String messageText = chatWithUserPage.getTextSentMessage().substring(0, 6);
-        Assert.assertEquals(messageText, "привіт");
+        String messageText = chatWithUserPage.getTextSentMessage().substring(0, 5);
+        Assert.assertEquals(messageText, "Hello");
     }
 
     @AfterMethod(alwaysRun = true)
