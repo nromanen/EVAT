@@ -1,4 +1,4 @@
-package pages.homePageSearch;
+package pages.search;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

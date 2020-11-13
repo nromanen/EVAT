@@ -1,61 +1,61 @@
-package pages.profile.events_menu_pages;
+package pages.profile;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.NoSuchElementException;
+import pages.BasePage;
 
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
+import java.util.*;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class AddEventPage{
+public class AddEventPage extends BasePage {
 
-    WebDriver driver;
-    WebDriverWait webDriverWait;
+    public static final String VALUE_ATTRIBUTE = "value";
+    public static final String ALT_ATTRIBUTE = "alt";
 
-    @FindBy(how = How.CSS, using = "#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div.preview-container > div > input[type=file]")
+    @FindBy(how = How.CSS, using = "input[type=file]")
     private WebElement fileUploader;
 
-    @FindBy(how = How.CSS, using = "#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div.preview-container > div > div > img")
+    @FindBy(how = How.CSS, using = ".pic")
     private WebElement image;
 
-    @FindBy(how = How.CSS, using = "#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div:nth-child(3) > div > div > input")
+    @FindBy(how = How.CSS, using = "[name = \"title\"]")
     private WebElement title;
 
-    @FindBy(how = How.CSS, using = "#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div:nth-child(4) > div > div > input")
+    @FindBy(how = How.CSS, using = "[name=\"maxParticipants\"]")
     private WebElement participants;
 
-    @FindBy(how = How.CSS, using = "#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div.meta-wrap.m-2 > span > div.react-datepicker-wrapper > div > input")
+//    @FindBy(how = How.CSS, using = ".react-datepicker__input-container > input")
+//    List<WebElement> dates;
+    @FindBy(how = How.CSS, using = ".meta-wrap > span:nth-child(1) > div > div > input")
     private WebElement dateFrom;
-
-    @FindBy(how = How.CSS, using = "#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div.meta-wrap.m-2 > span:nth-child(2) > div.react-datepicker-wrapper > div > input")
+    @FindBy(how = How.CSS, using = ".meta-wrap > span:nth-child(2) > div > div > input")
     private WebElement dateTo;
 
-    @FindBy(how = How.CSS, using = "#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div:nth-child(6) > div > div > textarea")
+    @FindBy(how = How.CSS, using = "[name=\"description\"]")
     private WebElement description;
 
-    @FindBy(how = How.CSS, using = "#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div:nth-child(7) > div > div.rw-widget-input.rw-widget-picker.rw-widget-container > div > input")
+    @FindBy(how = How.CSS, using = ".rw-input-reset")
     private WebElement hashtags;
-    private final By findListOfHashtags=By.cssSelector("#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div:nth-child(7) > div > div.rw-widget-input.rw-widget-picker.rw-widget-container > div > ul >li>span");
+    private final By findListOfHashtags=By.cssSelector(".rw-multiselect-tag > span");
 
-    private final By selectorCountryOption=By.cssSelector("#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div:nth-child(8) > div > div > select > option:nth-child(2)");
+    private final By selectorCountryOption=By.cssSelector("[name=\"countryId\"] > option");
     private Select country;
-    private final By findCountry=By.name("countryId");
+    private final By findCountry=By.cssSelector("[name=\"countryId\"]");
 
-    private final By selectorCityOption=By.cssSelector("#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div:nth-child(9) > div > div > select > option:nth-child(2)");
+    private final By selectorCityOption=By.cssSelector("[name=\"cityId\"] > option");
     private Select city;
-    private final By findCity=By.name("cityId");
+    private final By findCity=By.cssSelector("[name=\"cityId\"]");
 
-    @FindBy(how =How.CSS, using = "#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > button")
+    @FindBy(how =How.CSS, using = "form > div > button")
     private WebElement clear;
 
     @FindBy(how = How.CSS, using = "")
@@ -79,56 +79,54 @@ public class AddEventPage{
     @FindBy(how = How.CSS, using = "")
     private WebElement errorTooManyParticipants;
 
-    @FindBy(how = How.CSS, using = "#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > button > span.MuiTouchRipple-root")
+    @FindBy(how = How.CSS, using = "form > button")
     private WebElement save;
 
-    @FindBy(how = How.CSS, using = "#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div.preview-container > div.error")
+    @FindBy(how = How.CSS, using = ".error")
     private WebElement requiredImage;
 
-    @FindBy(how = How.CSS,using = "#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div:nth-child(3) > div > p")
+    @FindBy(how = How.CSS,using = ".mt-2:nth-child(3) > div > p")
     private WebElement requiredTitle;
 
-    @FindBy(how = How.CSS, using = "#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div:nth-child(6) > div > p")
+    @FindBy(how = How.CSS, using = ".mt-2:nth-child(6) > div > p")
     private WebElement requiredDescription;
 
-    @FindBy(how = How.CSS,using = "#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div:nth-child(7) > p")
+    @FindBy(how = How.CSS,using = ".mt-2 > p")
     private WebElement requiredHashtags;
 
-    @FindBy(how = How.CSS, using = "#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div:nth-child(8) > div > p")
+    @FindBy(how = How.CSS, using = ".mt-2:nth-child(8) > div > p")
     private WebElement requiredCountry;
 
-    @FindBy(how = How.CSS, using = "#main > div.mt-2 > div.shadow.mb-5.bg-white.rounded > div > form > div > div:nth-child(9) > div > p")
+    @FindBy(how = How.CSS, using = "p.text-danger:nth-child(3)")
     private WebElement requiredCity;
 
     @FindBy(how = How.CSS, using = "#client-snackbar")
     private WebElement createdEventMessage;
 
 
-    public AddEventPage(WebDriver driver, WebDriverWait wait) {
-        this.driver = driver;
+    public AddEventPage(WebDriver driver) {
+        super(driver);
         PageFactory.initElements(driver, this);
-        webDriverWait=wait;
-        webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(findCountry));
+       // dateFrom=dates.get(0);
+        waitForElementToAppear(findCountry);
         country=new Select(driver.findElement(findCountry));
     }
 
-    public boolean loadImage(String nameFileImg) {
+    public String loadImage(String nameFileImg) {
         fileUploader.sendKeys(nameFileImg);
-        return true;
+        return image.getAttribute(ALT_ATTRIBUTE);
     }
 
-    public String getValueImage(){
-        return image.getAttribute("alt");
-    }
-
-    public boolean inputTitle(String text) {
+    public String inputTitle(String text) {
+        title.clear();
         title.sendKeys(text);
-        return true;
+        return title.getAttribute(VALUE_ATTRIBUTE);
     }
 
-    public boolean inputParticipants(String value){
+    public String inputParticipants(String value){
+        participants.clear();
         participants.sendKeys(value);
-        return true;
+        return participants.getAttribute(VALUE_ATTRIBUTE);
     }
 
     public static String convertDate(String date, LocalDate noLessThisDate){
@@ -158,104 +156,103 @@ public class AddEventPage{
         return  res.format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
     }
 
-    public boolean inputDateFrom(String date){
+    public String inputDateFrom(String date){
         dateFrom.sendKeys(Keys.CONTROL + "A");
         dateFrom.sendKeys(Keys.DELETE);
         dateFrom.sendKeys(date);
         dateFrom.sendKeys(Keys.ENTER);
-        return true;
+        return dateFrom.getAttribute(VALUE_ATTRIBUTE);
     }
 
-    public boolean inputDateTo(String date) {
+    public String inputDateTo(String date) {
+        //dateTo=dates.get(1);
         dateTo.sendKeys(Keys.CONTROL + "A");
         dateTo.sendKeys(Keys.DELETE);
         dateTo.sendKeys(date);
         dateTo.sendKeys(Keys.ENTER);
-        return true;
+        return dateTo.getAttribute(VALUE_ATTRIBUTE);
     }
 
-    public boolean inputDescription(String text) {
+    public String inputDescription(String text) {
+        description.clear();
         description.sendKeys(text);
-        return true;
+        return description.getAttribute(VALUE_ATTRIBUTE);
     }
 
-    public boolean inputHashtags(List<String> hashtagsToEnter) {
+    public List<String> inputHashtags(List<String> hashtagsToEnter) {
+        hashtags.clear();
         for (String str : hashtagsToEnter) {
             hashtags.sendKeys(str);
             hashtags.sendKeys(Keys.ENTER);
         }
         hashtags.sendKeys(Keys.ESCAPE);
-        return true;
+        List<WebElement> webElements = driver.findElements(findListOfHashtags);
+        List<String> list = new ArrayList<>();
+        for(WebElement element: webElements)list.add(element.getText());
+        return list;
     }
 
-    public boolean inputCountry(String text) {
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(selectorCountryOption));
+    public String inputCountry(String text) {
+        waitForElementToBeClickable(selectorCountryOption);
         country.selectByVisibleText(text);
         try {
             city.getFirstSelectedOption();
         }catch (NoSuchElementException | NullPointerException e){
-            webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(findCity));
+            waitForElementToAppear(findCity);
             city = new Select(driver.findElement(findCity));
         }
-        return true;
+        return country.getFirstSelectedOption().getText();
     }
 
     public int countriesAmount(){
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(selectorCountryOption));
+        waitForElementToAppear(selectorCountryOption);
         return country.getOptions().size();
     }
 
-    public boolean inputCity(String text){
-       webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(selectorCityOption));
+    public String inputCity(String text){
+        waitForElementToAppear(selectorCityOption);
        city.selectByVisibleText(text);
-       return true;
+       return city.getFirstSelectedOption().getText();
     }
 
     public int citiesAmount(){
-        webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(selectorCityOption));
+        waitForElementToAppear(selectorCityOption);
         return city.getOptions().size();
     }
 
-    public boolean clickClear(){
+    public void clickClear(){
         clear.click();
-        return true;
     }
 
     public boolean isAppearCreatedEventMessage(){
-        webDriverWait.until(ExpectedConditions.visibilityOf(createdEventMessage));
+        waitForElementToVisible(createdEventMessage);
         return createdEventMessage.isDisplayed();
     }
 
     public boolean isPageEmpty(){
         List<WebElement> hashtags = driver.findElements(findListOfHashtags);
-        if(title.getAttribute("value").isEmpty() &&
-                participants.getAttribute("value").isEmpty() &&
-                description.getAttribute("value").isEmpty() &&
-                hashtags.isEmpty() &&
-                country.getFirstSelectedOption().getText().isBlank()){
-            try{
-                image.isDisplayed();
-                return false;
-            }
-            catch (NoSuchElementException e){
-                return true;
-            }
+        try{
+            return  title.getAttribute(VALUE_ATTRIBUTE).isEmpty() &&
+                    participants.getAttribute(VALUE_ATTRIBUTE).isEmpty() &&
+                    description.getAttribute(VALUE_ATTRIBUTE).isEmpty() &&
+                    hashtags.isEmpty() &&
+                    country.getFirstSelectedOption().getText().isBlank() &&
+                    image.isDisplayed();
+        }catch (NoSuchElementException e){
+            return true;
         }
-        return false;
     }
 
     public boolean isPageFull(){
         List<WebElement> hashtags = driver.findElements(findListOfHashtags);
-        if(image.isEnabled() &&
+        return image.isEnabled() &&
                 !title.getAttribute("value").isEmpty() &&
                 !participants.getAttribute("value").isEmpty() &&
                 !dateFrom.getAttribute("value").isEmpty() &&
                 !description.getAttribute("value").isEmpty() &&
                 !hashtags.isEmpty() &&
                 !country.getFirstSelectedOption().getText().isBlank() &&
-                !city.getFirstSelectedOption().getText().isBlank())
-            return true;
-        return false;
+                !city.getFirstSelectedOption().getText().isBlank();
     }
 
 

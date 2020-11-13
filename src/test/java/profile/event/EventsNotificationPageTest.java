@@ -1,4 +1,4 @@
-package profile;
+package profile.event;
 
 import java.util.concurrent.TimeUnit;
 import org.testng.annotations.Test;

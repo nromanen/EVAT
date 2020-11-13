@@ -1,11 +1,11 @@
-package signInOut;
+package sign;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
 import pages.SignInUpMenu;
-import pages.homePageSearch.HomePageSearchMenu;
+import pages.search.HomePageSearchMenu;
 import utility.EventElement;
 import utility.SetUpDriver;
 

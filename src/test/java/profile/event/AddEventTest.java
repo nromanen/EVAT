@@ -1,11 +1,11 @@
-package profile.add_event;
+package profile.event;
 
 import jdbc.EventsRepository;
 import jdbc.UserInfoRepository;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.*;
 import pages.profile.EventMenu;
-import pages.profile.events_menu_pages.AddEventPage;
+import pages.profile.AddEventPage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -35,7 +35,7 @@ public class AddEventTest {
     private void clearPageAddEvent(){
         eventMenu.clickFutureEvents();
         eventMenu.clickAddEvent();
-        addEventPage=new AddEventPage(setUpProfile.getDriver(),webDriverWait);
+//        addEventPage=new AddEventPage(setUpProfile.getDriver(),webDriverWait);
     }
 
 

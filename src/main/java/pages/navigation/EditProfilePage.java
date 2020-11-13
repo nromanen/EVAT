@@ -1,4 +1,4 @@
-package pages.navBar;
+package pages.navigation;
 
 import java.time.LocalDate;
 import org.openqa.selenium.By;
