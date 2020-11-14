@@ -1,50 +1,34 @@
 package profile;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeTest;
+import base.Helper;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 import pages.profile.EventMenu;
 
-import static org.testng.Assert.*;
 
-public class EventMenuTest {
+public class EventMenuTest extends ProfileBaseTest{
 
-    EventMenu eventMenuTest;
-    SetUpProfile setUpProfile;
+    EventMenu eventMenu;
 
-    @BeforeTest
+    @BeforeClass
+    @Override
     public void setUp(){
-        setUpProfile=new SetUpProfile();
-        eventMenuTest = new EventMenu(setUpProfile.getDriver());
+        super.setUp();
+        signingIn();
+        goToProfilePage();
+        eventMenu = new EventMenu(driver);
+
     }
 
     @Test
-    public void testClickFutureEvents() {
-        assertTrue(eventMenuTest.clickFutureEvents());
+    public void testDefaultBehavior() {
+        SoftAssert softAssert=new SoftAssert();
+        softAssert.assertTrue(Helper.checkActionElement(eventMenu.getVisitedEvents()));
+        softAssert.assertTrue(Helper.checkActionElement(eventMenu.getArchiveEvents()));
+        softAssert.assertTrue(Helper.checkActionElement(eventMenu.getFutureEvents()));
+        softAssert.assertTrue(Helper.checkActionElement(eventMenu.getToGoEvents()));
+        softAssert.assertTrue(Helper.checkActionElement(eventMenu.getAddEvent()));
     }
 
-    @Test
-    public void testClickArchiveEvents() {
-        assertTrue(eventMenuTest.clickArchiveEvents());
-    }
-
-    @Test
-    public void testClickVisitedEvents() {
-        assertTrue(eventMenuTest.clickVisitedEvents());
-    }
-
-    @Test
-    public void testClickToGoEvents() {
-        assertTrue(eventMenuTest.clickToGoEvents());
-    }
-
-    @Test
-    public void testClickAddEvent() {
-        assertTrue(eventMenuTest.clickAddEvent());
-    }
-
-    @AfterClass
-    public void afterClass(){
-        setUpProfile.driverQuit();
-    }
 }
