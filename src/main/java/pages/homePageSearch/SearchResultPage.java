@@ -16,15 +16,11 @@ public class SearchResultPage extends BasePage {
         super(driver);
         PageFactory.initElements(driver,this);
         wait = new WebDriverWait(driver, 30);
-//        wait.until(ExpectedConditions.invisibilityOf(spinner));
         wait.until(ExpectedConditions
                 .or(ExpectedConditions.visibilityOf(event),
                         ExpectedConditions.visibilityOf(noResultText)));
     }
-//    public SearchResultPage(WebDriver driver){
-//        this.driver = driver;
-//        PageFactory.initElements(driver,this);
-//    }
+
     @FindBy(className = "MuiCardHeader-root")
     public static List<WebElement> numberOfEvents;
 
