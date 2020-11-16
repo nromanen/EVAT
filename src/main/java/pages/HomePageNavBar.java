@@ -87,13 +87,4 @@ public class HomePageNavBar {
     }
 
 
-//    public static void main(String[] args) {
-//        WebDriver driver = new FirefoxDriver();
-//        driver.get("https://eventsexpress-test.azurewebsites.net/home/events/?page=1");
-//        SignInUpMenu signInUpMenu = new SignInUpMenu(driver);
-//        signInUpMenu.authoriseUser("carat98@icloud.com", "12345678");
-//        HomePageNavBar homePageNavBar = new HomePageNavBar(driver);
-//        homePageNavBar.clickProfileButton();
-//    }
-
 }

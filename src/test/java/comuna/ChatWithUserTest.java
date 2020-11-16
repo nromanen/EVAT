@@ -30,8 +30,8 @@ public class ChatWithUserTest extends BaseTest {
         homePageNavBar.clickComunaButton();
         comunaPage.goToFirstChat();
     }
-    @Test
-    public  void verifySendingMessageTest(){
+    @Test(description = "CHIS-148")
+    public  void verifySendingMessageToUserTest(){
         chatWithUserPage.enterMessage(message);
         Assert.assertEquals(chatWithUserPage.getTextFromMessageField(), message);
         int numberOfMessages = chatWithUserPage.getNumberOfMessages();

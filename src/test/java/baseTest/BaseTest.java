@@ -36,7 +36,6 @@ public abstract class BaseTest {
         webDriverWait= new WebDriverWait(driver,100);
 
         driver.manage().window().maximize();
-      //  driver.get(HomePageSearchMenu.URL);
     }
 
     @AfterClass(alwaysRun = true)
