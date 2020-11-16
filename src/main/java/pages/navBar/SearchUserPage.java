@@ -2,13 +2,16 @@ package pages.navBar;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+import pages.BasePage;
 
 import java.util.List;
 
-public class SearchUserPage {
-    private WebDriver driver;
+public class SearchUserPage extends BasePage {
+
     public SearchUserPage(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
+        PageFactory.initElements(driver,this);
     }
     @FindBy(css = ".MuiInputBase-input")
     public WebElement searchField;
