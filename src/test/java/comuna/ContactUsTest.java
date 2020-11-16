@@ -27,7 +27,7 @@ public class ContactUsTest extends BaseTest {
         homePageNavBar.clickContactUsButton();
         contactUsPage = new ContactUsPage(driver);
     }
-    @Test
+    @Test(description = "CHIS-155")
     public void verifySendingMessageTest(){
         SoftAssert softAssert = new SoftAssert();
         contactUsPage.selectProblemType(problem);
@@ -39,13 +39,13 @@ public class ContactUsTest extends BaseTest {
         softAssert.assertAll();
     }
 
-    @Test
+    @Test(description = "CHIS-154")
     public void verifyClearingDescriptionFieldTest(){
         contactUsPage.enterDescription(textForDescription).clickClearButton();
         Assert.assertEquals(contactUsPage.getTextFromDescriptionField(), "");
     }
 
-    @Test
+    @Test(description = "CHIS-156")
     public void verifyEmptyDescriptionErrorTest(){
         contactUsPage.enterDescription(textForEmptyDescription).selectProblemType("Bad User");
         Assert.assertEquals(contactUsPage.getEmptyDescriptionError(), "Required");
