@@ -1,82 +1,46 @@
 package profile;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-import pages.EventInfoPage;
-import pages.SignInUpMenu;
-import utility.SetUpDriver;
+import org.testng.asserts.SoftAssert;
 
-public class EventInfoPageTest {
+import baseTest.WrapBaseTest;
+
+public class EventInfoPageTest extends WrapBaseTest {
 	
-	private WebDriver driver;
-	private WebDriverWait wait;
-	private SetUpDriver setUpDriver;
-	private EventInfoPage eventInfoPage;
-	private SignInUpMenu signInUpMenu;
-	
-	private String url = "https://eventsexpress-test.azurewebsites.net/home/events?page=1";
-	private String email = "d.bozhevilnyi@gmail.com";
-	private String pass = "131089";
-	private By eventInfoButton = By.xpath("//*[@id=\"main\"]/div[2]/div/div[2]/div/div[4]/div/div[3]/a/button");
-	private String comment = "auto generated comment";
-
-	@BeforeTest
-	public void setUp() {
-		setUpDriver = new SetUpDriver();
-		driver = setUpDriver.getDriver();
-		wait = setUpDriver.getWebDriverWait();
-		eventInfoPage = PageFactory.initElements(driver, EventInfoPage.class);
-		signInUpMenu = PageFactory.initElements(driver, SignInUpMenu.class);
-		driver.manage().window().maximize();
-	}
-
 	@BeforeClass
 	public void profileSetup() {
-		driver.get(url);
-		signInUpMenu.authoriseUser(email,pass);
-		wait.until(ExpectedConditions.elementToBeClickable(eventInfoButton));
-		driver.findElement(eventInfoButton).click();
-		wait.until(ExpectedConditions.elementToBeClickable(eventInfoPage.commentEventInput));
+		eventInfoPage.clickOnTestEventInfo();
 	}
 	
-	@Test(priority = 1)
-	public void addComment() throws InterruptedException {
+	/**
+	 * Test to verify that authorized user
+	 * can add comment below event
+	 */
+	@Test
+	public void addCommentTest() {
 		eventInfoPage.addCommentToEvent(comment);
-		Thread.sleep(500); // TODO
 		Assert.assertEquals(eventInfoPage.getCommentText(), "auto generated comment");
 	}
 	
-	@Test(priority = 2)
-	public void replyOnComment() {
-		eventInfoPage.replyOnComment(comment);
-		Assert.assertEquals(eventInfoPage.getCommentText(), "auto generated comment");
-		eventInfoPage.clickOnDeleteCommentButton();
-	}
-	
-	@Test(priority = 3)
-	public void joinEvent() {
+	/**
+	 * Test to verify that authorized user
+	 * can join or/and leave event
+	 */
+	@Test
+	public void joinAndLeaveEventTest() {
+		SoftAssert asert = new SoftAssert();
+		
 		eventInfoPage.joinEvent();
-		wait.until(ExpectedConditions.elementToBeClickable(eventInfoPage.leaveEventButton));
-		Assert.assertEquals(eventInfoPage.joinEventStatusText(), "Leave");
-	}
-	
-	@Test(priority = 4)
-	public void leaveEvent() {
+		webDriverWait.until(ExpectedConditions.elementToBeClickable(eventInfoPage.leaveEventButton));
+		asert.assertEquals(eventInfoPage.getCurrentStatusInfoText(), "Current status: Approving participation.");
+		
 		eventInfoPage.leaveEvent();
-		wait.until(ExpectedConditions.elementToBeClickable(eventInfoPage.joinEventButton));
-		Assert.assertEquals(eventInfoPage.joinEventStatusText(), "Join");
-	}
-	
-	@AfterTest(alwaysRun = true)
-	public void closeUp() {
-		setUpDriver.driverQuit();
+		webDriverWait.until(ExpectedConditions.elementToBeClickable(eventInfoPage.joinEventButton));
+		asert.assertEquals(eventInfoPage.getCurrentStatusInfoText(), "Current status: Not in event.");
+		
+		asert.assertAll();
 	}
 }

@@ -15,10 +15,10 @@ public class HomePageNavBar {
 
     //ProfileButtons
 
-    @FindBy(css = ".flex-column > div:nth-child(3) > a:nth-child(1) > button:nth-child(1)")
+    @FindBy(css = "button[title='Edit your profile']")
     WebElement editProfileButton;
 
-    @FindBy(css = ".flex-column > div:nth-child(3) > a:nth-child(2) > button:nth-child(1)")
+    @FindBy(css = "button[title='Notifications']")
     WebElement notificationsButton;
 
     @FindBy(css = ".flex-column > div:nth-child(3) > a:nth-child(3) > button:nth-child(1)")

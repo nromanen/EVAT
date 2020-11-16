@@ -13,7 +13,7 @@ import utility.EventElement;
 import java.time.LocalDate;
 
 public class HomePageSearchMenu {
-    public static final String URL = "https://eventsexpress-test.azurewebsites.net/home/events/?page=1";
+    public static final String URL = "https://eventsexpress-qa.azurewebsites.net/home/events/?page=1";
 //    public static final String URL = "https://eventsexpress.azurewebsites.net/home/events?page=1";
     private WebDriver driver;
     public HomePageSearchMenu(WebDriver driver){
