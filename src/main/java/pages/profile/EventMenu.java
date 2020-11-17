@@ -5,11 +5,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
-import utility.EventElement;
+import pages.base.BasePage;
 
-public class EventMenu {
-
-    WebDriver driver;
+public class EventMenu extends BasePage {
 
     @FindBy(how = How.CSS, using = "#full-width-tab-0")
     private WebElement futureEvents;
@@ -27,33 +25,29 @@ public class EventMenu {
     private WebElement addEvent;
 
     public EventMenu(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
+        waitForElementToVisible(futureEvents);
         PageFactory.initElements(driver, this);
     }
 
-    public boolean clickFutureEvents(){
-        new EventElement(driver, futureEvents).click();
-        return true;
+    public void clickFutureEvents(){
+        futureEvents.click();
     }
 
-    public boolean clickArchiveEvents(){
-        new EventElement(driver, archiveEvents).click();
-        return true;
+    public void clickArchiveEvents(){
+        archiveEvents.click();
     }
 
-    public boolean clickVisitedEvents(){
-        new EventElement(driver, visitedEvents).click();
-        return true;
+    public void clickVisitedEvents(){
+        visitedEvents.click();
     }
 
-    public boolean clickToGoEvents(){
-        new EventElement(driver, toGoEvents).click();
-        return true;
+    public void clickToGoEvents(){
+        toGoEvents.click();
     }
 
-    public boolean clickAddEvent(){
-        new EventElement(driver, addEvent).click();
-        return true;
+    public void clickAddEvent(){
+        addEvent.click();
     }
 
     public WebElement getFutureEvents() {
