@@ -34,14 +34,8 @@ public class ChatWithUserTest extends BaseTest {
     public  void verifySendingMessageToUserTest(){
         chatWithUserPage.enterMessage(message);
         Assert.assertEquals(chatWithUserPage.getTextFromMessageField(), message);
-        int numberOfMessages = chatWithUserPage.getNumberOfMessages();
         chatWithUserPage.sendMessage();
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        Assert.assertEquals(chatWithUserPage.getNumberOfMessages(), numberOfMessages + 1);
+        Assert.assertEquals(chatWithUserPage.getNumberOfMessages(), 1);
         String messageText = chatWithUserPage.getTextSentMessage().substring(0, 5);
         Assert.assertEquals(messageText, "Hello");
     }
