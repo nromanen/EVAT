@@ -8,7 +8,7 @@ import pages.HomePageNavBar;
 import pages.SignInUpMenu;
 import pages.comuna.ChatWithUserPage;
 import pages.comuna.ComunaPage;
-import pages.homePageSearch.HomePageSearchMenu;
+import pages.search.HomePageSearchMenu;
 
 public class ChatWithUserTest extends BaseTest {
     ChatWithUserPage chatWithUserPage;

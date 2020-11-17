@@ -1,11 +1,4 @@
 package jdbc;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import pages.homePageSearch.HomePageSearchMenu;
-import pages.homePageSearch.SearchResultPage;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;

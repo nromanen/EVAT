@@ -118,3 +118,8 @@ hs_err_pid*
 /node_modules/
 /**/node_modules/
 /build.gradle
+/gradle/
+gradlew.bat
+gradlew
+settings.gradle
+gradle/wrapper/gradle-wrapper.properties
