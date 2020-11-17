@@ -171,6 +171,7 @@ public class EditProfilePage extends BasePage {
 	}
 
 	public void clickOnInputDateOfBirthComponent() {
+		waitForElementToVisible(inputDateOfBirthComponent);
 		inputDateOfBirthComponent.click();
 	}
 

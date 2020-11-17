@@ -3,6 +3,7 @@ package profile;
 import java.time.LocalDate;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import baseTest.WrapBaseTest;
 import pages.HomePageNavBar;
@@ -12,6 +13,16 @@ public class EditProfilePageTest extends WrapBaseTest {
 	@BeforeClass
 	public void profileSetup() {
 		new HomePageNavBar(driver).clickEditProfileButton();
+	}
+	
+	@DataProvider(name = "dateOfBirthData")
+	public Object[][] provideDateOfBirthData() {
+		return new Object[][] {
+			{ LocalDate.of(1989, 10, 13), "Set date of birth successed" },
+			{ LocalDate.of(1905, 01, 31), "Failed" },
+			{ LocalDate.of(1905, 02, 01), "Set date of birth successed" },
+			{ LocalDate.of(2006, 01, 31), "Set date of birth successed" },
+			{ LocalDate.of(2006, 02, 01), "Failed" }};
 	}
 
 	/**
@@ -41,17 +52,17 @@ public class EditProfilePageTest extends WrapBaseTest {
 	@Test
 	public void chooseGenderTest() {
 		editProfilePage.chooseGender("Male");
-		Assert.assertEquals(editProfilePage.getClientSnackbarText(), "Failed"); // Set gender successed
+		Assert.assertEquals(editProfilePage.getClientSnackbarText(), "Set gender successed");
 	}
 
 	/**
 	 * Test to verify that authorized user
 	 * can set date of birth
 	 */
-	@Test
-	public void setDateOfBirthTest() {
-		editProfilePage.setDateOfBirth(LocalDate.of(1989, 10, 13));
-		Assert.assertEquals(editProfilePage.getClientSnackbarText(), "Failed"); // Set date of birth successed
+	@Test(dataProvider = "dateOfBirthData")
+	public void verifySettingDateOfBirthTest(LocalDate date, String message) {
+		editProfilePage.setDateOfBirth(date);
+		Assert.assertEquals(editProfilePage.getClientSnackbarText(), message);
 	}
 
 	/**
@@ -61,7 +72,7 @@ public class EditProfilePageTest extends WrapBaseTest {
 	@Test
 	public void chooseFavoriteCategoriesTest() {
 		editProfilePage.chooseFavoriteCategories("Summer");
-		Assert.assertEquals(editProfilePage.getClientSnackbarText(), "Failed"); // Favarote categoris is updated
+		Assert.assertEquals(editProfilePage.getClientSnackbarText(), "Favarote categoris is updated");
 	}
 
 	/**
