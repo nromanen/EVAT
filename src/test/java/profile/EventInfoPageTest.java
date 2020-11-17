@@ -6,9 +6,9 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-import baseTest.WrapBaseTest;
+import baseTest.SignInBaseTest;
 
-public class EventInfoPageTest extends WrapBaseTest {
+public class EventInfoPageTest extends SignInBaseTest {
 	
 	@BeforeClass
 	public void profileSetup() {

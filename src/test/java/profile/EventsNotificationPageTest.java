@@ -1,12 +1,12 @@
 package profile;
 
 import org.testng.annotations.Test;
-import baseTest.WrapBaseTest;
+import baseTest.SignInBaseTest;
 import pages.HomePageNavBar;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 
-public class EventsNotificationPageTest extends WrapBaseTest {
+public class EventsNotificationPageTest extends SignInBaseTest {
 	
 	@BeforeClass
 	public void profileSetup() {

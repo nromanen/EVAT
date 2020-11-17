@@ -5,10 +5,10 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import baseTest.WrapBaseTest;
+import baseTest.SignInBaseTest;
 import pages.HomePageNavBar;
 
-public class EditProfilePageTest extends WrapBaseTest {
+public class EditProfilePageTest extends SignInBaseTest {
 
 	@BeforeClass
 	public void profileSetup() {

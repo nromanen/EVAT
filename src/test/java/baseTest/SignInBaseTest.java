@@ -8,7 +8,7 @@ import pages.homePageSearch.HomePageSearchMenu;
 import pages.navBar.EditProfilePage;
 import pages.navBar.EventsNotificationPage;
 
-public class WrapBaseTest extends BaseTest {
+public class SignInBaseTest extends BaseTest {
 
 	protected EditProfilePage editProfilePage;
 	protected EventsNotificationPage eventsNotificationPage;
