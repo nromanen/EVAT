@@ -2,8 +2,11 @@ package pages;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import pages.comuna.ComunaPage;
 import utility.EventElement;
 
 
@@ -12,10 +15,10 @@ public class HomePageNavBar {
 
     //ProfileButtons
 
-    @FindBy(css = ".flex-column > div:nth-child(3) > a:nth-child(1) > button:nth-child(1)")
+    @FindBy(css = "button[title='Edit your profile']")
     WebElement editProfileButton;
 
-    @FindBy(css = ".flex-column > div:nth-child(3) > a:nth-child(2) > button:nth-child(1)")
+    @FindBy(css = "button[title='Notifications']")
     WebElement notificationsButton;
 
     @FindBy(css = ".flex-column > div:nth-child(3) > a:nth-child(3) > button:nth-child(1)")
@@ -74,7 +77,7 @@ public class HomePageNavBar {
     }
 
     public HomePageNavBar clickComunaButton() {
-        new EventElement(driver, comunaButton).click();
+        new EventElement(driver, comunaButton).clickAndWait(ComunaPage.numberOfChats);
         return this;
     }
 
