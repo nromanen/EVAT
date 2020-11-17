@@ -15,7 +15,7 @@ public class EditProfilePage extends BasePage {
 		super(driver);
 	}
 
-	@FindBy(css = "#main>div>div:nth-child(1)>div")
+	@FindBy(css = "#main>div>div:nth-child(1)")
 	WebElement changeAvatarField;
 
 	@FindBy(css = "img.pic")
@@ -24,28 +24,28 @@ public class EditProfilePage extends BasePage {
 	@FindBy(css = ".uk-button")
 	WebElement clearAvatarButton;
 
-	@FindBy(css = "#panel1bh-content>div>p>form>div:nth-child(3)>button")
+	@FindBy(css = "#panel1bh-content div:nth-child(3)>button")
 	WebElement submitAvatarButton;
 
 	@FindBy(css = "input[type=file]")
 	WebElement uploaderAvatarComponent;
 
-	@FindBy(css = "#main>div>div:nth-child(2)>div")
+	@FindBy(css = "#main>div>div:nth-child(2)")
 	WebElement usernameField;
 
 	@FindBy(css = "input[name=UserName]")
 	WebElement inputUsernameComponent;
 
-	@FindBy(css = "#panel1bh-content>div>p>form>div:nth-child(2)>button:nth-child(1)")
+	@FindBy(css = "#panel1bh-content div:nth-child(2)>button:nth-child(1)")
 	WebElement submitUsernameButton;
 
-	@FindBy(css = "#main>div>div:nth-child(3)>div")
+	@FindBy(css = "#main>div>div:nth-child(3)")
 	WebElement genderField;
 
-	@FindBy(css = "div[name=Gender]>div>div>div:nth-child(2)")
+	@FindBy(css = "div[name=Gender] div:nth-child(2)")
 	WebElement chooseGenderDropDownList;
 
-	@FindBy(css = "#panel2bh-content>div>p>form>div:nth-child(2)>button")
+	@FindBy(css = "#panel2bh-content div:nth-child(2)>button")
 	WebElement submitGenderButton;
 
 	@FindBy(css = "#main>div>div:nth-child(4)")
@@ -54,7 +54,7 @@ public class EditProfilePage extends BasePage {
 	@FindBy(css = "div.react-datepicker__input-container>input")
 	WebElement inputDateOfBirthComponent;
 
-	@FindBy(css = "#panel3bh-content>div>p>form>div:nth-child(2)>button:nth-child(1)")
+	@FindBy(css = "#panel3bh-content button:nth-child(1)")
 	WebElement submitDateOfBirthButton;
 
 	@FindBy(css = "#main>div>div:nth-child(5)")
