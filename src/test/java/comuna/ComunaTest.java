@@ -1,6 +1,5 @@
 package comuna;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.PageFactory;
+import baseTest.BaseTest;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -10,40 +9,35 @@ import pages.SignInUpMenu;
 import pages.comuna.ChatWithUserPage;
 import pages.comuna.ComunaPage;
 import pages.homePageSearch.HomePageSearchMenu;
-import utility.SetUpDriver;
 
-public class ComunaTest {
+public class ComunaTest extends BaseTest {
     ComunaPage comunaPage;
-    SetUpDriver setUpDriver;
     ChatWithUserPage chatWithUserPage;
+    String email = "zlotech@rambler.ru";
+    String pass = "1234event";
 
     @BeforeMethod
+    @Override
     public void setUp(){
-        setUpDriver = new SetUpDriver();
-        WebDriver driver = setUpDriver.getDriver();
-        driver.manage().window().maximize();
+        super.setUp();
         driver.get(HomePageSearchMenu.URL);
-        SignInUpMenu signInUpMenu = PageFactory.initElements(driver, SignInUpMenu.class);
-        String email = "zlotech@rambler.ru";
-        String pass = "1234event";
+        SignInUpMenu signInUpMenu = new SignInUpMenu(driver);
         signInUpMenu.authoriseUser(email,pass);
-        HomePageNavBar homePageNavBar = PageFactory.initElements(driver, HomePageNavBar.class);
-        chatWithUserPage = PageFactory.initElements(driver, ChatWithUserPage.class);
-        comunaPage = PageFactory.initElements(driver, ComunaPage.class);
+        HomePageNavBar homePageNavBar = new HomePageNavBar(driver);
         homePageNavBar.clickComunaButton();
+        comunaPage = new ComunaPage(driver);
+        chatWithUserPage = new ChatWithUserPage(driver);
     }
     @Test(description = "CHIS-150")
-    public void goToTheFirstChatTest(){
+    public void verifyGoToTheFirstChatTest(){
         comunaPage.goToFirstChat();
         String title = chatWithUserPage.getChatTitleText().substring(0,25);
         Assert.assertEquals(title, "Chat with Katty Ihnatyeva");
     }
-    @Test(description = "CHIS-151")
-    public void getNumberOfChatsTest(){
-        Assert.assertEquals(comunaPage.getNumberOfUsersChats(), 3);
-    }
-    @AfterMethod(alwaysRun = true)
+
+    @Override
+    @AfterMethod
     public void closeBrowser(){
-        setUpDriver.driverQuit();
+        super.closeBrowser();
     }
 }
