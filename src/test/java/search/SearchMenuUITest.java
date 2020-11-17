@@ -1,27 +1,23 @@
 package search;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.PageFactory;
+import base.BaseTest;
 import org.testng.Assert;
 import org.testng.annotations.*;
-import pages.homePageSearch.HomePageSearchMenu;
-import pages.homePageSearch.SearchResultPage;
-import utility.SetUpDriver;
+import pages.search.HomePageSearchMenu;
+import pages.search.SearchResultPage;
+
 import java.time.LocalDate;
 
-public class SearchMenuUITest {
+public class SearchMenuUITest extends BaseTest {
     HomePageSearchMenu homePageSearchMenu;
     SearchResultPage searchResultPage;
-    SetUpDriver setUpDriver;
-
 
     @BeforeMethod
+    @Override
     public void setUp(){
-        setUpDriver = new SetUpDriver();
-        WebDriver driver = setUpDriver.getDriver();
-        driver.manage().window().maximize();
+        super.setUp();
         driver.get(HomePageSearchMenu.URL);
-        searchResultPage = PageFactory.initElements(driver, SearchResultPage.class);
-        homePageSearchMenu = PageFactory.initElements(driver, HomePageSearchMenu.class);
+        searchResultPage = new SearchResultPage(driver);
+        homePageSearchMenu = new HomePageSearchMenu(driver);
     }
 
     @Test(description = "CHIS-142")
@@ -33,14 +29,14 @@ public class SearchMenuUITest {
 
     @Test(description = "CHIS-142")
     public void testTypeDateFrom() {
-        LocalDate date = LocalDate.of(2020, 12,12);
+        LocalDate date = LocalDate.of(2020, 12,25);
         homePageSearchMenu.clickMoreFiltersButton().clearDateFrom().typeDateFrom(date);
         Assert.assertEquals(homePageSearchMenu.getDateFromPickerText(), date.getMonthValue() + "/" + date.getDayOfMonth() + "/" + date.getYear());
     }
 
     @Test(description = "CHIS-142")
     public void testTypeDateTo() {
-        LocalDate date = LocalDate.of(2020, 12, 13);
+        LocalDate date = LocalDate.of(2020, 12, 26);
         homePageSearchMenu.clickMoreFiltersButton().clearDateTo().typeDateTo(date);
         Assert.assertEquals(homePageSearchMenu.getDateToPickerText(), date.getMonthValue() + "/" + date.getDayOfMonth() + "/" + date.getYear());
     }
@@ -53,8 +49,9 @@ public class SearchMenuUITest {
         Assert.assertEquals(homePageSearchMenu.getChosenHashtagText(), hashtag);
     }
 
-    @AfterMethod(alwaysRun = true)
+    @Override
+    @AfterMethod
     public void closeBrowser(){
-        setUpDriver.driverQuit();
+        super.closeBrowser();
     }
 }

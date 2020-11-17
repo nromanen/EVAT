@@ -4,12 +4,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import pages.base.BasePage;
 import utility.EventElement;
 
-public class ContactUsPage {
-    private WebDriver driver;
+public class ContactUsPage extends BasePage {
+
     public ContactUsPage(WebDriver driver){
-        this.driver = driver;
+        super(driver);
         PageFactory.initElements(driver,this);
     }
 

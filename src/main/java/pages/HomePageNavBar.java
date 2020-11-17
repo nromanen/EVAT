@@ -15,10 +15,10 @@ public class HomePageNavBar {
 
     //ProfileButtons
 
-    @FindBy(css = ".flex-column > div:nth-child(3) > a:nth-child(1) > button:nth-child(1)")
+    @FindBy(css = "button[title='Edit your profile']")
     WebElement editProfileButton;
 
-    @FindBy(css = ".flex-column > div:nth-child(3) > a:nth-child(2) > button:nth-child(1)")
+    @FindBy(css = "button[title='Notifications']")
     WebElement notificationsButton;
 
     @FindBy(css = ".flex-column > div:nth-child(3) > a:nth-child(3) > button:nth-child(1)")
@@ -86,14 +86,5 @@ public class HomePageNavBar {
         return this;
     }
 
-
-//    public static void main(String[] args) {
-//        WebDriver driver = new FirefoxDriver();
-//        driver.get("https://eventsexpress-test.azurewebsites.net/home/events/?page=1");
-//        SignInUpMenu signInUpMenu = new SignInUpMenu(driver);
-//        signInUpMenu.authoriseUser("carat98@icloud.com", "12345678");
-//        HomePageNavBar homePageNavBar = new HomePageNavBar(driver);
-//        homePageNavBar.clickProfileButton();
-//    }
 
 }

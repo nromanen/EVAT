@@ -5,16 +5,15 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import pages.base.BasePage;
 import utility.EventElement;
 
 import java.time.LocalDate;
 
-public class HomePageSearchMenu {
-    public static final String URL = "https://eventsexpress-test.azurewebsites.net/home/events/?page=1";
-//    public static final String URL = "https://eventsexpress.azurewebsites.net/home/events?page=1";
-    private WebDriver driver;
+public class HomePageSearchMenu extends BasePage {
+    public static final String URL = "https://eventsexpress-qa.azurewebsites.net/home/events?page=1&status=active";
     public HomePageSearchMenu(WebDriver driver){
-        this.driver = driver;
+        super(driver);
         PageFactory.initElements(driver,this);
     }
 

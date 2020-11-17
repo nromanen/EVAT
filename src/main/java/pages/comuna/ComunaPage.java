@@ -3,14 +3,15 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import pages.base.BasePage;
 import utility.EventElement;
 
 import java.util.List;
 
-public class ComunaPage {
-    private WebDriver driver;
+public class ComunaPage extends BasePage {
+
     public ComunaPage(WebDriver driver){
-        this.driver = driver;
+        super(driver);
         PageFactory.initElements(driver,this);
     }
     @FindBy(css = "div.w-100")

@@ -44,14 +44,9 @@ public class ErrorsAddEventTest extends AddEventBaseTest{
         softAssert.assertTrue(Helper.checkActionElement(addEventPage.getErrorIncorrectResolutionPhoto()));
         softAssert.assertEquals(addEventPage.getErrorIncorrectResolutionPhoto().getText(),getDataByKey("errorIncorrectResolutionPhoto"));
         addEventPage.loadImage(getDataByKey("getDataByKey"));
-        addEventPage.getErrorIncorrectResolutionPhoto().isDisplayed();
+        softAssert.assertFalse(Helper.checkActionElement(addEventPage.getErrorIncorrectResolutionPhoto()));
     }
 
-    @Test(dependsOnMethods = "errorTextIncorrectResolution",dataProvider = "providerCorrectImage",
-            expectedExceptions={NoSuchElementException.class, StaleElementReferenceException.class})
-    public void disappearanceErrorIncorrectResolution(String photo){
-
-    }
 
  /*   @DataProvider
     public Object[][] providerCorrectImage(){

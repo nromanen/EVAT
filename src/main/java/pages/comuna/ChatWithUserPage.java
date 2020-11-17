@@ -3,13 +3,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import pages.base.BasePage;
 
 import java.util.List;
 
-public class ChatWithUserPage {
-    WebDriver driver;
+public class ChatWithUserPage extends BasePage {
+
     public ChatWithUserPage(WebDriver driver){
-        this.driver = driver;
+        super(driver);
         PageFactory.initElements(driver,this);
     }
     @FindBy(css = ".user_info")

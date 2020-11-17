@@ -1,56 +1,52 @@
 package search;
-import jdbc.SearchRepository;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.PageFactory;
+
+import base.BaseTest;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import pages.HomePageNavBar;
 import pages.SignInUpMenu;
-import pages.homePageSearch.HomePageSearchMenu;
-import pages.navBar.SearchUserPage;
-import utility.SetUpDriver;
+import pages.navigation.SearchUserPage;
+import pages.search.HomePageSearchMenu;
 
-public class SearchUserTest {
+public class SearchUserTest extends BaseTest {
     SearchUserPage searchUserPage;
-    SetUpDriver setUpDriver;
+    String email = "zlotech@rambler.ru";
+    String pass = "1234event";
+    String nameOfUser = "Admin";
 
     @BeforeMethod
+    @Override
     public void setUp(){
-        setUpDriver = new SetUpDriver();
-        WebDriver driver = setUpDriver.getDriver();
-        driver.manage().window().maximize();
+        super.setUp();
         driver.get(HomePageSearchMenu.URL);
-        SignInUpMenu signInUpMenu = PageFactory.initElements(driver, SignInUpMenu.class);
-        String email = "zlotech@rambler.ru";
-        String pass = "1234event";
+        SignInUpMenu signInUpMenu = new SignInUpMenu(driver);
         signInUpMenu.authoriseUser(email,pass);
-        HomePageNavBar homePageNavBar = PageFactory.initElements(driver, HomePageNavBar.class);
-        searchUserPage = PageFactory.initElements(driver, SearchUserPage.class);
+        HomePageNavBar homePageNavBar = new HomePageNavBar(driver);
+        homePageNavBar.clickContactUsButton();
+        searchUserPage = new SearchUserPage(driver);
         homePageNavBar.clickSearchUsersButton();
     }
-    @Test(description = "CHIS-144")
-    public void typeInSearchFieldTest(){
-        String text = "Admin";
-        searchUserPage.typeInSearchField(text);
-        Assert.assertEquals(searchUserPage.getSearchFieldValue(), text);
+
+    @Test(description = "CHIS-146")
+    public void verifySearchUserTest(){
+        searchUserPage.typeInSearchField(nameOfUser);
+        Assert.assertEquals(searchUserPage.getSearchFieldValue(), nameOfUser);
+        searchUserPage.clickSearchButton();
+        Assert.assertEquals(searchUserPage.getNumberOfFoundedUsers(), 1);
+
     }
     @Test(description = "CHIS-145")
-    public void clearSearchFieldTest(){
-        String text = "Admin";
-        searchUserPage.typeInSearchField(text).clickClearButton();
+    public void verifyClearingSearchFieldTest(){
+        searchUserPage.typeInSearchField(nameOfUser).clickClearButton();
         Assert.assertEquals(searchUserPage.getSearchFieldValue(), "");
     }
-    @Test(description = "CHIS-146")
-    public void searchUserTest(){
-        String name = "Admin";
-        searchUserPage.searchUser(name);
-        Assert.assertEquals(searchUserPage.getNumberOfFoundedUsers(), SearchRepository.getNumberOfUsersByNameWithNInQuery(name));
-    }
-    @AfterMethod(alwaysRun = true)
+
+    @Override
+    @AfterMethod
     public void closeBrowser(){
-        setUpDriver.driverQuit();
+        super.closeBrowser();
     }
 
 }
