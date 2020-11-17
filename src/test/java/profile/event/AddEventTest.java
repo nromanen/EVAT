@@ -16,36 +16,24 @@ import java.util.Properties;
 
 import static org.testng.Assert.*;
 
-public class AddEventTest {
+public class AddEventTest extends AddEventBaseTest{
 
-    private static AddEventPage addEventPage;
-    private static EventMenu eventMenu;
-    private static Properties prop;
-    private static WebDriverWait webDriverWait;
-    SetUpProfile setUpProfile;
 
-    @BeforeClass
-    public void beforeClass() {
-        setUpProfile=new SetUpProfile();
-        eventMenu=new EventMenu(setUpProfile.getDriver());
-        prop=setUpProfile.getProp();
-        webDriverWait=setUpProfile.getWebDriverWait();
-    }
 
     private void clearPageAddEvent(){
         eventMenu.clickFutureEvents();
         eventMenu.clickAddEvent();
-//        addEventPage=new AddEventPage(setUpProfile.getDriver(),webDriverWait);
+        addEventPage=new AddEventPage(driver);
     }
 
 
     @DataProvider
     public Object[][] providerSaveCorrect(){
-        List<String> hashtags= Arrays.asList(prop.getProperty("correctHashtags").split(","));
-        return new Object[][]{{prop.getProperty("correctPhoto"),prop.getProperty("correctTitle"),
-                prop.getProperty("correctParticipants"), prop.getProperty("correctDateFrom"),
-                prop.getProperty("correctDateTo"),prop.getProperty("correctDescription"),
-                hashtags,prop.getProperty("correctCountry"),prop.getProperty("correctCity")}};
+        List<String> hashtags= Arrays.asList(getDataByKey("correctHashtags").split(","));
+        return new Object[][]{{getDataByKey("correctPhoto"),getDataByKey("correctTitle"),
+                getDataByKey("correctParticipants"), getDataByKey("correctDateFrom"),
+                getDataByKey("correctDateTo"),getDataByKey("correctDescription"),
+                hashtags,getDataByKey("correctCountry"),getDataByKey("correctCity")}};
     }
 
 
@@ -76,11 +64,11 @@ public class AddEventTest {
 
     @DataProvider
     public Object[][] providerSaveWithoutImage(){
-        List<String> hashtags= Arrays.asList(prop.getProperty("correctHashtags").split(","));
-        return new Object[][]{{prop.getProperty("correctTitle"),prop.getProperty("correctParticipants"),
-                prop.getProperty("correctDateFrom"), prop.getProperty("correctDateTo"),
-                prop.getProperty("correctDescription"), hashtags,
-                prop.getProperty("correctCountry"),prop.getProperty("correctCity")}};
+        List<String> hashtags= Arrays.asList(getDataByKey("correctHashtags").split(","));
+        return new Object[][]{{getDataByKey("correctTitle"),getDataByKey("correctParticipants"),
+                getDataByKey("correctDateFrom"), getDataByKey("correctDateTo"),
+                getDataByKey("correctDescription"), hashtags,
+                getDataByKey("correctCountry"),getDataByKey("correctCity")}};
     }
 
 
@@ -114,11 +102,11 @@ public class AddEventTest {
 
     @DataProvider
     public Object[][] providerSaveWithoutTitle(){
-        List<String> hashtags= Arrays.asList(prop.getProperty("correctHashtags").split(","));
-        return new Object[][]{{prop.getProperty("correctPhoto"),
-                prop.getProperty("tooManyParticipants"), prop.getProperty("correctDateFrom"),
-                prop.getProperty("correctDateTo"),prop.getProperty("correctDescription"),
-                hashtags,prop.getProperty("correctCountry"),prop.getProperty("correctCity")}};
+        List<String> hashtags= Arrays.asList(getDataByKey("correctHashtags").split(","));
+        return new Object[][]{{getDataByKey("correctPhoto"),
+                getDataByKey("tooManyParticipants"), getDataByKey("correctDateFrom"),
+                getDataByKey("correctDateTo"),getDataByKey("correctDescription"),
+                getDataByKey("correctCountry"),getDataByKey("correctCity")}};
     }
 
 
@@ -152,11 +140,11 @@ public class AddEventTest {
 
     @DataProvider
     public Object[][] providerSaveWithoutDescription(){
-        List<String> hashtags= Arrays.asList(prop.getProperty("correctHashtags").split(","));
-        return new Object[][]{{prop.getProperty("correctPhoto"),prop.getProperty("correctTitle"),
-                prop.getProperty("correctParticipants"), prop.getProperty("correctDateFrom"),
-                prop.getProperty("correctDateTo"),
-                hashtags,prop.getProperty("correctCountry"),prop.getProperty("correctCity")}};
+        List<String> hashtags= Arrays.asList(getDataByKey("correctHashtags").split(","));
+        return new Object[][]{{getDataByKey("correctPhoto"),getDataByKey("correctTitle"),
+                getDataByKey("correctParticipants"), getDataByKey("correctDateFrom"),
+                getDataByKey("correctDateTo"),
+                hashtags,getDataByKey("correctCountry"),getDataByKey("correctCity")}};
     }
 
 
@@ -190,10 +178,10 @@ public class AddEventTest {
 
     @DataProvider
     public Object[][] providerSaveWithoutHashtags(){
-        return new Object[][]{{prop.getProperty("correctPhoto"),prop.getProperty("correctTitle"),
-                prop.getProperty("correctParticipants"), prop.getProperty("correctDateFrom"),
-                prop.getProperty("correctDateTo"),prop.getProperty("correctDescription"),
-                prop.getProperty("correctCountry"),prop.getProperty("correctCity")}};
+        return new Object[][]{{getDataByKey("correctPhoto"),getDataByKey("correctTitle"),
+                getDataByKey("correctParticipants"),getDataByKey("correctDateFrom"),
+                getDataByKey("correctDateTo"),getDataByKey("correctDescription"),
+                getDataByKey("correctCountry"),getDataByKey("correctCity")}};
     }
 
 
@@ -227,10 +215,10 @@ public class AddEventTest {
 
     @DataProvider
     public Object[][] providerSaveWithoutCountry(){
-        List<String> hashtags= Arrays.asList(prop.getProperty("correctHashtags").split(","));
-        return new Object[][]{{prop.getProperty("correctPhoto"),prop.getProperty("correctTitle"),
-                prop.getProperty("correctParticipants"), prop.getProperty("correctDateFrom"),
-                prop.getProperty("correctDateTo"),prop.getProperty("correctDescription"),
+        List<String> hashtags= Arrays.asList(getDataByKey("correctHashtags").split(","));
+        return new Object[][]{{getDataByKey("correctPhoto"),getDataByKey("correctTitle"),
+                getDataByKey("correctParticipants"), getDataByKey("correctDateFrom"),
+                getDataByKey("correctDateTo"),getDataByKey("correctDescription"),
                 hashtags}};
     }
 
@@ -263,11 +251,11 @@ public class AddEventTest {
 
     @DataProvider
     public Object[][] providerSaveWithoutCity(){
-        List<String> hashtags= Arrays.asList(prop.getProperty("correctHashtags").split(","));
-        return new Object[][]{{prop.getProperty("correctPhoto"),prop.getProperty("correctTitle"),
-                prop.getProperty("correctParticipants"), prop.getProperty("correctDateFrom"),
-                prop.getProperty("correctDateTo"),prop.getProperty("correctDescription"),
-                hashtags,prop.getProperty("correctCountry")}};
+        List<String> hashtags= Arrays.asList(getDataByKey("correctHashtags").split(","));
+        return new Object[][]{{getDataByKey("correctPhoto"),getDataByKey("correctTitle"),
+                getDataByKey("correctParticipants"), getDataByKey("correctDateFrom"),
+                getDataByKey("correctDateTo"),getDataByKey("correctDescription"),
+                hashtags,getDataByKey("correctCountry")}};
     }
 
     @Test(dataProvider = "providerSaveWithoutCity")
@@ -326,12 +314,9 @@ public class AddEventTest {
 
     @AfterClass
     public void clearEnteredData(){
-        EventsRepository.deleteEvents(prop.getProperty("correctTitle"),prop.getProperty("correctDescription"),
-                UserInfoRepository.getColumnByEmail(prop.getProperty("email"),"Id"));
+        EventsRepository.deleteEvents(getDataByKey("correctTitle"),getDataByKey("correctDescription"),
+                UserInfoRepository.getColumnByEmail(getDataByKey("email"),"Id"));
     }
 
-    @AfterClass
-    public void afterClass(){
-        setUpProfile.driverQuit();
-    }
+
 }

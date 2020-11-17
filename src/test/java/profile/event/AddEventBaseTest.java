@@ -14,6 +14,7 @@ import java.util.Properties;
 public class AddEventBaseTest extends ProfileBaseTest {
     protected Properties testDataAE;
     protected AddEventPage addEventPage;
+    protected EventMenu eventMenu;
 
     @BeforeClass
     public void initTestData(){
@@ -27,7 +28,7 @@ public class AddEventBaseTest extends ProfileBaseTest {
         if(testDataAE ==null)initTestDataAE();
         signingIn();
         goToProfilePage();
-        EventMenu eventMenu=new EventMenu(driver);
+        eventMenu=new EventMenu(driver);
         eventMenu.clickAddEvent();
         addEventPage=new AddEventPage(driver);
     }
