@@ -1,5 +1,7 @@
 package profile.event;
 
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import pages.profile.AddEventPage;
@@ -17,18 +19,17 @@ public class AddEventBaseTest extends ProfileBaseTest {
     protected EventMenu eventMenu;
 
     @BeforeClass
-    public void initTestData(){
+    public void setUp(){
         initTestDataAE();
-    }
-
-    @BeforeMethod
-    @Override
-    public void setUp() {
         super.setUp();
         if(testDataAE ==null)initTestDataAE();
         signingIn();
         goToProfilePage();
         eventMenu=new EventMenu(driver);
+    }
+
+    @BeforeMethod
+    public void beforeMethod() {
         eventMenu.clickAddEvent();
         addEventPage=new AddEventPage(driver);
     }
@@ -44,6 +45,17 @@ public class AddEventBaseTest extends ProfileBaseTest {
 
     public String getDataByKey(String key){
         return testDataAE.getProperty(key);
+    }
+
+    @AfterMethod
+    public void afterMethod() {
+        eventMenu.clickFutureEvents();
+    }
+
+    @AfterClass
+    @Override
+    public void closeBrowser(){
+        super.closeBrowser();
     }
 
 }

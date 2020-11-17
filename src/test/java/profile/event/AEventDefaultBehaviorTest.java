@@ -8,7 +8,8 @@ import pages.base.Helper;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertFalse;
+
 
 public class AEventDefaultBehaviorTest  extends AddEventBaseTest {
 

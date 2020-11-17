@@ -2,30 +2,19 @@ package profile.event;
 
 import jdbc.EventsRepository;
 import jdbc.UserInfoRepository;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.*;
-import pages.profile.EventMenu;
-import pages.profile.AddEventPage;
 
 import java.util.Arrays;
 import java.util.List;
 import org.openqa.selenium.NoSuchElementException;
-import profile.SetUpProfile;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
-import java.util.Properties;
-
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+import static pages.base.Helper.isElementPresent;
 
 public class AddEventTest extends AddEventBaseTest{
-
-
-
-    private void clearPageAddEvent(){
-        eventMenu.clickFutureEvents();
-        eventMenu.clickAddEvent();
-        addEventPage=new AddEventPage(driver);
-    }
-
 
     @DataProvider
     public Object[][] providerSaveCorrect(){
@@ -40,27 +29,22 @@ public class AddEventTest extends AddEventBaseTest{
     @Test(dataProvider = "providerSaveCorrect")
     public void testSaveCorrect(String photo,String title, String participants, String dateFrom, String dateTo,
                                      String description,List<String> hashtagsToEnter,String country,String city)throws NoSuchElementException {
-        clearPageAddEvent();
-        int amountOfEventsBefore= EventsRepository.getAmountOfEvents();
         addEventPage.loadImage(photo);
         addEventPage.inputTitle(title);
         addEventPage.inputParticipants(participants);
+        addEventPage.clearDateFrom();
         addEventPage.inputDateFrom(dateFrom);
+        addEventPage.clearDateTo();
         addEventPage.inputDateTo(dateTo);
         addEventPage.inputDescription(description);
         addEventPage.inputCountry(country);
+        addEventPage.initCity();
         addEventPage.inputCity(city);
         addEventPage.inputHashtags(hashtagsToEnter);
         addEventPage.clickSave();
         assertTrue(addEventPage.isAppearCreatedEventMessage(),"Message don't appear");
-        assertEquals(EventsRepository.getAmountOfEvents(),amountOfEventsBefore+1);
-    }
-
-    @Test(dependsOnMethods = "testSaveCorrect")
-    public void testEmptyPage(){
         assertTrue(addEventPage.isPageEmpty());
     }
-
 
     @DataProvider
     public Object[][] providerSaveWithoutImage(){
@@ -75,28 +59,20 @@ public class AddEventTest extends AddEventBaseTest{
     @Test(dataProvider = "providerSaveWithoutImage")
     public void negativeSaveWithoutImage(String title, String participants, String dateFrom, String dateTo,
                                     String description,List<String> hashtagsToEnter,String country,String city){
-        clearPageAddEvent();
-        int amountOfEventsBefore= EventsRepository.getAmountOfEvents();
         addEventPage.inputTitle(title);
         addEventPage.inputParticipants(participants);
+        addEventPage.clearDateFrom();
         addEventPage.inputDateFrom(dateFrom);
+        addEventPage.clearDateTo();
         addEventPage.inputDateTo(dateTo);
         addEventPage.inputDescription(description);
         addEventPage.inputCountry(country);
+        addEventPage.initCity();
         addEventPage.inputCity(city);
         addEventPage.inputHashtags(hashtagsToEnter);
         addEventPage.clickSave();
-        assertTrue(addEventPage.getRequiredImage().isDisplayed());
-        assertEquals(EventsRepository.getAmountOfEvents(),amountOfEventsBefore);
-    }
-
-    @Test(expectedExceptions=NoSuchElementException.class, dependsOnMethods = "negativeSaveWithoutImage")
-    public void notAppearCreatedEventMessageImage(){
-        assertFalse(addEventPage.getCreatedEventMessage().isDisplayed());
-    }
-
-    @Test(dependsOnMethods = "negativeSaveWithoutImage")
-    public void testNotEmptyPageImage(){
+        assertTrue(isElementPresent(addEventPage.getRequiredImage()));
+        assertFalse(isElementPresent(addEventPage.getCreatedEventMessage()));
         assertFalse(addEventPage.isPageEmpty());
     }
 
@@ -105,7 +81,7 @@ public class AddEventTest extends AddEventBaseTest{
         List<String> hashtags= Arrays.asList(getDataByKey("correctHashtags").split(","));
         return new Object[][]{{getDataByKey("correctPhoto"),
                 getDataByKey("tooManyParticipants"), getDataByKey("correctDateFrom"),
-                getDataByKey("correctDateTo"),getDataByKey("correctDescription"),
+                getDataByKey("correctDateTo"),getDataByKey("correctDescription"), hashtags,
                 getDataByKey("correctCountry"),getDataByKey("correctCity")}};
     }
 
@@ -113,28 +89,20 @@ public class AddEventTest extends AddEventBaseTest{
     @Test(dataProvider = "providerSaveWithoutTitle")
     public void negativeSaveWithoutTitle(String photo, String participants, String dateFrom, String dateTo,
                                 String description,List<String> hashtagsToEnter,String country,String city){
-        clearPageAddEvent();
-        int amountOfEventsBefore= EventsRepository.getAmountOfEvents();
         addEventPage.loadImage(photo);
         addEventPage.inputParticipants(participants);
+        addEventPage.clearDateFrom();
         addEventPage.inputDateFrom(dateFrom);
+        addEventPage.clearDateTo();
         addEventPage.inputDateTo(dateTo);
         addEventPage.inputDescription(description);
         addEventPage.inputCountry(country);
+        addEventPage.initCity();
         addEventPage.inputCity(city);
         addEventPage.inputHashtags(hashtagsToEnter);
         addEventPage.clickSave();
-        assertTrue(addEventPage.getRequiredTitle().isDisplayed());
-        assertEquals(EventsRepository.getAmountOfEvents(),amountOfEventsBefore);
-    }
-
-    @Test(expectedExceptions=NoSuchElementException.class, dependsOnMethods = "negativeSaveWithoutTitle")
-    public void notAppearCreatedEventMessageTitle(){
-        assertFalse(addEventPage.getCreatedEventMessage().isDisplayed());
-    }
-
-    @Test(dependsOnMethods = "negativeSaveWithoutTitle")
-    public void testNotEmptyPageTitle(){
+        assertTrue(isElementPresent(addEventPage.getRequiredTitle()));
+        assertFalse(isElementPresent(addEventPage.getCreatedEventMessage()));
         assertFalse(addEventPage.isPageEmpty());
     }
 
@@ -151,28 +119,20 @@ public class AddEventTest extends AddEventBaseTest{
     @Test(dataProvider = "providerSaveWithoutDescription")
     public void negativeSaveWithoutDescription(String photo,String title, String participants, String dateFrom, String dateTo,
                                 List<String> hashtagsToEnter,String country,String city){
-        clearPageAddEvent();
-        int amountOfEventsBefore= EventsRepository.getAmountOfEvents();
         addEventPage.loadImage(photo);
         addEventPage.inputTitle(title);
         addEventPage.inputParticipants(participants);
+        addEventPage.clearDateFrom();
         addEventPage.inputDateFrom(dateFrom);
+        addEventPage.clearDateTo();
         addEventPage.inputDateTo(dateTo);
         addEventPage.inputCountry(country);
+        addEventPage.initCity();
         addEventPage.inputCity(city);
         addEventPage.inputHashtags(hashtagsToEnter);
         addEventPage.clickSave();
-        assertTrue(addEventPage.getRequiredDescription().isDisplayed());
-        assertEquals(EventsRepository.getAmountOfEvents(),amountOfEventsBefore);
-    }
-
-    @Test(expectedExceptions=NoSuchElementException.class, dependsOnMethods = "negativeSaveWithoutDescription")
-    public void notAppearCreatedEventMessageDescription(){
-        assertFalse(addEventPage.getCreatedEventMessage().isDisplayed());
-    }
-
-    @Test(dependsOnMethods = "negativeSaveWithoutDescription")
-    public void testNotEmptyPageDescription(){
+        assertTrue(isElementPresent(addEventPage.getRequiredDescription()));
+        assertFalse(isElementPresent(addEventPage.getCreatedEventMessage()));
         assertFalse(addEventPage.isPageEmpty());
     }
 
@@ -188,28 +148,20 @@ public class AddEventTest extends AddEventBaseTest{
     @Test(dataProvider = "providerSaveWithoutHashtags")
     public void negativeSaveWithoutHashtags(String photo,String title, String participants, String dateFrom, String dateTo,
                                 String description,String country,String city){
-        clearPageAddEvent();
-        int amountOfEventsBefore= EventsRepository.getAmountOfEvents();
         addEventPage.loadImage(photo);
         addEventPage.inputTitle(title);
         addEventPage.inputParticipants(participants);
+        addEventPage.clearDateFrom();
         addEventPage.inputDateFrom(dateFrom);
+        addEventPage.clearDateTo();
         addEventPage.inputDateTo(dateTo);
         addEventPage.inputDescription(description);
         addEventPage.inputCountry(country);
+        addEventPage.initCity();
         addEventPage.inputCity(city);
         addEventPage.clickSave();
-        assertTrue(addEventPage.getRequiredHashtags().isDisplayed());
-        assertEquals(EventsRepository.getAmountOfEvents(),amountOfEventsBefore);
-    }
-
-    @Test(expectedExceptions=NoSuchElementException.class, dependsOnMethods = "negativeSaveWithoutHashtags")
-    public void notAppearCreatedEventMessageHashtags(){
-        assertFalse(addEventPage.getCreatedEventMessage().isDisplayed());
-    }
-
-    @Test(dependsOnMethods = "negativeSaveWithoutHashtags")
-    public void testNotEmptyPageHashtags(){
+        assertTrue(isElementPresent(addEventPage.getRequiredHashtags()));
+        assertFalse(isElementPresent(addEventPage.getCreatedEventMessage()));
         assertFalse(addEventPage.isPageEmpty());
     }
 
@@ -225,27 +177,18 @@ public class AddEventTest extends AddEventBaseTest{
     @Test(dataProvider = "providerSaveWithoutCountry")
     public void negativeSaveWithoutCountry(String photo,String title, String participants, String dateFrom, String dateTo,
                                 String description,List<String> hashtagsToEnter){
-        clearPageAddEvent();
-        int amountOfEventsBefore= EventsRepository.getAmountOfEvents();
         addEventPage.loadImage(photo);
         addEventPage.inputTitle(title);
         addEventPage.inputParticipants(participants);
+        addEventPage.clearDateFrom();
         addEventPage.inputDateFrom(dateFrom);
+        addEventPage.clearDateTo();
         addEventPage.inputDateTo(dateTo);
         addEventPage.inputDescription(description);
         addEventPage.inputHashtags(hashtagsToEnter);
         addEventPage.clickSave();
-        assertTrue(addEventPage.getRequiredCountry().isDisplayed());
-        assertEquals(EventsRepository.getAmountOfEvents(),amountOfEventsBefore);
-    }
-
-    @Test(expectedExceptions=NoSuchElementException.class, dependsOnMethods = "negativeSaveWithoutCountry")
-    public void notAppearCreatedEventMessageCountry(){
-        assertFalse(addEventPage.getCreatedEventMessage().isDisplayed());
-    }
-
-    @Test(dependsOnMethods = "negativeSaveWithoutCountry")
-    public void testNotEmptyPageCountry(){
+        assertTrue(isElementPresent(addEventPage.getRequiredCountry()));
+        assertFalse(isElementPresent(addEventPage.getCreatedEventMessage()));
         assertFalse(addEventPage.isPageEmpty());
     }
 
@@ -261,36 +204,24 @@ public class AddEventTest extends AddEventBaseTest{
     @Test(dataProvider = "providerSaveWithoutCity")
     public void negativeSaveWithoutCity(String photo,String title, String participants, String dateFrom, String dateTo,
                                            String description,List<String> hashtagsToEnter,String country){
-        clearPageAddEvent();
-        int amountOfEventsBefore= EventsRepository.getAmountOfEvents();
         addEventPage.loadImage(photo);
         addEventPage.inputTitle(title);
         addEventPage.inputParticipants(participants);
+        addEventPage.clearDateFrom();
         addEventPage.inputDateFrom(dateFrom);
+        addEventPage.clearDateTo();
         addEventPage.inputDateTo(dateTo);
         addEventPage.inputDescription(description);
         addEventPage.inputCountry(country);
         addEventPage.inputHashtags(hashtagsToEnter);
         addEventPage.clickSave();
-        assertTrue(addEventPage.getRequiredCity().isDisplayed());
-        assertEquals(EventsRepository.getAmountOfEvents(),amountOfEventsBefore);
-    }
-
-    @Test(expectedExceptions=NoSuchElementException.class, dependsOnMethods = "negativeSaveWithoutCity")
-    public void notAppearCreatedEventMessageCity(){
-        assertFalse(addEventPage.getCreatedEventMessage().isDisplayed());
-    }
-
-    @Test(dependsOnMethods = "negativeSaveWithoutCity")
-    public void testNotEmptyPageCity(){
+        assertTrue(isElementPresent(addEventPage.getRequiredCity()));
+        assertFalse(isElementPresent(addEventPage.getCreatedEventMessage()));
         assertFalse(addEventPage.isPageEmpty());
     }
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
     @Test
     public void testIsPageEmpty() {
-        clearPageAddEvent();
         assertTrue(addEventPage.isPageEmpty());
     }
 
@@ -298,14 +229,16 @@ public class AddEventTest extends AddEventBaseTest{
     @Test(dataProvider = "providerSaveCorrect")
     public void testIsPageFull(String photo,String title, String participants, String dateFrom, String dateTo,
                                String description,List<String> hashtagsToEnter,String country,String city) {
-        clearPageAddEvent();
         addEventPage.loadImage(photo);
         addEventPage.inputTitle(title);
         addEventPage.inputParticipants(participants);
+        addEventPage.clearDateFrom();
         addEventPage.inputDateFrom(dateFrom);
+        addEventPage.clearDateTo();
         addEventPage.inputDateTo(dateTo);
         addEventPage.inputDescription(description);
         addEventPage.inputCountry(country);
+        addEventPage.initCity();
         addEventPage.inputCity(city);
         addEventPage.inputHashtags(hashtagsToEnter);
         assertTrue(addEventPage.isPageFull());

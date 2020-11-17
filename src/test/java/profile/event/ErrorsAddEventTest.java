@@ -1,422 +1,239 @@
 package profile.event;
 
-import base.Helper;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.testng.annotations.*;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+import pages.base.Helper;
 import pages.profile.AddEventPage;
-import pages.profile.EventMenu;
-import profile.SetUpProfile;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+import static pages.base.Helper.isElementPresent;
 
-public class ErrorsAddEventTest extends AddEventBaseTest{
+public class ErrorsAddEventTest extends AddEventBaseTest {
 
 
     @DataProvider
-    public Object[][] negativeProviderLoadImage(){
+    public Object[][] negativeProviderLoadImage() {
         return new Object[][]{{getDataByKey("incorrectFormatPhoto")}};
     }
 
     @Test(dataProvider = "negativeProviderLoadImage")
-    public void notLoadImageIncorrectFormat(String nameFileImg){
+    public void notLoadImageIncorrectFormat(String nameFileImg) {
         addEventPage.loadImage(nameFileImg);
-        assertTrue(Helper.checkActionElement(addEventPage.getFileUploader()));
+        assertTrue(isElementPresent(addEventPage.getFileUploader()),"The photo was uploaded by mistake");
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @DataProvider
-    public Object[][] providerIncorrectResolution(){
-        return new Object[][]{{getDataByKey("smallResolutionPhoto")},{getDataByKey("bigResolutionPhoto")}};
+    public Object[][] providerIncorrectResolution() {
+        return new Object[][]{{getDataByKey("smallResolutionPhoto")}, {getDataByKey("bigResolutionPhoto")}};
     }
 
     @Test(dataProvider = "negativeProviderLoadImage")
-    public void notLoadImageIncorrectResolution(String nameFileImg){
-        SoftAssert softAssert=new SoftAssert();
+    public void notLoadImageIncorrectResolution(String nameFileImg) {
+        SoftAssert softAssert = new SoftAssert();
         addEventPage.loadImage(nameFileImg);
-        softAssert.assertTrue(Helper.checkActionElement(addEventPage.getFileUploader()));
-        softAssert.assertTrue(Helper.checkActionElement(addEventPage.getErrorIncorrectResolutionPhoto()));
-        softAssert.assertEquals(addEventPage.getErrorIncorrectResolutionPhoto().getText(),getDataByKey("errorIncorrectResolutionPhoto"));
-        addEventPage.loadImage(getDataByKey("getDataByKey"));
-        softAssert.assertFalse(Helper.checkActionElement(addEventPage.getErrorIncorrectResolutionPhoto()));
-    }
-
-
- /*   @DataProvider
-    public Object[][] providerCorrectImage(){
-        return new Object[][]{{prop.getProperty("correctPhoto")}};
+        softAssert.assertTrue(isElementPresent(addEventPage.getFileUploader()),"The photo was uploaded by mistake");
+        softAssert.assertTrue(isElementPresent(addEventPage.getErrorIncorrectResolutionPhoto()),"ErrorIncorrectResolutionPhoto isn't present");
+        softAssert.assertEquals(addEventPage.getErrorIncorrectResolutionPhoto().getText(), getDataByKey("errorIncorrectResolutionPhoto"),"Incorrect text of ErrorIncorrectResolutionPhoto");
+        addEventPage.loadImage(getDataByKey("correctPhoto"));
+        softAssert.assertFalse(isElementPresent(addEventPage.getErrorIncorrectResolutionPhoto()),"ErrorIncorrectResolutionPhoto doesn't disappear");
+        softAssert.assertAll();
     }
 
     @DataProvider
-    public Object[][] providerCorrectTitle(){
-        return new Object[][]{{prop.getProperty("correctTitle")}};
-    }
-
-    @DataProvider
-    public Object[][] providerCorrectParticipants(){
-        return new Object[][]{{prop.getProperty("correctParticipants")}};
-    }
-
-    @DataProvider
-    public Object[][] providerCorrectDescription(){
-        return new Object[][]{{prop.getProperty("correctDescription")}};
-    }
-
-    @DataProvider
-    public Object[][] providerCorrectHashtags(){
-        List<String> hashtags= Arrays.asList(prop.getProperty("correctHashtags").split(","));
-        return new Object[][]{{hashtags}};
-    }
-
-    @DataProvider
-    public Object[][] providerCorrectCountry(){
-        return new Object[][]{{prop.getProperty("correctCountry")}};
-    }
-
-    @DataProvider
-    public Object[][] providerCorrectCity(){
-        return new Object[][]{{prop.getProperty("correctCity")}};
-    }
-
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @DataProvider
-    public Object[][] providerIncorrectSize(){
-        return new Object[][]{{prop.getProperty("bigPhoto")}};
+    public Object[][] providerIncorrectSize() {
+        return new Object[][]{{getDataByKey("bigPhoto")}};
     }
 
     @Test(dataProvider = "negativeProviderLoadImage")
-    public void notLoadImageIncorrectSize(String nameFileImg){
-        addEventPage.getAltAttributeOfLoadedImage(nameFileImg);
-        assertFalse(addEventPage.getImage().isEnabled());
+    public void notLoadImageIncorrectSize(String nameFileImg) {
+        SoftAssert softAssert = new SoftAssert();
+        addEventPage.loadImage(nameFileImg);
+        softAssert.assertTrue(isElementPresent(addEventPage.getFileUploader()),"The photo was uploaded by mistake");
+        softAssert.assertTrue(isElementPresent(addEventPage.getErrorIncorrectPhotoSize()),"ErrorIncorrectPhotoSize isn't present");
+        softAssert.assertEquals(addEventPage.getErrorIncorrectPhotoSize().getText(), getDataByKey("errorIncorrectPhotoSize"),"Incorrect text of ErrorIncorrectPhotoSize");
+        addEventPage.loadImage(getDataByKey("correctPhoto"));
+        softAssert.assertFalse(isElementPresent(addEventPage.getErrorIncorrectPhotoSize()),"ErrorIncorrectPhotoSize doesn't disappear");
+        softAssert.assertAll();
     }
 
     @DataProvider
-    public Object[][] providerErrorLoadIncorrectSize(){
-        return new Object[][]{{prop.getProperty("errorIncorrectSizePhoto")}};
-    }
-
-    @Test(dependsOnMethods = "notLoadImageIncorrectSize")
-    public void errorDisplayedIncorrectSize() {
-        assertTrue(addEventPage.getErrorIncorrectPhotoSize().isDisplayed());
-    }
-
-    @Test(dependsOnMethods = "errorDisplayedIncorrectSize", dataProvider = "providerErrorLoadIncorrectSize")
-    public void errorTextIncorrectSize(String error) {
-        assertEquals(addEventPage.getErrorIncorrectPhotoSize().getText(),error);
-    }
-
-    @Test(dependsOnMethods = "errorTextIncorrectSize",dataProvider = "providerCorrectImage",
-            expectedExceptions={NoSuchElementException.class, StaleElementReferenceException.class})
-    public void disappearanceErrorIncorrectSize(String photo){
-        addEventPage.getAltAttributeOfLoadedImage(photo);
-        addEventPage.getErrorIncorrectPhotoSize().isDisplayed();
-    }
-
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @DataProvider
-    public Object[][] negativeProviderInputTitle(){
-        return new Object[][]{{prop.getProperty("smallTitle")},{prop.getProperty("bigTitle")}};
+    public Object[][] negativeProviderInputTitle() {
+        return new Object[][]{{getDataByKey("smallTitle")}, {getDataByKey("bigTitle")}};
     }
 
     @Test(dataProvider = "negativeProviderInputTitle")
     public void negativeInputTitle(String text) {
-        addEventPage.getTitle().clear();
-        addEventPage.getValueOfInputtedTitle(text);
-        assertTrue(addEventPage.getErrorIncorrectTitle().isDisplayed());
+        SoftAssert softAssert = new SoftAssert();
+        addEventPage.inputTitle(text);
+        softAssert.assertTrue(isElementPresent(addEventPage.getErrorIncorrectTitle()),"ErrorIncorrectTitle isn't present");
+        softAssert.assertEquals(addEventPage.getErrorIncorrectTitle().getText(), getDataByKey("errorIncorrectTitle"),"Incorrect text of ErrorIncorrectTitle");
+        addEventPage.inputTitle(getDataByKey("correctTitle"));
+        softAssert.assertFalse(isElementPresent(addEventPage.getErrorIncorrectTitle()),"ErrorIncorrectTitle doesn't disappear");
+        softAssert.assertAll();
     }
-
-    @Test(dependsOnMethods = "negativeInputTitle")
-    public void errorTextTitleLengthError() {
-        assertEquals(addEventPage.getErrorIncorrectTitle().getText(),prop.getProperty("errorIncorrectTitle"));
-    }
-
-    @Test(dependsOnMethods = "errorTextTitleLengthError",dataProvider = "providerCorrectTitle",
-            expectedExceptions={NoSuchElementException.class, StaleElementReferenceException.class})
-    public void disappearanceTitleLengthError(String text) {
-        addEventPage.getTitle().clear();
-        addEventPage.getValueOfInputtedTitle(text);
-        assertFalse(addEventPage.getErrorIncorrectTitle().isDisplayed());
-    }
-
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @DataProvider
-    public Object[][] negativeProviderInputTitleNoOneLetter(){
-        return new Object[][]{{prop.getProperty("noOneLetterInTitle")}};
+    public Object[][] negativeProviderInputTitleNoOneLetter() {
+        return new Object[][]{{getDataByKey("noOneLetterInTitle")}};
     }
 
     @Test(dataProvider = "negativeProviderInputTitleNoOneLetter")
     public void negativeInputTitleNoOneLetter(String text) {
-        addEventPage.getTitle().clear();
-        addEventPage.getValueOfInputtedTitle(text);
-        assertTrue(addEventPage.getErrorIncorrectTitleNoOneLetter().isDisplayed());
+        SoftAssert softAssert = new SoftAssert();
+        addEventPage.inputTitle(text);
+        softAssert.assertTrue(isElementPresent(addEventPage.getErrorIncorrectTitleNoOneLetter()),"ErrorIncorrectTitleNoOneLetter isn't present");
+        softAssert.assertEquals(addEventPage.getErrorIncorrectTitleNoOneLetter().getText(), getDataByKey("errorIncorrectTitleNoOneLetter"),"Incorrect text of ErrorIncorrectTitleNoOneLetter");
+        addEventPage.inputTitle(getDataByKey("correctTitle"));
+        softAssert.assertFalse(isElementPresent(addEventPage.getErrorIncorrectTitleNoOneLetter()),"ErrorIncorrectTitleNoOneLetter doesn't disappear");
+        softAssert.assertAll();
     }
 
-    @Test(dependsOnMethods = "negativeInputTitleNoOneLetter")
-    public void errorTextTitleNoOneLetter() {
-        assertEquals(addEventPage.getErrorIncorrectTitleNoOneLetter().getText(),prop.getProperty("errorIncorrectTitleNoOneLetter"));
-    }
-
-    @Test(dependsOnMethods = "errorTextTitleNoOneLetter",dataProvider = "providerCorrectTitle",
-            expectedExceptions={NoSuchElementException.class, StaleElementReferenceException.class})
-    public void disappearanceTitleNoOneLetterError(String text) {
-        addEventPage.getTitle().clear();
-        addEventPage.getValueOfInputtedTitle(text);
-        assertFalse(addEventPage.getErrorIncorrectTitleNoOneLetter().isDisplayed());
-    }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @DataProvider
-    public Object[][] providerTooManyParticipants(){
-        return new Object[][]{{prop.getProperty("tooManyParticipants")}};
+    public Object[][] providerTooManyParticipants() {
+        return new Object[][]{{getDataByKey("tooManyParticipants")}};
     }
 
     @Test(dataProvider = "providerTooManyParticipants")
     public void negativeTooManyParticipants(String value) {
-        addEventPage.getValueOfInputtedParticipants(value);
-        assertTrue(addEventPage.getErrorTooManyParticipants().isDisplayed());
+        SoftAssert softAssert = new SoftAssert();
+        addEventPage.inputParticipants(value);
+        softAssert.assertTrue(isElementPresent(addEventPage.getErrorTooManyParticipants()),"ErrorTooManyParticipants isn't present");
+        softAssert.assertEquals(addEventPage.getErrorTooManyParticipants().getText(), getDataByKey("errorTooManyParticipants"),"Incorrect text of ErrorTooManyParticipants");
+        addEventPage.inputParticipants(getDataByKey("correctParticipants"));
+        softAssert.assertFalse(isElementPresent(addEventPage.getErrorTooManyParticipants()),"ErrorTooManyParticipants doesn't disappear");
+        softAssert.assertAll();
     }
 
-    @DataProvider
-    public Object[][] providerTextTooManyParticipants(){
-        return new Object[][]{{prop.getProperty("errorTooManyParticipants")}};
-    }
-    @Test(dataProvider = "providerTooManyParticipants",dependsOnMethods = "negativeTooManyParticipants")
-    public void errorTextTooManyParticipants(String error) {
-        assertEquals(addEventPage.getErrorTooManyParticipants().getText(),error);
-    }
-
-    @Test(dependsOnMethods = "errorTextTooManyParticipants", dataProvider = "providerCorrectParticipants",
-            expectedExceptions={NoSuchElementException.class, StaleElementReferenceException.class})
-    public void disappearanceErrorTooManyParticipants(String value){
-        addEventPage.getValueOfInputtedParticipants(value);
-        assertFalse(addEventPage.getErrorTooManyParticipants().isDisplayed());
-    }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @DataProvider
-    public Object[][] dataProviderDateFrom(){
-        return new Object[][]{{prop.getProperty("incorrectMonthDateFrom")},{prop.getProperty("incorrectDayDateFrom")},
-                {prop.getProperty("incorrectYearDateFrom")},{prop.getProperty("notInFormatDateFrom")},
-                {prop.getProperty("beforeThanPresentDateFrom")},{""}};
+    public Object[][] dataProviderDateFrom() {
+        return new Object[][]{{getDataByKey("incorrectMonthDateFrom")}, {getDataByKey("incorrectDayDateFrom")},
+                {getDataByKey("incorrectYearDateFrom")}, {getDataByKey("notInFormatDateFrom")},
+                {getDataByKey("beforeThanPresentDateFrom")}, {""}};
     }
 
     @Test(dataProvider = "dataProviderDateFrom")
     public void negativeInputDateFrom(String date) {
-//        addEventPage.getValueOfInputtedDateFrom(date);
-        assertEquals(addEventPage.getDateFrom().getAttribute("value"),AddEventPage.convertDateToCorrect(date,LocalDate.now()));
+        addEventPage.clearDateFrom();
+        addEventPage.inputDateFrom(date);
+        assertEquals(addEventPage.getValueAttribute(addEventPage.getDateFrom()), AddEventPage.convertDateToCorrect(date, LocalDate.now()));
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @DataProvider
-    public Object[][] dataProviderDateTo(){
-        return new Object[][]{{prop.getProperty("incorrectMonthDateTo")},{prop.getProperty("incorrectDayDateTo")},
-                {prop.getProperty("incorrectYearDateTo")},
-                {prop.getProperty("notInFormatDateTo")},{prop.getProperty("beforeThanInFrom")},{""}};
+    public Object[][] dataProviderDateTo() {
+        return new Object[][]{{getDataByKey("incorrectMonthDateTo")}, {getDataByKey("incorrectDayDateTo")},
+                {getDataByKey("incorrectYearDateTo")},
+                {getDataByKey("notInFormatDateTo")}, {getDataByKey("beforeThanInFrom")}, {""}};
     }
 
     @Test(dataProvider = "dataProviderDateTo")
     public void negativeInputDateTo(String date) {
-       // addEventPage.getValueOfInputtedDateFrom(LocalDate.now().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
-        addEventPage.getValueOfInputtedDateTo(date);
-        assertEquals(addEventPage.getDateTo().getAttribute("value"),AddEventPage.convertDateToCorrect(date,LocalDate.now()));
+        addEventPage.clearDateFrom();
+        addEventPage.inputDateFrom(LocalDate.now().toString());
+        addEventPage.clearDateTo();
+        addEventPage.inputDateTo(date);
+        assertEquals(addEventPage.getValueAttribute(addEventPage.getDateTo()), AddEventPage.convertDateToCorrect(date, LocalDate.now()));
     }
 
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @DataProvider
-    public Object[][] negativeProviderInputDescription(){
-        return new Object[][]{{prop.getProperty("smallDescription")},{prop.getProperty("bigDescription")}};
+    public Object[][] negativeProviderInputDescription() {
+        return new Object[][]{{getDataByKey("smallDescription")}, {getDataByKey("bigDescription")}};
     }
 
     @Test(dataProvider = "negativeProviderInputDescription")
     public void negativeInputDescription(String text) {
-        addEventPage.getDescription().clear();
-        addEventPage.getValueOfInputtedDescription(text);
-        assertTrue(addEventPage.getErrorIncorrectDescription().isDisplayed());
+        SoftAssert softAssert = new SoftAssert();
+        addEventPage.inputDescription(text);
+        softAssert.assertTrue(isElementPresent(addEventPage.getErrorIncorrectDescription()),"ErrorIncorrectDescription isn't present");
+        softAssert.assertEquals(addEventPage.getErrorIncorrectDescription().getText(), getDataByKey("errorIncorrectDescription"),"Incorrect text of ErrorIncorrectDescription");
+        addEventPage.inputDescription(getDataByKey("correctDescription"));
+        softAssert.assertFalse(isElementPresent(addEventPage.getErrorIncorrectDescription()),"ErrorIncorrectDescription doesn't disappear");
+        softAssert.assertAll();
     }
-
-    @Test(dependsOnMethods = "negativeInputDescription")
-    public void errorTextDescriptionLength() {
-        assertEquals(addEventPage.getErrorIncorrectDescription().getText(),prop.getProperty("errorIncorrectDescription"));
-    }
-
-    @Test(dependsOnMethods = "errorTextDescriptionLength",dataProvider = "providerCorrectDescription",
-            expectedExceptions={NoSuchElementException.class, StaleElementReferenceException.class})
-    public void disappearanceDescriptionLengthError(String text) {
-        addEventPage.getDescription().clear();
-        addEventPage.getValueOfInputtedDescription(text);
-        assertFalse(addEventPage.getErrorIncorrectDescription().isDisplayed());
-    }
-
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @DataProvider
-    public Object[][] negativeProviderInputHashtags(){
-        String[] hashtags=prop.getProperty("tooManyHashtags").split(",");
+    public Object[][] negativeProviderInputHashtags() {
+        List<String> hashtags = Arrays.asList(getDataByKey("tooManyHashtags").split(","));
         return new Object[][]{{hashtags}};
     }
 
     @Test(dataProvider = "negativeProviderInputHashtags")
-    public void negativeInputHashtags(List<String> hashtagsToEnter) {
-        addEventPage.getValueOfInputtedHashtags(hashtagsToEnter);
-        assertTrue(addEventPage.getErrorTooManyHashtags().isDisplayed());
+    public void negativeInputHashtags(List<String> hashtags) {
+        SoftAssert softAssert = new SoftAssert();
+        addEventPage.inputHashtags(hashtags);
+        softAssert.assertTrue(isElementPresent(addEventPage.getErrorTooManyHashtags()),"ErrorTooManyHashtags isn't present");
+        softAssert.assertEquals(addEventPage.getErrorTooManyHashtags().getText(), getDataByKey("errorTooManyHashtags"),"Incorrect text of ErrorTooManyHashtags");
+        List<String> hashtagsCorrect = Arrays.asList(getDataByKey("correctHashtags").split(","));
+        addEventPage.inputHashtags(hashtagsCorrect);
+        softAssert.assertFalse(isElementPresent(addEventPage.getErrorTooManyHashtags()),"ErrorTooManyHashtags doesn't disappear");
+        softAssert.assertAll();
     }
 
-    @Test(dependsOnMethods = "negativeInputHashtags")
-    public void errorTextTooManyHashtags() {
-        assertEquals(addEventPage.getErrorTooManyHashtags().getText(),prop.getProperty("errorTooManyHashtags"));
-    }
-
-    @Test(dependsOnMethods = "errorTextTooManyHashtags", dataProvider = "providerCorrectHashtags",
-            expectedExceptions={NoSuchElementException.class, StaleElementReferenceException.class})
-    public void disappearanceTooManyHashtagsError(List<String> hashtagsToEnter) {
-        addEventPage.getValueOfInputtedHashtags(hashtagsToEnter);
-        assertFalse(addEventPage.getErrorTooManyHashtags().isDisplayed());
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Test
-    public void createEventWithoutData(){
-       // addEventPage=new AddEventPage(setUpProfile.getDriver(),setUpProfile.getWebDriverWait());
-       // assertTrue(addEventPage.clickSave());
-    }
-
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @Test(dependsOnMethods = "createEventWithoutData")
-    public void emptyImage() {
-        assertTrue(addEventPage.getRequiredImage().isDisplayed());
-    }
-
-    @Test(dependsOnMethods = "emptyImage")
-    public void emptyImageErrorText() {
-        assertEquals(addEventPage.getRequiredImage().getText(),prop.getProperty("errorRequired"));
-    }
-
-    @Test(dependsOnMethods = "emptyImageErrorText",dataProvider = "providerCorrectImage",
-            expectedExceptions={NoSuchElementException.class,StaleElementReferenceException.class})
-    public void disappearanceRequiredErrorImage(String photo){
-        addEventPage.getAltAttributeOfLoadedImage(photo);
-        addEventPage.getRequiredImage().isDisplayed();
-    }
-
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @Test(dependsOnMethods = "createEventWithoutData")
-    public void emptyTitle() {
-        assertTrue(addEventPage.getRequiredTitle().isDisplayed());
-    }
-
-    @Test(dependsOnMethods = "emptyTitle")
-    public void emptyTitleErrorText() {
-        assertEquals(addEventPage.getRequiredTitle().getText(),prop.getProperty("errorRequired"));
-    }
-
-    @Test(dependsOnMethods = "emptyTitleErrorText",dataProvider = "providerCorrectTitle",
-            expectedExceptions={NoSuchElementException.class, StaleElementReferenceException.class})
-    public void disappearanceErrorEmptyTitle(String text){
-        addEventPage.getValueOfInputtedTitle(text);
-        assertFalse(addEventPage.getRequiredTitle().isEnabled());
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @Test(dependsOnMethods = "createEventWithoutData")
-    public void emptyDescription() {
-        assertTrue(addEventPage.getRequiredDescription().isDisplayed());
-    }
-
-    @Test(dependsOnMethods = "emptyDescription")
-    public void emptyDescriptionErrorText() {
-        assertEquals(addEventPage.getRequiredDescription().getText(),prop.getProperty("errorRequired"));
-    }
-
-    @Test(dependsOnMethods = "emptyDescriptionErrorText",dataProvider = "providerCorrectDescription",
-            expectedExceptions={NoSuchElementException.class, StaleElementReferenceException.class})
-    public void disappearanceErrorEmptyDescription(String text){
-        addEventPage.getValueOfInputtedDescription(text);
-        assertFalse(addEventPage.getRequiredDescription().isEnabled());
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @Test(dependsOnMethods = "createEventWithoutData")
-    public void emptyHashtags() {
-        assertTrue(addEventPage.getRequiredHashtags().isDisplayed());
-    }
-
-    @Test(dependsOnMethods = "emptyHashtags")
-    public void emptyHashtagsErrorText() {
-        assertEquals(addEventPage.getRequiredHashtags().getText(),prop.getProperty("errorRequired"));
-    }
-
-    @Test(dependsOnMethods = "emptyHashtagsErrorText",dataProvider = "providerCorrectHashtags",
-            expectedExceptions={NoSuchElementException.class, StaleElementReferenceException.class})
-    public void disappearanceErrorEmptyHashtags(List<String> text){
-        addEventPage.getValueOfInputtedHashtags(text);
-        assertFalse(addEventPage.getRequiredHashtags().isEnabled());
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @Test(dependsOnMethods = "createEventWithoutData")
-    public void emptyCountry() {
-        assertTrue(addEventPage.getRequiredCountry().isDisplayed());
-    }
-
-    @Test(dependsOnMethods = "emptyCountry")
-    public void emptyCountryErrorText() {
-        assertEquals(addEventPage.getRequiredCountry().getText(),prop.getProperty("errorRequired"));
-    }
-
-    @Test(dependsOnMethods = "emptyCountryErrorText",dataProvider = "providerCorrectCountry",
-            expectedExceptions={NoSuchElementException.class, StaleElementReferenceException.class})
-    public void disappearanceErrorEmptyCountry(String text){
-        addEventPage.getValueOfInputtedCountry(text);
-        assertFalse(addEventPage.getRequiredCountry().isEnabled());
-    }
-
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @Test(dataProvider = "providerCorrectCountry",dependsOnMethods = "emptyCountryErrorText")
-    public void emptyCity(String country) {
-        addEventPage.getValueOfInputtedCountry(country);
+    public void testRequiredErrors() {
+        SoftAssert softAssert = new SoftAssert();
         addEventPage.clickSave();
-        assertTrue(addEventPage.getRequiredCity().isDisplayed());
+        implicitlyWait();
+
+        softAssert.assertTrue(Helper.isElementPresent(addEventPage.getRequiredImage()),"RequiredImage isn't present");
+        softAssert.assertEquals(addEventPage.getRequiredImage().getText(), getDataByKey("errorRequired"),"Incorrect text of RequiredImage");
+        addEventPage.loadImage(getDataByKey("correctPhoto"));
+        softAssert.assertFalse(isElementPresent(addEventPage.getRequiredImage()),"RequiredImage doesn't disappear");
+
+        softAssert.assertTrue(Helper.isElementPresent(addEventPage.getRequiredTitle()),"RequiredTitle isn't present");
+        assertEquals(addEventPage.getRequiredTitle().getText(), getDataByKey("errorRequired"),"Incorrect text of RequiredTitle");
+        addEventPage.inputTitle(getDataByKey("correctTitle"));
+        softAssert.assertFalse(isElementPresent(addEventPage.getRequiredTitle()),"RequiredTitle doesn't disappear");
+
+        softAssert.assertTrue(Helper.isElementPresent(addEventPage.getRequiredDescription()),"RequiredDescription isn't present");
+        assertEquals(addEventPage.getRequiredDescription().getText(), getDataByKey("errorRequired"),"Incorrect text of RequiredDescription");
+        addEventPage.inputDescription(getDataByKey("correctDescription"));
+        softAssert.assertFalse(isElementPresent(addEventPage.getRequiredDescription()),"RequiredDescription doesn't disappear");
+
+        softAssert.assertTrue(Helper.isElementPresent(addEventPage.getRequiredHashtags()),"RequiredHashtag isn't present");
+        assertEquals(addEventPage.getRequiredHashtags().getText(), getDataByKey("errorRequired"),"Incorrect text of RequiredHashtag");
+        List<String> hashtagsCorrect = Arrays.asList(getDataByKey("correctHashtags").split(","));
+        addEventPage.inputHashtags(hashtagsCorrect);
+        softAssert.assertFalse(isElementPresent(addEventPage.getRequiredHashtags()),"RequiredHashtag doesn't disappear");
+
+        softAssert.assertTrue(Helper.isElementPresent(addEventPage.getRequiredCountry()),"RequiredCountry isn't present");
+        assertEquals(addEventPage.getRequiredCountry().getText(), getDataByKey("errorRequired"),"Incorrect text of RequiredCountry");
+        addEventPage.inputCountry(getDataByKey("correctCountry"));
+        softAssert.assertFalse(isElementPresent(addEventPage.getRequiredCountry()),"RequiredCountry doesn't disappear");
+
+        softAssert.assertAll();
     }
 
-    @Test(dependsOnMethods = "emptyCity")
-    public void emptyCityErrorText() {
-        assertEquals(addEventPage.getRequiredCity().getText(),prop.getProperty("errorRequired"));
-    }
 
-    @Test(dependsOnMethods = "emptyCityErrorText",dataProvider = "providerCorrectCity",
-            expectedExceptions={NoSuchElementException.class, StaleElementReferenceException.class})
-    public void disappearanceErrorEmptyCity(String text){
-        addEventPage.getValueOfInputtedCity(text);
-        assertFalse(addEventPage.getRequiredCity().isEnabled());
+    @Test
+    public void testRequiredCity() {
+        SoftAssert softAssert = new SoftAssert();
+        addEventPage.inputCountry(getDataByKey("correctCountry"));
+        addEventPage.clickSave();
+        softAssert.assertTrue(Helper.isElementPresent(addEventPage.getRequiredCity()),"RequiredCity isn't present");
+        assertEquals(addEventPage.getRequiredCity().getText(), getDataByKey("errorRequired"),"Incorrect text of RequiredCity");
+        addEventPage.initCity();
+        addEventPage.inputCity(getDataByKey("correctCity"));
+        softAssert.assertFalse(isElementPresent(addEventPage.getRequiredCity()),"RequiredCity doesn't disappear");
+        softAssert.assertAll();
     }
-
-    @AfterClass
-    public void afterClass(){
-        setUpProfile.driverQuit();
-    }*/
 }
