@@ -21,6 +21,7 @@ public abstract class ProfileBaseTest extends BaseTest {
         if(testDataProfile ==null)initTestDataProfile();
     }
 
+
     public void initTestDataProfile(){
         testDataProfile =new Properties();
         try (InputStream enteringProp = new FileInputStream("src/test/resources/testDataEntering.properties") ){

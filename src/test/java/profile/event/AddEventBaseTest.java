@@ -22,16 +22,16 @@ public class AddEventBaseTest extends ProfileBaseTest {
     public void setUp(){
         initTestDataAE();
         super.setUp();
-        if(testDataAE ==null)initTestDataAE();
+        if(testDataAE == null)initTestDataAE();
         signingIn();
         goToProfilePage();
-        eventMenu=new EventMenu(driver);
+        eventMenu = new EventMenu(driver);
     }
 
     @BeforeMethod
     public void beforeMethod() {
         eventMenu.clickAddEvent();
-        addEventPage=new AddEventPage(driver);
+        addEventPage = new AddEventPage(driver);
     }
 
     public void initTestDataAE(){

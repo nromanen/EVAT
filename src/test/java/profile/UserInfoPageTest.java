@@ -24,6 +24,16 @@ public class UserInfoPageTest extends ProfileBaseTest{
                         getDataByKey("age2"),getDataByKey("gender2"),getDataByKey("interests2")}};
     }
 
+    /**
+     * Verify information on the page profile
+     * @param email
+     * @param password
+     * @param userName
+     * @param age
+     * @param gender
+     * @param interests
+     */
+
     @Test(dataProvider = "providerEmail")
     public void testGetValueUserName(String email,String password, String userName, String age,
                                      String gender, String interests) {

@@ -8,10 +8,8 @@ import org.openqa.selenium.support.ui.Select;
 import pages.base.BasePage;
 import pages.base.Helper;
 
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;

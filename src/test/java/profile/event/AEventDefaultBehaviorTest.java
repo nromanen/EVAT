@@ -26,6 +26,21 @@ public class AEventDefaultBehaviorTest  extends AddEventBaseTest {
                 Integer.parseInt(getDataByKey("amountCountry")),Integer.parseInt(getDataByKey("amountCity"))}};
     }
 
+    /**
+     * Verify input in fields
+     * @param nameFileImg
+     * @param title
+     * @param dateFrom
+     * @param dateTo
+     * @param participants
+     * @param description
+     * @param hashtags is a list of hashtags
+     * @param country
+     * @param city
+     * @param amountCountry
+     * @param amountCity
+     */
+
     @Test(dataProvider = "dataProviderLoadImage")
     public void testDefaultBehavior(String nameFileImg,String title,String dateFrom,String dateTo,
                                     String participants,String description,List<String> hashtags,
@@ -58,6 +73,10 @@ public class AEventDefaultBehaviorTest  extends AddEventBaseTest {
         softAssert.assertEquals(addEventPage.getValueOfCity(),city);
         softAssert.assertAll();
     }
+
+    /**
+     * Verify that the button "Clear" clear loaded photo
+     */
 
     @Test
     public void testClickClear(){
