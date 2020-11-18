@@ -1,83 +1,41 @@
 package profile;
 
-import jdbc.UserInfoRepository;
-import org.testng.annotations.*;
-
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 import pages.profile.UserInfoPage;
 
-import java.time.LocalDate;
-import java.time.Period;
-import java.util.Properties;
-
-import static org.testng.Assert.*;
-
-public class UserInfoPageTest {
+public class UserInfoPageTest extends ProfileBaseTest{
 
     UserInfoPage userInfoPage;
-    Properties prop;
-    SetUpProfile setUpProfile;
 
     @BeforeClass
-    public void setUp() {
-        setUpProfile=new SetUpProfile();
-        userInfoPage = new UserInfoPage(setUpProfile.getDriver());
-        prop=setUpProfile.getProp();
+    public void setUpInitData() {
+        initTestDataProfile();
     }
 
     @DataProvider
     public Object[][] providerEmail(){
-        return new Object[][]{{prop.getProperty("email")}};
+        return new Object[][]{
+                {getDataByKey("email"),getDataByKey("password"),getDataByKey("userName"),
+                        getDataByKey("age"),getDataByKey("gender"),getDataByKey("interests")},
+                {getDataByKey("email2"),getDataByKey("password2"),getDataByKey("userName2"),
+                        getDataByKey("age2"),getDataByKey("gender2"),getDataByKey("interests2")}};
     }
 
     @Test(dataProvider = "providerEmail")
-    public void testGetValueUserName(String email) {
-        String name=UserInfoRepository.getColumnByEmail(email,"Name");
-        if(name==null)name= email.substring(0,email.indexOf("@"));
-        assertEquals(userInfoPage.getValueUserName(),name);
-    }
-
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-    @Test(dataProvider = "providerEmail")
-    public void testGetValueAge(String email) {
-        String age;
-        LocalDate date=LocalDate.parse(UserInfoRepository.getColumnByEmail(email,"Birthday"));
-        if(date.equals(LocalDate.parse("0001-01-01")))age="---";
-        else age= Period.between(date,LocalDate.now()).getYears()+"";
-        assertEquals(userInfoPage.getValueAge(),age);
-    }
-
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @Test(dataProvider = "providerEmail")
-    public void testGetValueGender(String email) {
-        String gender="";
-        switch (Integer.parseInt(UserInfoRepository.getColumnByEmail(email,"Gender"))){
-            case 0: gender="Other"; break;
-            case 1: gender="Male"; break;
-            case 2: gender="Female";
-        }
-        assertEquals(userInfoPage.getValueGender(),gender);
-    }
-
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @Test(dataProvider = "providerEmail")
-    public void testGetValueEmail(String email) {
-        assertEquals(userInfoPage.getValueEmail(),email);
-    }
-
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-    @Test(dataProvider = "providerEmail")
-    public void testGetValueInterests(String email) {
-        assertEquals(userInfoPage.getValueInterests(),UserInfoRepository.getUserInterests(email));
-    }
-
-    @AfterClass
-    public void afterClass(){
-        setUpProfile.driverQuit();
+    public void testGetValueUserName(String email,String password, String userName, String age,
+                                     String gender, String interests) {
+        signingIn(email,password);
+        goToProfilePage();
+        userInfoPage = new UserInfoPage(driver);
+        SoftAssert softAssert=new SoftAssert();
+        softAssert.assertEquals(userInfoPage.getValueUserName(),userName,"Incorrect userName on page");
+        softAssert.assertEquals(userInfoPage.getValueAge(),age,"Incorrect age on page");
+        softAssert.assertEquals(userInfoPage.getValueGender(),gender,"Incorrect gender on page");
+        softAssert.assertEquals(userInfoPage.getValueEmail(),email,"Incorrect email on page");
+        softAssert.assertEquals(userInfoPage.getValueInterests(),interests,"Incorrect interests on page");
+        softAssert.assertAll();
     }
 }

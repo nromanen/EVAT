@@ -1,5 +1,5 @@
 package search;
-import baseTest.BaseTest;
+import base.BaseTest;
 import jdbc.SearchRepository;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;

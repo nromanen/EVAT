@@ -1,5 +1,5 @@
 package search;
-import baseTest.BaseTest;
+import base.BaseTest;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import pages.search.HomePageSearchMenu;

@@ -1,12 +1,12 @@
 package profile.event;
 
+import base.SignInBaseTest;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
-import baseTest.SignInBaseTest;
 
 public class EventInfoPageTest extends SignInBaseTest {
 	
