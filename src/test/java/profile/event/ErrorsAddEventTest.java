@@ -1,5 +1,6 @@
 package profile.event;
 
+import org.openqa.selenium.WebElement;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -9,7 +10,9 @@ import pages.profile.AddEventPage;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.Callable;
 
+import static org.awaitility.Awaitility.fieldIn;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 import static pages.base.Helper.isElementPresent;
@@ -192,29 +195,33 @@ public class ErrorsAddEventTest extends AddEventBaseTest {
     public void testRequiredErrors() {
         SoftAssert softAssert = new SoftAssert();
         addEventPage.clickSave();
-        implicitlyWait();
 
+        conditionFactory.await().until(() -> isElementPresent(addEventPage.getRequiredImage()));
         softAssert.assertTrue(Helper.isElementPresent(addEventPage.getRequiredImage()),"RequiredImage isn't present");
         softAssert.assertEquals(addEventPage.getRequiredImage().getText(), getDataByKey("errorRequired"),"Incorrect text of RequiredImage");
         addEventPage.loadImage(getDataByKey("correctPhoto"));
         softAssert.assertFalse(isElementPresent(addEventPage.getRequiredImage()),"RequiredImage doesn't disappear");
 
+        conditionFactory.await().until(() -> isElementPresent(addEventPage.getRequiredTitle()));
         softAssert.assertTrue(Helper.isElementPresent(addEventPage.getRequiredTitle()),"RequiredTitle isn't present");
         assertEquals(addEventPage.getRequiredTitle().getText(), getDataByKey("errorRequired"),"Incorrect text of RequiredTitle");
         addEventPage.inputTitle(getDataByKey("correctTitle"));
         softAssert.assertFalse(isElementPresent(addEventPage.getRequiredTitle()),"RequiredTitle doesn't disappear");
 
+        conditionFactory.await().until(() -> isElementPresent(addEventPage.getRequiredDescription()));
         softAssert.assertTrue(Helper.isElementPresent(addEventPage.getRequiredDescription()),"RequiredDescription isn't present");
         assertEquals(addEventPage.getRequiredDescription().getText(), getDataByKey("errorRequired"),"Incorrect text of RequiredDescription");
         addEventPage.inputDescription(getDataByKey("correctDescription"));
         softAssert.assertFalse(isElementPresent(addEventPage.getRequiredDescription()),"RequiredDescription doesn't disappear");
 
+        conditionFactory.await().until(() -> isElementPresent(addEventPage.getRequiredHashtags()));
         softAssert.assertTrue(Helper.isElementPresent(addEventPage.getRequiredHashtags()),"RequiredHashtag isn't present");
         assertEquals(addEventPage.getRequiredHashtags().getText(), getDataByKey("errorRequired"),"Incorrect text of RequiredHashtag");
         List<String> hashtagsCorrect = Arrays.asList(getDataByKey("correctHashtags").split(","));
         addEventPage.inputHashtags(hashtagsCorrect);
         softAssert.assertFalse(isElementPresent(addEventPage.getRequiredHashtags()),"RequiredHashtag doesn't disappear");
 
+        conditionFactory.await().until(() -> isElementPresent(addEventPage.getRequiredCountry()));
         softAssert.assertTrue(Helper.isElementPresent(addEventPage.getRequiredCountry()),"RequiredCountry isn't present");
         assertEquals(addEventPage.getRequiredCountry().getText(), getDataByKey("errorRequired"),"Incorrect text of RequiredCountry");
         addEventPage.inputCountry(getDataByKey("correctCountry"));
