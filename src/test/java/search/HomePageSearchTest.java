@@ -1,5 +1,5 @@
 package search;
-import baseTest.BaseTest;
+import base.BaseTest;
 import jdbc.SearchRepository;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -7,7 +7,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
-import pages.homePageSearch.*;
+import pages.search.HomePageSearchMenu;
+import pages.search.SearchResultPage;
+
 import java.time.LocalDate;
 
 

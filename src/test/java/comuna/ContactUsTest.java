@@ -1,12 +1,12 @@
 package comuna;
-import baseTest.BaseTest;
+import base.BaseTest;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
 import pages.HomePageNavBar;
 import pages.SignInUpMenu;
-import pages.homePageSearch.HomePageSearchMenu;
-import pages.navBar.ContactUsPage;
+import pages.navigation.ContactUsPage;
+import pages.search.HomePageSearchMenu;;
 
 public class ContactUsTest extends BaseTest {
     ContactUsPage contactUsPage;

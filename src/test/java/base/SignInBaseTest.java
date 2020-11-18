@@ -1,12 +1,12 @@
-package baseTest;
+package base;
 
 import org.testng.annotations.BeforeTest;
 
 import pages.EventInfoPage;
 import pages.SignInUpMenu;
-import pages.homePageSearch.HomePageSearchMenu;
-import pages.navBar.EditProfilePage;
-import pages.navBar.EventsNotificationPage;
+import pages.navigation.EditProfilePage;
+import pages.navigation.EventsNotificationPage;
+import pages.search.HomePageSearchMenu;
 
 public class SignInBaseTest extends BaseTest {
 

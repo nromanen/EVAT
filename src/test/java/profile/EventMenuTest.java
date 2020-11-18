@@ -1,50 +1,28 @@
 package profile;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 import pages.profile.EventMenu;
 
-import static org.testng.Assert.*;
+import static pages.base.Helper.isElementPresent;
 
-public class EventMenuTest {
 
-    EventMenu eventMenuTest;
-    SetUpProfile setUpProfile;
+public class EventMenuTest extends ProfileBaseTest{
 
-    @BeforeTest
-    public void setUp(){
-        setUpProfile=new SetUpProfile();
-        eventMenuTest = new EventMenu(setUpProfile.getDriver());
-    }
+    EventMenu eventMenu;
 
     @Test
-    public void testClickFutureEvents() {
-        assertTrue(eventMenuTest.clickFutureEvents());
+    public void testDefaultBehavior() {
+        signingIn();
+        goToProfilePage();
+        eventMenu = new EventMenu(driver);
+        SoftAssert softAssert=new SoftAssert();
+        softAssert.assertTrue(isElementPresent(eventMenu.getVisitedEvents()),"Element visited events isn't present");
+        softAssert.assertTrue(isElementPresent(eventMenu.getArchiveEvents()),"Element archive events isn't present");
+        softAssert.assertTrue(isElementPresent(eventMenu.getFutureEvents()),"Element visited events isn't present");
+        softAssert.assertTrue(isElementPresent(eventMenu.getToGoEvents()),"Element visited events isn't present");
+        softAssert.assertTrue(isElementPresent(eventMenu.getAddEvent()),"Element visited events isn't present");
+        softAssert.assertAll();
     }
 
-    @Test
-    public void testClickArchiveEvents() {
-        assertTrue(eventMenuTest.clickArchiveEvents());
-    }
-
-    @Test
-    public void testClickVisitedEvents() {
-        assertTrue(eventMenuTest.clickVisitedEvents());
-    }
-
-    @Test
-    public void testClickToGoEvents() {
-        assertTrue(eventMenuTest.clickToGoEvents());
-    }
-
-    @Test
-    public void testClickAddEvent() {
-        assertTrue(eventMenuTest.clickAddEvent());
-    }
-
-    @AfterClass
-    public void afterClass(){
-        setUpProfile.driverQuit();
-    }
 }

@@ -1,93 +1,65 @@
 package pages.profile;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.How;
-import org.openqa.selenium.support.PageFactory;
+import pages.base.BasePage;
 
-public class UserInfoPage{
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-    WebDriver driver;
+public class UserInfoPage extends BasePage {
 
-    @FindBy(how = How.CSS, using = "#main > div.info > div.col-sm-12.col-md-6 > div:nth-child(1) > div.col-8")
-    private WebElement userName;
+    private static final String USER_NAME="User Name:";
+    private static final String AGE="Age:";
+    private static final String GENDER="Gender:";
+    private static final String EMAIL="Email:";
+    private static final String INTERESTS="Interests:";
 
-    @FindBy(how = How.CSS, using = "#main > div.info > div.col-sm-12.col-md-6 > div:nth-child(2) > div.col-8")
-    private WebElement age;
-
-    @FindBy(how = How.CSS, using = "#main > div.info > div.col-sm-12.col-md-6 > div:nth-child(3) > div.col-8")
-    private WebElement gender;
-
-    @FindBy(how = How.CSS, using = "#main > div.info > div.col-sm-12.col-md-6 > div:nth-child(4) > div.col-8")
-    private WebElement email;
-
-    @FindBy(how = How.CSS, using = "#main > div.info > div.col-sm-12.col-md-6 > div:nth-child(5) > div.col-8 ")
-    private WebElement interests;
+    HashMap<WebElement,WebElement> tableUserInfo;
 
     public UserInfoPage(WebDriver driver) {
-        this.driver = driver;
-        PageFactory.initElements(driver, this);
+        super(driver);
+        waitForElementToAppear(By.cssSelector(".info > .col-md-6 > div > div"));
+        List<WebElement> elementsOnPage =driver.findElements(By.cssSelector(".info > .col-md-6 > div > div"));
+        tableUserInfo=new HashMap<>();
+        for(int i=0;i<elementsOnPage.size();i+=2){
+            tableUserInfo.put(elementsOnPage.get(i),elementsOnPage.get(i+1));
+        }
+    }
+
+    private String getTextOfWebElementByName(String name){
+        WebElement element=null;
+        for(Map.Entry<WebElement, WebElement> row: tableUserInfo.entrySet()){
+            if(row.getKey().getText().equals(name)){
+                element=row.getValue();
+                break;
+            }
+        }
+        if(element!=null) return element.getText();
+        else throw new NoSuchElementException("Element "+name+" didn't found");
     }
 
     public String getValueUserName(){
-        return userName.getText();
+        return getTextOfWebElementByName(USER_NAME);
     }
 
     public String getValueAge(){
-        return age.getText();
+        return getTextOfWebElementByName(AGE);
     }
 
     public String getValueGender(){
-        return gender.getText();
+        return getTextOfWebElementByName(GENDER);
     }
 
     public String getValueEmail(){
-        return email.getText();
+        return getTextOfWebElementByName(EMAIL);
     }
 
     public String getValueInterests(){
-        return interests.getText();
-    }
-
-    public WebElement getUserName() {
-        return userName;
-    }
-
-    public void setUserName(WebElement userName) {
-        this.userName = userName;
-    }
-
-    public WebElement getAge() {
-        return age;
-    }
-
-    public void setAge(WebElement age) {
-        this.age = age;
-    }
-
-    public WebElement getGender() {
-        return gender;
-    }
-
-    public void setGender(WebElement gender) {
-        this.gender = gender;
-    }
-
-    public WebElement getEmail() {
-        return email;
-    }
-
-    public void setEmail(WebElement email) {
-        this.email = email;
-    }
-
-    public WebElement getInterests() {
-        return interests;
-    }
-
-    public void setInterests(WebElement interests) {
-        this.interests = interests;
+        return getTextOfWebElementByName(INTERESTS);
     }
 
 }

@@ -1,13 +1,14 @@
 package search;
-import baseTest.BaseTest;
+
+import base.BaseTest;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import pages.HomePageNavBar;
 import pages.SignInUpMenu;
-import pages.homePageSearch.HomePageSearchMenu;
-import pages.navBar.SearchUserPage;
+import pages.navigation.SearchUserPage;
+import pages.search.HomePageSearchMenu;
 
 public class SearchUserTest extends BaseTest {
     SearchUserPage searchUserPage;

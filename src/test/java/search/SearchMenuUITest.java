@@ -1,9 +1,10 @@
 package search;
-import baseTest.BaseTest;
+import base.BaseTest;
 import org.testng.Assert;
 import org.testng.annotations.*;
-import pages.homePageSearch.HomePageSearchMenu;
-import pages.homePageSearch.SearchResultPage;
+import pages.search.HomePageSearchMenu;
+import pages.search.SearchResultPage;
+
 import java.time.LocalDate;
 
 public class SearchMenuUITest extends BaseTest {
