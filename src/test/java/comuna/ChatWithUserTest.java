@@ -1,5 +1,6 @@
 package comuna;
 import base.BaseTest;
+import io.qameta.allure.Description;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -30,7 +31,12 @@ public class ChatWithUserTest extends BaseTest {
         homePageNavBar.clickComunaButton();
         comunaPage.goToFirstChat();
     }
+
+    /**
+     * Test to verify ability to send messages to users
+     */
     @Test(description = "CHIS-148")
+    @Description(useJavaDoc = true)
     public  void verifySendingMessageToUserTest(){
         chatWithUserPage.enterMessage(message);
         Assert.assertEquals(chatWithUserPage.getTextFromMessageField(), message);

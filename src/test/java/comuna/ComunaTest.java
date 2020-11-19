@@ -1,6 +1,7 @@
 package comuna;
 
 import base.BaseTest;
+import io.qameta.allure.Description;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -29,7 +30,12 @@ public class ComunaTest extends BaseTest {
         comunaPage = new ComunaPage(driver);
         chatWithUserPage = new ChatWithUserPage(driver);
     }
+
+    /**
+     * Test to verify transition to the first chat
+     */
     @Test(description = "CHIS-150")
+    @Description(useJavaDoc = true)
     public void verifyGoToTheFirstChatTest(){
         comunaPage.goToFirstChat();
         String title = chatWithUserPage.getChatTitleText().substring(0,25);
