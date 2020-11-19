@@ -1,6 +1,7 @@
 package profile.event;
 
 import base.SignInBaseTest;
+import io.qameta.allure.Description;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -20,6 +21,7 @@ public class EventInfoPageTest extends SignInBaseTest {
 	 * can add comment below event
 	 */
 	@Test
+	@Description(useJavaDoc = true)
 	public void addCommentTest() {
 		eventInfoPage.addCommentToEvent(comment);
 		Assert.assertEquals(eventInfoPage.getCommentText(), "auto generated comment");
@@ -30,6 +32,7 @@ public class EventInfoPageTest extends SignInBaseTest {
 	 * can join or/and leave event
 	 */
 	@Test
+	@Description(useJavaDoc = true)
 	public void joinAndLeaveEventTest() {
 		SoftAssert asert = new SoftAssert();
 		
