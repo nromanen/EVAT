@@ -3,6 +3,7 @@ package profile;
 import java.time.LocalDate;
 
 import base.SignInBaseTest;
+import io.qameta.allure.Description;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
@@ -31,6 +32,7 @@ public class EditProfilePageTest extends SignInBaseTest {
 	 * can change avatar
 	 */
 	@Test
+	@Description(useJavaDoc = true)
 	public void changeAvatarTest() {
 		editProfilePage.changeAvatar(imagePath);
 		Assert.assertEquals(editProfilePage.getClientSnackbarText(), "Avatar is update");
@@ -41,6 +43,7 @@ public class EditProfilePageTest extends SignInBaseTest {
 	 * can change Username
 	 */
 	@Test
+	@Description(useJavaDoc = true)
 	public void changeUsernameTest() {
 		editProfilePage.changeUserName("Saul");
 		Assert.assertEquals(editProfilePage.getClientSnackbarText(), "Username is changed");
@@ -51,6 +54,7 @@ public class EditProfilePageTest extends SignInBaseTest {
 	 * can choose gender
 	 */
 	@Test
+	@Description(useJavaDoc = true)
 	public void chooseGenderTest() {
 		editProfilePage.chooseGender("Male");
 		Assert.assertEquals(editProfilePage.getClientSnackbarText(), "Set gender successed");
@@ -61,6 +65,7 @@ public class EditProfilePageTest extends SignInBaseTest {
 	 * can set date of birth
 	 */
 	@Test(dataProvider = "dateOfBirthData")
+	@Description(useJavaDoc = true)
 	public void verifySettingDateOfBirthTest(LocalDate date, String message) {
 		editProfilePage.setDateOfBirth(date);
 		Assert.assertEquals(editProfilePage.getClientSnackbarText(), message);
@@ -71,6 +76,7 @@ public class EditProfilePageTest extends SignInBaseTest {
 	 * can choose favorite categories
 	 */
 	@Test
+	@Description(useJavaDoc = true)
 	public void chooseFavoriteCategoriesTest() {
 		editProfilePage.chooseFavoriteCategories("Summer");
 		Assert.assertEquals(editProfilePage.getClientSnackbarText(), "Favarote categoris is updated");
@@ -81,6 +87,7 @@ public class EditProfilePageTest extends SignInBaseTest {
 	 * can change password
 	 */
 	@Test
+	@Description(useJavaDoc = true)
 	public void changePasswordTest() {
 		editProfilePage.changePassword("1234", "1234", "1234");
 		Assert.assertEquals(editProfilePage.getClientSnackbarText(), "Failed");
