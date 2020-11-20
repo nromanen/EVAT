@@ -2,13 +2,12 @@ package profile.event;
 
 import jdbc.EventsRepository;
 import jdbc.UserInfoRepository;
-
-import java.util.Arrays;
-import java.util.List;
-import org.openqa.selenium.NoSuchElementException;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -25,10 +24,23 @@ public class AddEventTest extends AddEventBaseTest{
                 hashtags,getDataByKey("correctCountry"),getDataByKey("correctCity")}};
     }
 
+    /**
+     * Verify that "Save" works correctly with valid data, verify appearing message about
+     * saving and clearing after that all fields
+     * @param photo
+     * @param title
+     * @param participants
+     * @param dateFrom
+     * @param dateTo
+     * @param description
+     * @param hashtagsToEnter is a list of hashtags
+     * @param country
+     * @param city
+     */
 
     @Test(dataProvider = "providerSaveCorrect")
     public void testSaveCorrect(String photo,String title, String participants, String dateFrom, String dateTo,
-                                     String description,List<String> hashtagsToEnter,String country,String city)throws NoSuchElementException {
+                                     String description,List<String> hashtagsToEnter,String country,String city){
         addEventPage.loadImage(photo);
         addEventPage.inputTitle(title);
         addEventPage.inputParticipants(participants);
@@ -55,6 +67,18 @@ public class AddEventTest extends AddEventBaseTest{
                 getDataByKey("correctCountry"),getDataByKey("correctCity")}};
     }
 
+    /**
+     * Verify that event isn't save without photo, verify that message about saving doesn't appear,
+     * fields don't clear and a red inscription "Required" appear under file uploader
+     * @param title
+     * @param participants
+     * @param dateFrom
+     * @param dateTo
+     * @param description
+     * @param hashtagsToEnter is a list of hashtags
+     * @param country
+     * @param city
+     */
 
     @Test(dataProvider = "providerSaveWithoutImage")
     public void negativeSaveWithoutImage(String title, String participants, String dateFrom, String dateTo,
@@ -85,6 +109,18 @@ public class AddEventTest extends AddEventBaseTest{
                 getDataByKey("correctCountry"),getDataByKey("correctCity")}};
     }
 
+    /**
+     * Verify that event isn't save without title, verify that message about saving doesn't appear,
+     * fields don't clear and a red inscription "Required" appear under field "Title"
+     * @param photo
+     * @param participants
+     * @param dateFrom
+     * @param dateTo
+     * @param description
+     * @param hashtagsToEnter is a list of hashtags
+     * @param country
+     * @param city
+     */
 
     @Test(dataProvider = "providerSaveWithoutTitle")
     public void negativeSaveWithoutTitle(String photo, String participants, String dateFrom, String dateTo,
@@ -115,6 +151,18 @@ public class AddEventTest extends AddEventBaseTest{
                 hashtags,getDataByKey("correctCountry"),getDataByKey("correctCity")}};
     }
 
+    /**
+     * Verify that event isn't save without description, verify that message about saving doesn't appear,
+     * fields don't clear and a red inscription "Required" appear under field "Description"
+     * @param photo
+     * @param title
+     * @param participants
+     * @param dateFrom
+     * @param dateTo
+     * @param hashtagsToEnter is a list of hashtags
+     * @param country
+     * @param city
+     */
 
     @Test(dataProvider = "providerSaveWithoutDescription")
     public void negativeSaveWithoutDescription(String photo,String title, String participants, String dateFrom, String dateTo,
@@ -144,6 +192,18 @@ public class AddEventTest extends AddEventBaseTest{
                 getDataByKey("correctCountry"),getDataByKey("correctCity")}};
     }
 
+    /**
+     * Verify that event isn't save without hashtags, verify that message about saving doesn't appear,
+     * fields don't clear and a red inscription "Required" appear under field "Hashtags"
+     * @param photo
+     * @param title
+     * @param participants
+     * @param dateFrom
+     * @param dateTo
+     * @param description
+     * @param country
+     * @param city
+     */
 
     @Test(dataProvider = "providerSaveWithoutHashtags")
     public void negativeSaveWithoutHashtags(String photo,String title, String participants, String dateFrom, String dateTo,
@@ -174,6 +234,18 @@ public class AddEventTest extends AddEventBaseTest{
                 hashtags}};
     }
 
+    /**
+     * Verify that event isn't save without country, verify that message about saving doesn't appear,
+     * fields don't clear and a red inscription "Required" appear under field "Country"
+     * @param photo
+     * @param title
+     * @param participants
+     * @param dateFrom
+     * @param dateTo
+     * @param description
+     * @param hashtagsToEnter is a list of hashtags
+     */
+
     @Test(dataProvider = "providerSaveWithoutCountry")
     public void negativeSaveWithoutCountry(String photo,String title, String participants, String dateFrom, String dateTo,
                                 String description,List<String> hashtagsToEnter){
@@ -201,6 +273,19 @@ public class AddEventTest extends AddEventBaseTest{
                 hashtags,getDataByKey("correctCountry")}};
     }
 
+    /**
+     * Verify that event isn't save without city, verify that message about saving doesn't appear,
+     * fields don't clear and a red inscription "Required" appear under field "City"
+     * @param photo
+     * @param title
+     * @param participants
+     * @param dateFrom
+     * @param dateTo
+     * @param description
+     * @param hashtagsToEnter is a list of hashtags
+     * @param country
+     */
+
     @Test(dataProvider = "providerSaveWithoutCity")
     public void negativeSaveWithoutCity(String photo,String title, String participants, String dateFrom, String dateTo,
                                            String description,List<String> hashtagsToEnter,String country){
@@ -220,11 +305,18 @@ public class AddEventTest extends AddEventBaseTest{
         assertFalse(addEventPage.isPageEmpty());
     }
 
+    /**
+     * Verify that all fields are empty when user only click on "ADD EVENT"
+     */
+
     @Test
     public void testIsPageEmpty() {
         assertTrue(addEventPage.isPageEmpty());
     }
 
+    /**
+     * Verify that all fields are full after input
+     */
 
     @Test(dataProvider = "providerSaveCorrect")
     public void testIsPageFull(String photo,String title, String participants, String dateFrom, String dateTo,
@@ -244,6 +336,9 @@ public class AddEventTest extends AddEventBaseTest{
         assertTrue(addEventPage.isPageFull());
     }
 
+    /**
+     * delete all event create by during tests
+     */
 
     @AfterClass
     public void clearEnteredData(){
