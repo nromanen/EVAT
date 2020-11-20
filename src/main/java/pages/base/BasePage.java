@@ -48,4 +48,14 @@ public class BasePage {
     protected void waitForTextToDisappear(By locator, String text) {
         wait.until(ExpectedConditions.not(ExpectedConditions.textToBe(locator, text)));
     }
+
+    public static boolean isElementPresentWait(WebElement element){
+        try{
+            BasePage.conditionFactory.await().until(element::isEnabled);
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

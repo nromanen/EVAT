@@ -1,6 +1,5 @@
 package profile;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -9,11 +8,6 @@ import pages.profile.UserInfoPage;
 public class UserInfoPageTest extends ProfileBaseTest{
 
     UserInfoPage userInfoPage;
-
-    @BeforeClass
-    public void setUpInitData() {
-        initTestDataProfile();
-    }
 
     @DataProvider
     public Object[][] providerEmail(){
@@ -48,4 +42,5 @@ public class UserInfoPageTest extends ProfileBaseTest{
         softAssert.assertEquals(userInfoPage.getValueInterests(),interests,"Incorrect interests on page");
         softAssert.assertAll();
     }
+
 }

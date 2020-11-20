@@ -13,15 +13,7 @@ public class Helper {
         }
     }
 
-    public static boolean isElementPresentWait(WebElement element){
-        try{
-            BasePage.conditionFactory.await().until(element::isEnabled);
-            return true;
-        }catch (Exception e){
-            e.printStackTrace();
-            return false;
-        }
-    }
+
 
 
 

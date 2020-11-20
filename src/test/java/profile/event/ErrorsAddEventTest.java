@@ -11,8 +11,8 @@ import java.util.List;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
+import static pages.base.BasePage.isElementPresentWait;
 import static pages.base.Helper.isElementPresent;
-import static pages.base.Helper.isElementPresentWait;
 
 public class ErrorsAddEventTest extends AddEventBaseTest {
 
