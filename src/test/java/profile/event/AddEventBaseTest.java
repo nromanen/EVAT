@@ -1,6 +1,6 @@
 package profile.event;
 
-import org.testng.annotations.AfterClass;
+import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
@@ -20,18 +20,18 @@ public class AddEventBaseTest extends ProfileBaseTest {
 
     @BeforeClass
     public void setUp(){
-        initTestDataAE();
         super.setUp();
-        if(testDataAE ==null)initTestDataAE();
+        openBrowser();
+        initTestDataAE();
         signingIn();
         goToProfilePage();
-        eventMenu=new EventMenu(driver);
+        eventMenu = new EventMenu(driver);
     }
 
     @BeforeMethod
     public void beforeMethod() {
         eventMenu.clickAddEvent();
-        addEventPage=new AddEventPage(driver);
+        addEventPage = new AddEventPage(driver);
     }
 
     public void initTestDataAE(){
@@ -48,14 +48,10 @@ public class AddEventBaseTest extends ProfileBaseTest {
     }
 
     @AfterMethod
-    public void afterMethod() {
+    public void tearDown(ITestResult result) {
+        takeScreenshot(result);
         eventMenu.clickFutureEvents();
     }
 
-    @AfterClass
-    @Override
-    public void closeBrowser(){
-        super.closeBrowser();
-    }
 
 }
