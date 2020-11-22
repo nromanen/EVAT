@@ -46,17 +46,21 @@ public class EventInfoPage extends BasePage {
 	@FindBy(css = ".mybutton > p:nth-child(3)") // TODO same for all comments
 	WebElement replyCommentText;
 	
-	@FindBy(css = "div[title$='гриби']")
+	@FindBy(css = ".events-container>div>div:nth-child(1) a>button")
 	WebElement testEvent;
 	
-	@FindBy(css = ".col-12~div:nth-child(2)")
+	@FindBy(css = "span[role='alert']")
 	WebElement currentStatusInfo;
+	
+	@FindBy(css = ".MuiButton-textSecondary")
+	WebElement agreeButton;
 	
 	public String getCurrentStatusInfoText() {
 		return currentStatusInfo.getText();
 	}
 	
 	public void clickOnTestEventInfo() {
+		waitForElementToVisible(testEvent);
 		testEvent.click();
 	}
 
@@ -85,12 +89,19 @@ public class EventInfoPage extends BasePage {
 	public void joinEvent() {
 		clickOnJoinEventButton();
 	}
+	
+	public void clickOnAgreeButton() {
+		waitForElementToVisible(agreeButton);
+		agreeButton.click();
+	}
 
 	public void leaveEvent() {
 		clickOnLeaveEventButton();
+		clickOnAgreeButton();
 	}
 
 	public void writeComment(String comment) {
+		waitForElementToVisible(commentEventInput);
 		commentEventInput.sendKeys(comment);
 	}
 

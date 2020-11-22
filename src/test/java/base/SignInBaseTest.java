@@ -1,5 +1,7 @@
 package base;
 
+import org.testng.ITestResult;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import pages.EventInfoPage;
 import pages.SignInUpMenu;
@@ -33,4 +35,9 @@ public class SignInBaseTest extends BaseTest {
 	private void signIn() {
 		new SignInUpMenu(driver).authoriseUser(email, pass);
 	}
+	
+	@AfterMethod
+    public void tearDown(ITestResult result) {
+        takeScreenshot(result);
+    }
 }

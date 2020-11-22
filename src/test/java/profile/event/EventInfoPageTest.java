@@ -38,11 +38,11 @@ public class EventInfoPageTest extends SignInBaseTest {
 		
 		eventInfoPage.joinEvent();
 		webDriverWait.until(ExpectedConditions.elementToBeClickable(eventInfoPage.leaveEventButton));
-		asert.assertEquals(eventInfoPage.getCurrentStatusInfoText(), "Current status: Approving participation.");
+		asert.assertEquals(eventInfoPage.getCurrentStatusInfoText(), "You are gonna visit.");
 		
 		eventInfoPage.leaveEvent();
 		webDriverWait.until(ExpectedConditions.elementToBeClickable(eventInfoPage.joinEventButton));
-		asert.assertEquals(eventInfoPage.getCurrentStatusInfoText(), "Current status: Not in event.");
+		asert.assertEquals(eventInfoPage.getCurrentStatusInfoText(), "You are not in event yet.");
 		
 		asert.assertAll();
 	}
