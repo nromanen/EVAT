@@ -21,6 +21,7 @@ public class ContactUsTest extends BaseTest {
     @Override
     public void setUp(){
         super.setUp();
+        openBrowser();
         driver.get(HomePageSearchMenu.URL);
         SignInUpMenu signInUpMenu = new SignInUpMenu(driver);
         signInUpMenu.authoriseUser(email,pass);

@@ -10,6 +10,7 @@ import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
 import pages.search.HomePageSearchMenu;
 import pages.search.SearchResultPage;
+import io.qameta.allure.Description;
 
 import java.time.LocalDate;
 
@@ -23,6 +24,7 @@ public class HomePageSearchTest extends BaseTest {
     @Override
     public void setUp(){
         super.setUp();
+        openBrowser();
         driver.get(HomePageSearchMenu.URL);
         searchResultPage = new SearchResultPage(driver);
         homePageSearchMenu = new HomePageSearchMenu(driver);
@@ -42,7 +44,7 @@ public class HomePageSearchTest extends BaseTest {
             wait.until(ExpectedConditions.numberOfElementsToBe(By.className("MuiCardHeader-root"), 1));
             softAssert.assertEquals(searchResultPage.getNumberOfEvents(), 1);
             homePageSearchMenu.clickResetButton();
-            wait.until(ExpectedConditions.numberOfElementsToBe(By.className("MuiCardHeader-root"), 6));
+            wait.until(ExpectedConditions.numberOfElementsToBe(By.className("MuiCardHeader-root"), 5));
         }
         softAssert.assertAll();
     }
@@ -75,7 +77,7 @@ public class HomePageSearchTest extends BaseTest {
         homePageSearchMenu.searchByKeyword(keyword);
         wait.until(ExpectedConditions.numberOfElementsToBe(By.className("MuiCardHeader-root"), 1));
         homePageSearchMenu.clickResetButton();
-        Assert.assertNotEquals(searchResultPage.getNumberOfEvents(), 6);
+        Assert.assertNotEquals(searchResultPage.getNumberOfEvents(), 5);
     }
 
     /**
@@ -111,8 +113,8 @@ public class HomePageSearchTest extends BaseTest {
     public void searchByOneDateToTest(){
         LocalDate date = LocalDate.of(2020, 11, 30);
         homePageSearchMenu.searchByDateTo(date);
-        wait.until(ExpectedConditions.numberOfElementsToBe(By.className("MuiCardHeader-root"), 3));
-        Assert.assertEquals(searchResultPage.getNumberOfEvents(), 3);
+        wait.until(ExpectedConditions.numberOfElementsToBe(By.className("MuiCardHeader-root"), 2));
+        Assert.assertEquals(searchResultPage.getNumberOfEvents(), 2);
     }
 
     /**
@@ -153,7 +155,7 @@ public class HomePageSearchTest extends BaseTest {
             wait.until(ExpectedConditions.numberOfElementsToBe(By.className("MuiCardHeader-root"), 1));
             softAssert.assertEquals(searchResultPage.getNumberOfEvents(), 1);
             homePageSearchMenu.clickResetButton();
-            wait.until(ExpectedConditions.numberOfElementsToBe(By.className("MuiCardHeader-root"), 6));
+            wait.until(ExpectedConditions.numberOfElementsToBe(By.className("MuiCardHeader-root"), 5));
         }
         softAssert.assertAll();
     }
