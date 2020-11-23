@@ -22,7 +22,7 @@ public class SignInBaseTest extends BaseTest {
 	@Override
 	public void setUp() {
 		super.setUp();
-
+		openBrowser();
 		driver.get(HomePageSearchMenu.URL);
 		editProfilePage = new EditProfilePage(getDriver());
 		eventsNotificationPage = new EventsNotificationPage(getDriver());

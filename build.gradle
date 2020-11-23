@@ -59,4 +59,3 @@ allure {
     reportDir = file('build/allure-results')
 
 }
-

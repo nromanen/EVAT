@@ -1,7 +1,6 @@
 package profile;
 
 import java.time.LocalDate;
-
 import base.SignInBaseTest;
 import io.qameta.allure.Description;
 import org.testng.Assert;
@@ -25,6 +24,14 @@ public class EditProfilePageTest extends SignInBaseTest {
 			{ LocalDate.of(1905, 02, 01), "Set date of birth successed" },
 			{ LocalDate.of(2006, 01, 31), "Set date of birth successed" },
 			{ LocalDate.of(2006, 02, 01), "Failed" }};
+	}
+	
+	@DataProvider(name = "genderData")
+	public Object[][] provideGenderData() {
+		return new Object[][] {
+			{ "Other", "Set gender successed" },
+			{ "Male", "Set gender successed" },
+			{ "Female", "Set gender successed" }};
 	}
 
 	/**
@@ -53,11 +60,11 @@ public class EditProfilePageTest extends SignInBaseTest {
 	 * Test to verify that authorized user
 	 * can choose gender
 	 */
-	@Test
+	@Test(dataProvider = "genderData")
 	@Description(useJavaDoc = true)
-	public void chooseGenderTest() {
-		editProfilePage.chooseGender("Male");
-		Assert.assertEquals(editProfilePage.getClientSnackbarText(), "Set gender successed");
+	public void chooseGenderTest(String gender, String message) {
+		editProfilePage.chooseGender(gender);
+		Assert.assertEquals(editProfilePage.getClientSnackbarText(), message);
 	}
 
 	/**
