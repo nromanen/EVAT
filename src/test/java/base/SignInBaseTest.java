@@ -1,10 +1,5 @@
 package base;
 
-<<<<<<< HEAD
-import org.testng.ITestResult;
-import org.testng.annotations.AfterMethod;
-=======
->>>>>>> master
 import org.testng.annotations.BeforeClass;
 import pages.EventInfoPage;
 import pages.SignInUpMenu;
@@ -27,11 +22,7 @@ public class SignInBaseTest extends BaseTest {
 	@Override
 	public void setUp() {
 		super.setUp();
-<<<<<<< HEAD
 		openBrowser();
-=======
-
->>>>>>> master
 		driver.get(HomePageSearchMenu.URL);
 		editProfilePage = new EditProfilePage(getDriver());
 		eventsNotificationPage = new EventsNotificationPage(getDriver());
@@ -42,9 +33,4 @@ public class SignInBaseTest extends BaseTest {
 	private void signIn() {
 		new SignInUpMenu(driver).authoriseUser(email, pass);
 	}
-	
-	@AfterMethod
-    public void tearDown(ITestResult result) {
-        takeScreenshot(result);
-    }
 }
