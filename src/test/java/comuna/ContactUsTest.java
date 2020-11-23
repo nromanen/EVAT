@@ -1,5 +1,6 @@
 package comuna;
 import base.BaseTest;
+import io.qameta.allure.Description;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
@@ -20,6 +21,7 @@ public class ContactUsTest extends BaseTest {
     @Override
     public void setUp(){
         super.setUp();
+        openBrowser();
         driver.get(HomePageSearchMenu.URL);
         SignInUpMenu signInUpMenu = new SignInUpMenu(driver);
         signInUpMenu.authoriseUser(email,pass);
@@ -27,7 +29,12 @@ public class ContactUsTest extends BaseTest {
         homePageNavBar.clickContactUsButton();
         contactUsPage = new ContactUsPage(driver);
     }
+
+    /**
+     * Test to verify ability of sending messages to tech support
+     */
     @Test(description = "CHIS-155")
+    @Description(useJavaDoc = true)
     public void verifySendingMessageTest(){
         SoftAssert softAssert = new SoftAssert();
         contactUsPage.selectProblemType(problem);
@@ -39,13 +46,21 @@ public class ContactUsTest extends BaseTest {
         softAssert.assertAll();
     }
 
+    /**
+     * Test to verify ability to clear written in the description field text
+     */
     @Test(description = "CHIS-154")
+    @Description(useJavaDoc = true)
     public void verifyClearingDescriptionFieldTest(){
         contactUsPage.enterDescription(textForDescription).clickClearButton();
         Assert.assertEquals(contactUsPage.getTextFromDescriptionField(), "");
     }
 
+    /**
+     * Test to verify appearance of error message when user leave description field empty
+     */
     @Test(description = "CHIS-156")
+    @Description(useJavaDoc = true)
     public void verifyEmptyDescriptionErrorTest(){
         contactUsPage.enterDescription(textForEmptyDescription).selectProblemType("Bad User");
         Assert.assertEquals(contactUsPage.getEmptyDescriptionError(), "Required");

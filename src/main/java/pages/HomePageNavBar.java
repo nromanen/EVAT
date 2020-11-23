@@ -86,5 +86,7 @@ public class HomePageNavBar {
         return this;
     }
 
-
+    public WebElement getComunaButton() {
+        return comunaButton;
+    }
 }

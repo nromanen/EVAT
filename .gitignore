@@ -94,7 +94,7 @@ hs_err_pid*
 *.stackdump
 
 # Ignore Picture
-*.bmp
+#*.bmp
 # *.png
 #*.jpg
 # *.jpeg

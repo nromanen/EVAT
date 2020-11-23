@@ -3,9 +3,9 @@ package profile.event;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
-import pages.profile.AddEventPage;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 
@@ -31,6 +31,7 @@ public class ErrorsAddEventTest extends AddEventBaseTest {
         addEventPage.loadImage(nameFileImg);
         assertTrue(isElementPresent(addEventPage.getFileUploader()),"The photo was uploaded by mistake");
     }
+
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -163,7 +164,7 @@ public class ErrorsAddEventTest extends AddEventBaseTest {
     public void negativeInputDateFrom(String date) {
         addEventPage.clearDateFrom();
         addEventPage.inputDateFrom(date);
-        assertEquals(addEventPage.getValueAttribute(addEventPage.getDateFrom()), AddEventPage.convertDateToCorrect(date, LocalDate.now()));
+        assertEquals(addEventPage.getValueAttribute(addEventPage.getDateFrom()), LocalDate.now().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -186,7 +187,7 @@ public class ErrorsAddEventTest extends AddEventBaseTest {
         addEventPage.inputDateFrom(LocalDate.now().toString());
         addEventPage.clearDateTo();
         addEventPage.inputDateTo(date);
-        assertEquals(addEventPage.getValueAttribute(addEventPage.getDateTo()), AddEventPage.convertDateToCorrect(date, LocalDate.now()));
+        assertEquals(addEventPage.getValueAttribute(addEventPage.getDateTo()), LocalDate.now().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
     }
 
 

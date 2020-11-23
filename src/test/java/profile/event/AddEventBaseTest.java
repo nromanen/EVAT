@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+
 public class AddEventBaseTest extends ProfileBaseTest {
     protected Properties testDataAE;
     protected AddEventPage addEventPage;
@@ -49,7 +50,6 @@ public class AddEventBaseTest extends ProfileBaseTest {
 
     @AfterMethod
     public void tearDown(ITestResult result) {
-        takeScreenshot(result);
         eventMenu.clickFutureEvents();
     }
 
