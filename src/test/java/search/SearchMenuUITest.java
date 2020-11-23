@@ -16,6 +16,7 @@ public class SearchMenuUITest extends BaseTest {
     @Override
     public void setUp(){
         super.setUp();
+        openBrowser();
         driver.get(HomePageSearchMenu.URL);
         searchResultPage = new SearchResultPage(driver);
         homePageSearchMenu = new HomePageSearchMenu(driver);

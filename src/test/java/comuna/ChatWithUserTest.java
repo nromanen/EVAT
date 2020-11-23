@@ -10,6 +10,7 @@ import pages.SignInUpMenu;
 import pages.comuna.ChatWithUserPage;
 import pages.comuna.ComunaPage;
 import pages.search.HomePageSearchMenu;
+import utility.EventElement;
 
 public class ChatWithUserTest extends BaseTest {
     ChatWithUserPage chatWithUserPage;
@@ -21,11 +22,12 @@ public class ChatWithUserTest extends BaseTest {
     @Override
     public void setUp(){
         super.setUp();
+        openBrowser();
         driver.get(HomePageSearchMenu.URL);
         SignInUpMenu signInUpMenu = new SignInUpMenu(driver);
         signInUpMenu.authoriseUser(email,pass);
         HomePageNavBar homePageNavBar = new HomePageNavBar(driver);
-        homePageNavBar.clickComunaButton();
+        new EventElement(driver, homePageNavBar.getComunaButton()).click();
         ComunaPage comunaPage = new ComunaPage(driver);
         chatWithUserPage = new ChatWithUserPage(driver);
         homePageNavBar.clickComunaButton();
