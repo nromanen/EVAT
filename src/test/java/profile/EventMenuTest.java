@@ -11,6 +11,10 @@ public class EventMenuTest extends ProfileBaseTest{
 
     EventMenu eventMenu;
 
+    /**
+     * Verify elements on the page is present
+     */
+
     @Test
     public void testDefaultBehavior() {
         signingIn();

@@ -1,7 +1,9 @@
 package profile;
 
 import base.BaseTest;
+import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import pages.HomePageNavBar;
 import pages.SignInUpMenu;
@@ -14,12 +16,16 @@ import java.util.Properties;
 public abstract class ProfileBaseTest extends BaseTest {
     private Properties testDataProfile;
 
-    @BeforeMethod
-    @Override
-    public void setUp() {
-        super.setUp();
-        if(testDataProfile ==null)initTestDataProfile();
+    @BeforeClass
+    public void initTestData() {
+        initTestDataProfile();
     }
+
+    @BeforeMethod
+    public void beforeMethod() {
+        openBrowser();
+    }
+
 
     public void initTestDataProfile(){
         testDataProfile =new Properties();
@@ -31,18 +37,18 @@ public abstract class ProfileBaseTest extends BaseTest {
     }
 
     public void signingIn() {
-        driver.get(testDataProfile.getProperty("homePage"));
-        new SignInUpMenu(driver).authoriseUser(testDataProfile.getProperty("email"),
+        getDriver().get(testDataProfile.getProperty("homePage"));
+        new SignInUpMenu(getDriver()).authoriseUser(testDataProfile.getProperty("email"),
                 testDataProfile.getProperty("password"));
     }
 
     public void signingIn(String email,String password) {
-        driver.get(testDataProfile.getProperty("homePage"));
-        new SignInUpMenu(driver).authoriseUser(email,password);
+        getDriver().get(testDataProfile.getProperty("homePage"));
+        new SignInUpMenu(getDriver()).authoriseUser(email,password);
     }
 
     public  void goToProfilePage(){
-        new HomePageNavBar(driver).clickProfileButton();
+        new HomePageNavBar(getDriver()).clickProfileButton();
     }
 
     public String getDataByKey(String key){
@@ -50,7 +56,8 @@ public abstract class ProfileBaseTest extends BaseTest {
     }
 
     @AfterMethod
-    public void closeBrowser(){
-        super.closeBrowser();
+    public void tearDown(ITestResult result)
+    {
+        closeBrowser();
     }
 }

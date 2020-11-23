@@ -8,14 +8,8 @@ import org.openqa.selenium.support.ui.Select;
 import pages.base.BasePage;
 import pages.base.Helper;
 
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class AddEventPage extends BasePage {
 
@@ -128,33 +122,6 @@ public class AddEventPage extends BasePage {
         participants.sendKeys(value);
     }
 
-    public static String convertDateToCorrect(String date, LocalDate noLessThisDate){
-        String  PATTERN="([0-9]+)/([0-9]+)/([0-9]{4,})";
-        Pattern pat = Pattern.compile(PATTERN);
-        Matcher matcher = pat.matcher(date);
-        if(!matcher.find())
-            return noLessThisDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
-
-        int m=Integer.parseInt(matcher.group(1));
-        int d=Integer.parseInt(matcher.group(2));
-        int y=Integer.parseInt(matcher.group(3));
-
-        if (m < 1 || m > 12 || m < noLessThisDate.getMonthValue())
-            m = noLessThisDate.getMonthValue();
-
-        if(y < LocalDate.now().getYear())
-            y=noLessThisDate.getYear();
-        if(y > LocalDate.now().getYear()+1)
-            y=noLessThisDate.getYear()+1;
-
-        if(d < 1 || d > LocalDate.of(y,m,1).lengthOfMonth()
-                || (m==noLessThisDate.getMonthValue() && d<noLessThisDate.getDayOfMonth()))
-            d=noLessThisDate.getDayOfMonth();
-
-        LocalDate res = LocalDate.of(y,m,d);
-        return  res.format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
-    }
-
     public void clearDateFrom(){
         dateFrom.sendKeys(Keys.CONTROL + "A");
         dateFrom.sendKeys(Keys.DELETE);
@@ -187,7 +154,8 @@ public class AddEventPage extends BasePage {
     public List<String> getValueOfHashtags(){
         List<WebElement> listOfHashtagsWebElements = driver.findElements(findListOfHashtags);
         List<String> listOfHashtags = new ArrayList<>();
-        for(WebElement element: listOfHashtagsWebElements)listOfHashtags.add(element.getText());
+        for(WebElement element: listOfHashtagsWebElements)
+            listOfHashtags.add(element.getText());
         return listOfHashtags;
     }
 

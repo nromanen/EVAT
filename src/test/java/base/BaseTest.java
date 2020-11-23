@@ -1,27 +1,24 @@
 package base;
-import org.openqa.selenium.By;
+
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-
+import org.testng.annotations.Listeners;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-import java.util.concurrent.TimeUnit;
 
+@Listeners(TestListener.class)
 public abstract class BaseTest {
-    protected WebDriver driver;
-    private final Properties prop = new Properties();
-    protected WebDriverWait webDriverWait;
-    private static final int TIMEOUT = 5;
-
+    protected static WebDriver driver;
+    protected static WebDriverWait webDriverWait;
+    private static final Properties prop = new Properties();
+    private static final int TIMEOUT = 100;
 
     @BeforeClass
     public void setUp(){
@@ -31,27 +28,30 @@ public abstract class BaseTest {
             ex.printStackTrace();
         }
         System.setProperty(prop.getProperty("webDriverKey"),prop.getProperty("webDriverValue"));
+    }
 
-        if(prop.getProperty("browser").equals("chrome")) driver = new ChromeDriver();
-        else
-            if(prop.getProperty("browser").equals("gecko"))driver = new FirefoxDriver();
+    private static WebDriver initDriver(){
+        switch (prop.getProperty("browser")){
+            case "chrome": return new ChromeDriver();
+            case "gecko":  return new FirefoxDriver();
+            default: throw new NullPointerException("There is no properties for webdriver: "+prop.getProperty("browser"));
+        }
+    }
 
-        webDriverWait= new WebDriverWait(driver,100);
-
+    public void openBrowser(){
+        getDriver();
+        webDriverWait= new WebDriverWait(driver,TIMEOUT);
         driver.manage().window().maximize();
+    }
+
+    public static WebDriver getDriver() {
+        if(driver==null) driver=initDriver();
+        return driver;
     }
 
     @AfterClass(alwaysRun = true)
     public void closeBrowser(){
-        driver.quit();
+        if(driver!=null) driver.close();
+        driver=null;
     }
-
-    public WebDriver getDriver() {
-        return driver;
-    }
-
-    public void implicitlyWait(){
-        driver.manage().timeouts().implicitlyWait(TIMEOUT, TimeUnit.SECONDS);
-    }
-
 }

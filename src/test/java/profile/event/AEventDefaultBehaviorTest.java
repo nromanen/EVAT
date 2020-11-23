@@ -3,12 +3,12 @@ package profile.event;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
-import pages.base.Helper;
 
 import java.util.Arrays;
 import java.util.List;
 
 import static org.testng.Assert.assertFalse;
+import static pages.base.Helper.isElementPresent;
 
 
 public class AEventDefaultBehaviorTest  extends AddEventBaseTest {
@@ -25,6 +25,21 @@ public class AEventDefaultBehaviorTest  extends AddEventBaseTest {
                 getDataByKey("correctCountry"),getDataByKey("correctCity"),
                 Integer.parseInt(getDataByKey("amountCountry")),Integer.parseInt(getDataByKey("amountCity"))}};
     }
+
+    /**
+     * Verify inputting in fields
+     * @param nameFileImg
+     * @param title
+     * @param dateFrom
+     * @param dateTo
+     * @param participants
+     * @param description
+     * @param hashtags is a list of hashtags
+     * @param country
+     * @param city
+     * @param amountCountry
+     * @param amountCity
+     */
 
     @Test(dataProvider = "dataProviderLoadImage")
     public void testDefaultBehavior(String nameFileImg,String title,String dateFrom,String dateTo,
@@ -59,11 +74,15 @@ public class AEventDefaultBehaviorTest  extends AddEventBaseTest {
         softAssert.assertAll();
     }
 
+    /**
+     * Verify that the button "Clear" clear loaded photo
+     */
+
     @Test
     public void testClickClear(){
         addEventPage.loadImage(getDataByKey("correctPhoto"));
         addEventPage.clickClear();
-        assertFalse(Helper.isElementPresent(addEventPage.getImage()));
+        assertFalse(isElementPresent(addEventPage.getImage()));
     }
 
 }

@@ -1,6 +1,5 @@
 package profile;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -9,11 +8,6 @@ import pages.profile.UserInfoPage;
 public class UserInfoPageTest extends ProfileBaseTest{
 
     UserInfoPage userInfoPage;
-
-    @BeforeClass
-    public void setUpInitData() {
-        initTestDataProfile();
-    }
 
     @DataProvider
     public Object[][] providerEmail(){
@@ -24,12 +18,22 @@ public class UserInfoPageTest extends ProfileBaseTest{
                         getDataByKey("age2"),getDataByKey("gender2"),getDataByKey("interests2")}};
     }
 
+    /**
+     * Verify information on the page profile
+     * @param email
+     * @param password
+     * @param userName
+     * @param age
+     * @param gender
+     * @param interests
+     */
+
     @Test(dataProvider = "providerEmail")
     public void testGetValueUserName(String email,String password, String userName, String age,
                                      String gender, String interests) {
         signingIn(email,password);
         goToProfilePage();
-        userInfoPage = new UserInfoPage(driver);
+        userInfoPage = new UserInfoPage(getDriver());
         SoftAssert softAssert=new SoftAssert();
         softAssert.assertEquals(userInfoPage.getValueUserName(),userName,"Incorrect userName on page");
         softAssert.assertEquals(userInfoPage.getValueAge(),age,"Incorrect age on page");
@@ -38,4 +42,5 @@ public class UserInfoPageTest extends ProfileBaseTest{
         softAssert.assertEquals(userInfoPage.getValueInterests(),interests,"Incorrect interests on page");
         softAssert.assertAll();
     }
+
 }
