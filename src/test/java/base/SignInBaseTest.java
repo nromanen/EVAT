@@ -1,7 +1,6 @@
 package base;
 
-import org.testng.annotations.BeforeTest;
-
+import org.testng.annotations.BeforeClass;
 import pages.EventInfoPage;
 import pages.SignInUpMenu;
 import pages.navigation.EditProfilePage;
@@ -19,10 +18,11 @@ public class SignInBaseTest extends BaseTest {
 	private String email = "d.bozhevilnyi@gmail.com";
 	private String pass = "131089";
 
-	@BeforeTest
+	@BeforeClass
 	@Override
 	public void setUp() {
 		super.setUp();
+
 		driver.get(HomePageSearchMenu.URL);
 		editProfilePage = new EditProfilePage(getDriver());
 		eventsNotificationPage = new EventsNotificationPage(getDriver());

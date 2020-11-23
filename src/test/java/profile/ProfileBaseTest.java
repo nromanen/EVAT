@@ -37,18 +37,18 @@ public abstract class ProfileBaseTest extends BaseTest {
     }
 
     public void signingIn() {
-        driver.get(testDataProfile.getProperty("homePage"));
-        new SignInUpMenu(driver).authoriseUser(testDataProfile.getProperty("email"),
+        getDriver().get(testDataProfile.getProperty("homePage"));
+        new SignInUpMenu(getDriver()).authoriseUser(testDataProfile.getProperty("email"),
                 testDataProfile.getProperty("password"));
     }
 
     public void signingIn(String email,String password) {
-        driver.get(testDataProfile.getProperty("homePage"));
-        new SignInUpMenu(driver).authoriseUser(email,password);
+        getDriver().get(testDataProfile.getProperty("homePage"));
+        new SignInUpMenu(getDriver()).authoriseUser(email,password);
     }
 
     public  void goToProfilePage(){
-        new HomePageNavBar(driver).clickProfileButton();
+        new HomePageNavBar(getDriver()).clickProfileButton();
     }
 
     public String getDataByKey(String key){
@@ -58,7 +58,6 @@ public abstract class ProfileBaseTest extends BaseTest {
     @AfterMethod
     public void tearDown(ITestResult result)
     {
-        takeScreenshot(result);
         closeBrowser();
     }
 }

@@ -33,7 +33,7 @@ public class UserInfoPageTest extends ProfileBaseTest{
                                      String gender, String interests) {
         signingIn(email,password);
         goToProfilePage();
-        userInfoPage = new UserInfoPage(driver);
+        userInfoPage = new UserInfoPage(getDriver());
         SoftAssert softAssert=new SoftAssert();
         softAssert.assertEquals(userInfoPage.getValueUserName(),userName,"Incorrect userName on page");
         softAssert.assertEquals(userInfoPage.getValueAge(),age,"Incorrect age on page");

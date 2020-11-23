@@ -3,12 +3,12 @@ package profile.event;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
-import pages.base.Helper;
 
 import java.util.Arrays;
 import java.util.List;
 
 import static org.testng.Assert.assertFalse;
+import static pages.base.Helper.isElementPresent;
 
 
 public class AEventDefaultBehaviorTest  extends AddEventBaseTest {
@@ -27,7 +27,7 @@ public class AEventDefaultBehaviorTest  extends AddEventBaseTest {
     }
 
     /**
-     * Verify input in fields
+     * Verify inputting in fields
      * @param nameFileImg
      * @param title
      * @param dateFrom
@@ -82,7 +82,7 @@ public class AEventDefaultBehaviorTest  extends AddEventBaseTest {
     public void testClickClear(){
         addEventPage.loadImage(getDataByKey("correctPhoto"));
         addEventPage.clickClear();
-        assertFalse(Helper.isElementPresent(addEventPage.getImage()));
+        assertFalse(isElementPresent(addEventPage.getImage()));
     }
 
 }

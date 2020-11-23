@@ -18,12 +18,13 @@ public class UserInfoPage extends BasePage {
     private static final String EMAIL="Email:";
     private static final String INTERESTS="Interests:";
 
-    HashMap<WebElement,WebElement> tableUserInfo;
+    private HashMap<WebElement,WebElement> tableUserInfo;
 
     public UserInfoPage(WebDriver driver) {
         super(driver);
-        waitForElementToAppear(By.cssSelector(".info > .col-md-6 > div > div"));
-        List<WebElement> elementsOnPage =driver.findElements(By.cssSelector(".info > .col-md-6 > div > div"));
+        By infoTableSelector=By.cssSelector(".info > .col-md-6 > div > div");
+        waitForElementToAppear(infoTableSelector);
+        List<WebElement> elementsOnPage =driver.findElements(infoTableSelector);
         tableUserInfo=new HashMap<>();
         for(int i=0;i<elementsOnPage.size();i+=2){
             tableUserInfo.put(elementsOnPage.get(i),elementsOnPage.get(i+1));

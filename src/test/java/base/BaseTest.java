@@ -4,21 +4,20 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-import utility.ScreenshotUtility;
+import org.testng.annotations.Listeners;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-
+@Listeners(TestListener.class)
 public abstract class BaseTest {
-    protected WebDriver driver;
-    private final Properties prop = new Properties();
-    protected WebDriverWait webDriverWait;
+    protected static WebDriver driver;
+    protected static WebDriverWait webDriverWait;
+    private static final Properties prop = new Properties();
     private static final int TIMEOUT = 100;
 
     @BeforeClass
@@ -31,7 +30,7 @@ public abstract class BaseTest {
         System.setProperty(prop.getProperty("webDriverKey"),prop.getProperty("webDriverValue"));
     }
 
-    private WebDriver initDriver(){
+    private static WebDriver initDriver(){
         switch (prop.getProperty("browser")){
             case "chrome": return new ChromeDriver();
             case "gecko":  return new FirefoxDriver();
@@ -45,17 +44,9 @@ public abstract class BaseTest {
         driver.manage().window().maximize();
     }
 
-    public WebDriver getDriver() {
+    public static WebDriver getDriver() {
         if(driver==null) driver=initDriver();
         return driver;
-    }
-
-    public void takeScreenshot(ITestResult result) {
-        if (ITestResult.FAILURE == result.getStatus()) {
-            ScreenshotUtility.captureScreenshot(driver,result.getName()+"-"+
-                    (result.getMethod().getCurrentInvocationCount()-1)+
-                    result.getTestClass().getName());
-        }
     }
 
     @AfterClass(alwaysRun = true)
