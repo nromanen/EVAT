@@ -40,11 +40,9 @@ public class AddEventPage extends BasePage {
     private WebElement hashtags;
     private final By findListOfHashtags=By.cssSelector(".rw-widget-container ul li > span");
 
-    private final By selectorCountryOption=By.cssSelector(".MuiInputBase-formControl > [name=\"countryId\"] >option");
     private Select country;
     private final By findCountry=By.cssSelector(".MuiInputBase-formControl > [name=\"countryId\"]");
 
-    private final By selectorCityOption=By.cssSelector(".MuiInputBase-formControl >[name=\"cityId\"] > option");
     private Select city;
     private final By findCity=By.cssSelector(".MuiInputBase-formControl >[name=\"cityId\"]");
 
@@ -173,7 +171,7 @@ public class AddEventPage extends BasePage {
     }
 
     public void inputCountry(String text) {
-        waitForElementToBeClickable(selectorCountryOption);
+        BasePage.conditionFactory.await().until(()->country.getOptions().size()>1);
         country.selectByVisibleText(text);
     }
 
@@ -187,17 +185,17 @@ public class AddEventPage extends BasePage {
     }
 
     public int getCountriesAmountFromPage(){
-        waitForElementToAppear(selectorCountryOption);
+        BasePage.conditionFactory.await().until(()->country.getOptions().size()>1);
         return country.getOptions().size();
     }
 
     public void inputCity(String text){
-        waitForElementToAppear(selectorCityOption);
+        BasePage.conditionFactory.await().until(()->city.getOptions().size()>1);
         city.selectByVisibleText(text);
     }
 
     public int getCitiesAmountFromPage(){
-        waitForElementToAppear(selectorCityOption);
+        BasePage.conditionFactory.await().until(()->city.getOptions().size()>1);
         return city.getOptions().size();
     }
 
