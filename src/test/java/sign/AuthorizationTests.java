@@ -1,51 +1,68 @@
 package sign;
-import org.openqa.selenium.WebDriver;
+import io.qameta.allure.Description;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
-import pages.SignInUpMenu;
+import pages.homePage.SignInUpMenu;
 import pages.search.HomePageSearchMenu;
 import utility.EventElement;
 import utility.SetUpDriver;
+import base.BaseTest;
 
-public class AuthorizationTests {
+public class AuthorizationTests extends BaseTest {
     SignInUpMenu signInUpMenu;
     SetUpDriver setUpDriver;
 
-
     @BeforeMethod
-    public void setup(){
-        setUpDriver = new SetUpDriver();
-        WebDriver driver = setUpDriver.getDriver();
-        driver.manage().window().maximize();
+    @Override
+    public void setUp(){
+        super.setUp();
+        openBrowser();
         driver.get(HomePageSearchMenu.URL);
         signInUpMenu = PageFactory.initElements(driver, SignInUpMenu.class);
     }
+
     @DataProvider(name = "signInData")
     public Object[][] provideSignInData(){
         return new Object[][]{{"carat98@icloud.com","1234567","\"Invalid password\""},
                 {"i@gmail.com","1234567","\"User not found\""}};
     }
+    /*
+    Test to check that registered user
+    can login into account
+     */
 
-    @Test(priority = 4)
+    @Test
+    @Description(useJavaDoc = true)
     public void testLogin(){
         String login = "carat98@icloud.com";
         String password = "12345678";
         String userName = "carat98";
         signInUpMenu.authoriseAndWaitUser(login,password,signInUpMenu.userHeader);
-        new EventElement(setUpDriver.getDriver(), signInUpMenu.userName).waitUntilDisplayed();
+        new EventElement(super.getDriver(), signInUpMenu.userName).waitUntilDisplayed();
         Assert.assertEquals(signInUpMenu.getUserName(),userName);
     }
 
-    @Test(dataProvider = "signInData", priority = 3)
+    /*
+    Test to check that error messages during
+    login are correct
+     */
+
+    @Test(dataProvider = "signInData")
+    @Description(useJavaDoc = true)
     public void testErrorSignInMessages(String email, String password, String correctMessage){
         signInUpMenu.authoriseAndWaitUser(email,password,signInUpMenu.errorMessage);
-        new EventElement(setUpDriver.getDriver(), signInUpMenu.errorMessage).waitUntilDisplayed();
+        new EventElement(super.getDriver(), signInUpMenu.errorMessage).waitUntilDisplayed();
         Assert.assertTrue(signInUpMenu.getLoginError().equals(correctMessage));
     }
 
-    @Test(priority = 1)
+    /*
+    Test 'Clear' button
+     */
+
+    @Test
+    @Description(useJavaDoc = true)
     public void testClearButton(){
         String login = "carat98@icloud.com";
         String password = "12345678";
@@ -61,7 +78,12 @@ public class AuthorizationTests {
         softAssert.assertAll();
     }
 
-    @Test(priority = 2)
+    /*
+    Test 'Cancel' button
+     */
+
+    @Test
+    @Description(useJavaDoc = true)
     public void testCancelButton(){
         String login = "carat98@icloud.com";
         String password = "12345678";
@@ -74,9 +96,10 @@ public class AuthorizationTests {
         Assert.assertTrue(signInUpMenu.signInOut.isDisplayed());
     }
 
+    @Override
     @AfterMethod
     public void closeBrowser(){
-        setUpDriver.driverQuit();
+        super.closeBrowser();
     }
 
 }

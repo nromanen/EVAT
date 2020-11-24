@@ -1,10 +1,7 @@
-package pages;
+package pages.homePage;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import utility.EventElement;
@@ -14,7 +11,7 @@ public class SignInUpMenu {
 
     WebDriver driver;
 
-    @FindBy(xpath = "/html/body/div[2]/div[3]/div/div/div[2]/div/div/div[2]/p")
+    @FindBy(css = ".auth p")
     public WebElement errorMessage;
 
     @FindBy(css = ".text-danger")
@@ -44,10 +41,10 @@ public class SignInUpMenu {
     @FindBy(css = ".MuiDialogActions-root > button:nth-child(2)")
     WebElement signUp;
 
-    @FindBy(css = "body > div.MuiDialog-root > div.MuiDialog-container.MuiDialog-scrollPaper > div > div > div.MuiTypography-root.MuiTypography-body1 > div > div > form > div:nth-child(3) > div > button:nth-child(1)")
+    @FindBy(xpath = "//span[contains(text(),'CLEAR')]")
     WebElement clearButton;
 
-    @FindBy(css = "body > div.MuiDialog-root > div.MuiDialog-container.MuiDialog-scrollPaper > div > div > button")
+    @FindBy(xpath = "//span[contains(text(),'Cancel')]")
     WebElement cancel;
 
     @FindBy(css = ".text-danger")
@@ -63,21 +60,12 @@ public class SignInUpMenu {
     WebElement confirmPasswordErrorMessage;
 
     @FindBy(xpath = "//*[@id=\"root\"]/div[2]/div/div/div/h4")
-   public WebElement userName;
-
-    @FindBy(css = "body > div.MuiDialog-root > div.MuiDialog-container.MuiDialog-scrollPaper > div > div > div.MuiTypography-root.MuiTypography-body1 > div > div > div.d-flex.justify-content-around.mb-3 > div:nth-child(3) > button")
-    public WebElement googleButton;
-
-    @FindBy(css = "#view_container > div > div > div.pwWryf.bxPAYd > div > div.WEQkZc > div > form > span > section > div > div > div > div > ul > li:nth-child(1)")
-    public WebElement userGoogleIcon;
+    public WebElement userName;
 
 
     public SignInUpMenu(WebDriver webDriver) {
         this.driver = webDriver;
         PageFactory.initElements(driver,this);
-    }
-    public void clickUserGoogleIcon(){
-        userGoogleIcon.click();
     }
 
     public void clickClearButton(){
@@ -165,7 +153,6 @@ public class SignInUpMenu {
         return loginErrorMessage.getText();
     }
 
-    public void clickGoogleButton() {googleButton.click();}
 
     public void authoriseUser(String email, String password){
         clickSignInOut();

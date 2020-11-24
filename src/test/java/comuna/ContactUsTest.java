@@ -4,8 +4,8 @@ import io.qameta.allure.Description;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
-import pages.HomePageNavBar;
-import pages.SignInUpMenu;
+import pages.homePage.HomePageNavBar;
+import pages.homePage.SignInUpMenu;
 import pages.navigation.ContactUsPage;
 import pages.search.HomePageSearchMenu;;
 

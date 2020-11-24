@@ -2,7 +2,7 @@ package base;
 
 import org.testng.annotations.BeforeClass;
 import pages.EventInfoPage;
-import pages.SignInUpMenu;
+import pages.homePage.SignInUpMenu;
 import pages.navigation.EditProfilePage;
 import pages.navigation.EventsNotificationPage;
 import pages.search.HomePageSearchMenu;
