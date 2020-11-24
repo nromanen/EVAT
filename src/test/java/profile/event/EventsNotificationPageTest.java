@@ -2,7 +2,7 @@ package profile.event;
 
 import base.SignInBaseTest;
 import org.testng.annotations.Test;
-import pages.HomePageNavBar;
+import pages.homePage.HomePageNavBar;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 

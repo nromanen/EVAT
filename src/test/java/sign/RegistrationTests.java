@@ -1,26 +1,28 @@
 package sign;
 
+import base.BaseTest;
+import io.qameta.allure.Description;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
-import pages.SignInUpMenu;
+import pages.homePage.SignInUpMenu;
 import pages.search.HomePageSearchMenu;
 import utility.EventElement;
 import utility.SetUpDriver;
 
 
-public class RegistrationTests {
+public class RegistrationTests extends BaseTest {
     SignInUpMenu signInUpMenu;
-    SetUpDriver setUpDriver;
 
 
-   @BeforeMethod
-    public void setup() {
-        setUpDriver = new SetUpDriver();
-        WebDriver driver = setUpDriver.getDriver();
-        driver.manage().window().maximize();
+
+    @BeforeMethod
+    @Override
+    public void setUp(){
+        super.setUp();
+        openBrowser();
         driver.get(HomePageSearchMenu.URL);
         signInUpMenu = PageFactory.initElements(driver, SignInUpMenu.class);
     }
@@ -36,16 +38,30 @@ public class RegistrationTests {
         return new Object[][]{{"12345","09090909","Invalid email address"},{"carat98","09090909","Invalid email address"},
                 {"carat98@","09090909","Invalid email address"},{"@gmail.com","09090909","Invalid email address"}};
     }
-    @Test(priority=3)
+
+    /*
+    Test to verify that User cannot register
+    with email that had been already used for
+    registration
+     */
+    @Test
+    @Description(useJavaDoc = true)
     public void testRegistrationWithExistingEmail() {
         String email = "carat98@icloud.com";
         String password = "090909iS";
         signInUpMenu.registerUser(email, password,password);
-        new EventElement(setUpDriver.getDriver(), signInUpMenu.registrationErrorMessage).waitUntilDisplayed();
+        new EventElement(super.getDriver(), signInUpMenu.registrationErrorMessage).waitUntilDisplayed();
         Assert.assertEquals(signInUpMenu.getRegistrationErrorMessage(), "Email already exists in database");
     }
 
-    @Test(priority = 2)
+
+    /*
+    Test to verify that error messages are correct
+    if mandatory fields are empty during registration
+     */
+
+    @Test
+    @Description(useJavaDoc = true)
     public void testRegistrationWithEmptyMandatoryFields() {
         String correctMessage = "Required";
         signInUpMenu.clickSignInOut();
@@ -61,7 +77,12 @@ public class RegistrationTests {
         softAssert.assertAll();
     }
 
-    @Test(dataProvider = "registerData",priority = 1)
+    /*
+    Test to check validation of 'password' field
+     */
+
+    @Test(dataProvider = "registerData")
+    @Description(useJavaDoc = true)
     public void testPasswordField(String email, String password, String confirmPassword, String correctError){
         signInUpMenu.registerUser(email,password,confirmPassword);
         SoftAssert softAssert = new SoftAssert();
@@ -69,15 +90,21 @@ public class RegistrationTests {
         softAssert.assertEquals(signInUpMenu.getConfirmPasswordErrorMessage(),correctError);
         softAssert.assertAll();
     }
+    /*
+    Test to check validation for 'email' field
+     */
 
-    @Test(dataProvider = "emailData",priority = 0)
+    @Test(dataProvider = "emailData")
+    @Description(useJavaDoc = true)
     public void testEmailField(String email,String password, String correctMessage){
         signInUpMenu.registerUser(email,password,password);
         Assert.assertEquals(signInUpMenu.getEmailErrorMessage(),correctMessage);
     }
 
+    @Override
     @AfterMethod
     public void closeBrowser(){
-        setUpDriver.driverQuit();
+        super.closeBrowser();
     }
+
 }

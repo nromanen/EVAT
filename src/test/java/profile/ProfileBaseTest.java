@@ -5,8 +5,8 @@ import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
-import pages.HomePageNavBar;
-import pages.SignInUpMenu;
+import pages.homePage.HomePageNavBar;
+import pages.homePage.SignInUpMenu;
 
 import java.io.FileInputStream;
 import java.io.IOException;

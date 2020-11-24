@@ -7,7 +7,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import pages.HomePageNavBar;
+import pages.homePage.HomePageNavBar;
 
 public class EditProfilePageTest extends SignInBaseTest {
 

@@ -1,11 +1,9 @@
-package pages;
+package pages.homePage;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import pages.comuna.ComunaPage;
 import utility.EventElement;
 
