@@ -3,12 +3,15 @@ package pages.navigation;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
 import pages.base.BasePage;
 
 public class EventsNotificationPage extends BasePage {
 
 	public EventsNotificationPage(WebDriver driver) {
 		super(driver);
+		PageFactory.initElements(driver, this);
 	}
 
 	// TODO fix css selectors when the functionality will be correct

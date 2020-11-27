@@ -39,7 +39,7 @@ public class EditProfilePageTest extends SignInBaseTest {
 	 * can change avatar
 	 */
 	@Test
-	@Description(useJavaDoc = true)
+	@Description(value = "Test to verify that authorized user can change avatar")
 	public void changeAvatarTest() {
 		editProfilePage.changeAvatar(imagePath);
 		Assert.assertEquals(editProfilePage.getClientSnackbarText(), "Avatar is update");
@@ -50,7 +50,7 @@ public class EditProfilePageTest extends SignInBaseTest {
 	 * can change Username
 	 */
 	@Test
-	@Description(useJavaDoc = true)
+	@Description(value = "Test to verify that authorized user can change Username")
 	public void changeUsernameTest() {
 		editProfilePage.changeUserName("Saul");
 		Assert.assertEquals(editProfilePage.getClientSnackbarText(), "Username is changed");
@@ -61,7 +61,7 @@ public class EditProfilePageTest extends SignInBaseTest {
 	 * can choose gender
 	 */
 	@Test(dataProvider = "genderData")
-	@Description(useJavaDoc = true)
+	@Description(value = "Test to verify that authorized user can choose gender")
 	public void chooseGenderTest(String gender, String message) {
 		editProfilePage.chooseGender(gender);
 		Assert.assertEquals(editProfilePage.getClientSnackbarText(), message);
@@ -72,7 +72,7 @@ public class EditProfilePageTest extends SignInBaseTest {
 	 * can set date of birth
 	 */
 	@Test(dataProvider = "dateOfBirthData")
-	@Description(useJavaDoc = true)
+	@Description(value = "Test to verify that authorized user can set date of birth")
 	public void verifySettingDateOfBirthTest(LocalDate date, String message) {
 		editProfilePage.setDateOfBirth(date);
 		Assert.assertEquals(editProfilePage.getClientSnackbarText(), message);
@@ -83,7 +83,7 @@ public class EditProfilePageTest extends SignInBaseTest {
 	 * can choose favorite categories
 	 */
 	@Test
-	@Description(useJavaDoc = true)
+	@Description(value = "Test to verify that authorized user can choose favorite categories")
 	public void chooseFavoriteCategoriesTest() {
 		editProfilePage.chooseFavoriteCategories("Summer");
 		Assert.assertEquals(editProfilePage.getClientSnackbarText(), "Favarote categoris is updated");
@@ -94,7 +94,7 @@ public class EditProfilePageTest extends SignInBaseTest {
 	 * can change password
 	 */
 	@Test
-	@Description(useJavaDoc = true)
+	@Description(value = "Test to verify that registered user via email can change password")
 	public void changePasswordTest() {
 		editProfilePage.changePassword("1234", "1234", "1234");
 		Assert.assertEquals(editProfilePage.getClientSnackbarText(), "Failed");

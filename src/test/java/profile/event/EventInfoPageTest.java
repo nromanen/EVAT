@@ -2,48 +2,53 @@ package profile.event;
 
 import base.SignInBaseTest;
 import io.qameta.allure.Description;
+import pages.homePage.HomePageNavBar;
+import pages.profile.EventMenu;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import org.testng.asserts.SoftAssert;
 
 
 public class EventInfoPageTest extends SignInBaseTest {
 	
-	@BeforeClass
-	public void profileSetup() {
-		eventInfoPage.clickOnTestEventInfo();
-	}
-	
 	/**
-	 * Test to verify that authorized user
-	 * can add comment below event
+	 * Test to verify that authorized user can add comment below event
 	 */
 	@Test
-	@Description(useJavaDoc = true)
+	@Description(value = "Test to verify that authorized user can add comment below event")
 	public void addCommentTest() {
+		new HomePageNavBar(driver).clickHomeButton();
+		eventInfoPage.clickOnTestEventInfo();
 		eventInfoPage.addCommentToEvent(comment);
 		Assert.assertEquals(eventInfoPage.getCommentText(), "auto generated comment");
 	}
 	
 	/**
-	 * Test to verify that authorized user
-	 * can join or/and leave event
+	 * Test to verify that authorized user can join event
 	 */
 	@Test
-	@Description(useJavaDoc = true)
-	public void joinAndLeaveEventTest() {
-		SoftAssert asert = new SoftAssert();
-		
+	@Description(value = "Test to verify that authorized user can join event")
+	public void joinEventTest() {
+		new HomePageNavBar(driver).clickHomeButton();
+		eventInfoPage.clickOnTestEventInfo();
 		eventInfoPage.joinEvent();
 		webDriverWait.until(ExpectedConditions.elementToBeClickable(eventInfoPage.leaveEventButton));
-		asert.assertEquals(eventInfoPage.getCurrentStatusInfoText(), "You are gonna visit.");
-		
+		Assert.assertEquals(eventInfoPage.getCurrentStatusInfoText(), "You are gonna visit.");
+	}
+	
+	/**
+	 * Test to verify that authorized user can leave event
+	 */
+	@Test
+	@Description(value = "Test to verify that authorized user can leave event")
+	public void leaveEventTest() {
+		new HomePageNavBar(driver).clickProfileButton();
+		new EventMenu(driver).clickToGoEvents();
+		eventInfoPage.clickOnTestJoinedEventInfo();
 		eventInfoPage.leaveEvent();
 		webDriverWait.until(ExpectedConditions.elementToBeClickable(eventInfoPage.joinEventButton));
-		asert.assertEquals(eventInfoPage.getCurrentStatusInfoText(), "You are not in event yet.");
-		
-		asert.assertAll();
+		Assert.assertEquals(eventInfoPage.getCurrentStatusInfoText(), "You are not in event yet.");
 	}
+	
+	
 }

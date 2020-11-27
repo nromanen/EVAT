@@ -3,19 +3,19 @@ package pages;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import pages.base.BasePage;
 
 public class EventInfoPage extends BasePage {
 
 	public EventInfoPage(WebDriver driver) {
 		super(driver);
+		PageFactory.initElements(driver, this);
 	}
 
-//	@FindBy(css = ".btn-join")
 	@FindBy(xpath = "//button[contains(text(),'Join')]")
 	public WebElement joinEventButton;
 
-//	@FindBy(css = ".btn-join")
 	@FindBy(xpath = "//button[contains(text(),'Leave')]")
 	public WebElement leaveEventButton;
 
@@ -47,7 +47,10 @@ public class EventInfoPage extends BasePage {
 	WebElement replyCommentText;
 	
 	@FindBy(css = ".events-container>div>div:nth-child(1) a>button")
-	WebElement testEvent;
+	WebElement testEventOnMainPage;
+	
+	@FindBy(css = ".rounded>div>div:nth-child(1) .float-right>a>button")
+	WebElement testEventOnEventsToGoPage;
 	
 	@FindBy(css = "span[role='alert']")
 	WebElement currentStatusInfo;
@@ -60,8 +63,13 @@ public class EventInfoPage extends BasePage {
 	}
 	
 	public void clickOnTestEventInfo() {
-		waitForElementToVisible(testEvent);
-		testEvent.click();
+		waitForElementToVisible(testEventOnMainPage);
+		testEventOnMainPage.click();
+	}
+	
+	public void clickOnTestJoinedEventInfo() {
+		waitForElementToVisible(testEventOnEventsToGoPage);
+		testEventOnEventsToGoPage.click();
 	}
 
 	public String getCommentText() {
