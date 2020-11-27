@@ -36,8 +36,8 @@ public class ComunaTest extends BaseTest {
     /**
      * Test to verify transition to the first chat
      */
-    @Test(description = "CHIS-150")
-    @Description(useJavaDoc = true)
+    @Test
+    @Description("Test to verify transition to the first chat")
     public void verifyGoToTheFirstChatTest(){
         comunaPage.goToFirstChat();
         String title = chatWithUserPage.getChatTitleText().substring(0,25);

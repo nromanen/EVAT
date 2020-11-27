@@ -32,8 +32,8 @@ public class HomePageSearchTest extends BaseTest {
     /**
      * Test to verify search by keyword with one word
      */
-    @Test(description = "CHIS-36")
-    @Description(useJavaDoc = true)
+    @Test
+    @Description("Test to verify search by keyword with one word")
     public void searchByKeywordWithOneWordTest(){
         String[] keywords = new String[]{"гриби", "Бали", "Kuta"};
         SoftAssert softAssert = new SoftAssert();
@@ -50,8 +50,8 @@ public class HomePageSearchTest extends BaseTest {
     /**
      * Test to check reset button
      */
-    @Test(description = "CHIS-37")
-    @Description(useJavaDoc = true)
+    @Test
+    @Description("Test to check reset button")
     public void checkResetButtonTest(){
         SoftAssert softAssert = new SoftAssert();
         String keyword = "Bali";
@@ -68,8 +68,8 @@ public class HomePageSearchTest extends BaseTest {
     /**
      * Test to verify ability to clear search results
      */
-    @Test(description = "CHIS-38")
-    @Description(useJavaDoc = true)
+    @Test
+    @Description("Test to verify ability to clear search results")
     public void clearResultsTest(){
         String keyword = "Bali";
         homePageSearchMenu.searchByKeyword(keyword);
@@ -81,8 +81,8 @@ public class HomePageSearchTest extends BaseTest {
     /**
      * Test to verify search by dates with two correct dates
      */
-    @Test(description = "CHIS-53")
-    @Description(useJavaDoc = true)
+    @Test
+    @Description("Test to verify search by dates with two correct dates")
     public void searchByTwoCorrectDatesTest(){
         LocalDate date1 = LocalDate.of(2020, 12, 10);
         LocalDate date2 = LocalDate.of(2020, 12, 28);
@@ -94,8 +94,8 @@ public class HomePageSearchTest extends BaseTest {
     /**
      * Test to verify search by date with one date from
      */
-    @Test(description = "CHIS-55")
-    @Description(useJavaDoc = true)
+    @Test
+    @Description("Test to verify search by date with one date from")
     public void searchByOneDateFromTest(){
         LocalDate date = LocalDate.of(2020, 11, 30);
         homePageSearchMenu.searchByDateFrom(date);
@@ -106,8 +106,8 @@ public class HomePageSearchTest extends BaseTest {
     /**
      * Test to verify search by date with one date to
      */
-    @Test(description = "CHIS-57")
-    @Description(useJavaDoc = true)
+    @Test
+    @Description("Test to verify search by date with one date to")
     public void searchByOneDateToTest(){
         LocalDate date = LocalDate.of(2020, 11, 30);
         homePageSearchMenu.searchByDateTo(date);
@@ -118,8 +118,8 @@ public class HomePageSearchTest extends BaseTest {
     /**
      * Test to verify search by one hashtag
      */
-    @Test(description = "CHIS-58")
-    @Description(useJavaDoc = true)
+    @Test
+    @Description("Test to verify search by one hashtag")
     public void searchByOneHashtagTest(){
         String hashtag = "Travel";
         homePageSearchMenu.searchByOneHashtag(hashtag);
@@ -130,8 +130,8 @@ public class HomePageSearchTest extends BaseTest {
     /**
      * Test to verify search by two hashtags
      */
-    @Test(description = "CHIS-59")
-    @Description(useJavaDoc = true)
+    @Test
+    @Description("Test to verify search by two hashtags")
     public void searchByTwoHashtagsTest(){
         String hashtag1 = "Swimming";
         String hashtag2 = "Travel";
@@ -143,8 +143,8 @@ public class HomePageSearchTest extends BaseTest {
     /**
      * Test to verify search by keyword with many words in correct order
      */
-    @Test(description = "CHIS-95")
-    @Description(useJavaDoc = true)
+    @Test
+    @Description("Test to verify search by keyword with many words in correct order")
     public void searchByKeywordWithManyWordsTest(){
         String[] keywords = new String[]{"Qatar Airways", "восени карпатські ліси радують", "замечательный отдых"};
         SoftAssert softAssert = new SoftAssert();
@@ -161,8 +161,8 @@ public class HomePageSearchTest extends BaseTest {
     /**
      * Test to verify search by keyword with many words in incorrect order
      */
-    @Test(description = "CHIS-140")
-    @Description(useJavaDoc = true)
+    @Test
+    @Description("Test to verify search by keyword with many words in incorrect order")
     public void searchByKeywordWithManyWordsInWrongOrderTest(){
         String keyword = "отдых замечательный";
         homePageSearchMenu.typeKeyword(keyword).clickSearchButton();
@@ -172,8 +172,8 @@ public class HomePageSearchTest extends BaseTest {
     /**
      * Test to verify search by dates for events lasting several days
      */
-    @Test(description = "CHIS-96")
-    @Description(useJavaDoc = true)
+    @Test
+    @Description("Test to verify search by dates for events lasting several days")
     public void searchByDatesForEventsLastingSeveralDaysTest(){
         LocalDate date1 = LocalDate.of(2020, 12, 5);
         LocalDate date2 = LocalDate.of(2020, 12, 10);
@@ -186,8 +186,8 @@ public class HomePageSearchTest extends BaseTest {
      * Test to verify search by dates for events lasting several days when search date interval less
      * then date interval of event
      */
-    @Test(description = "CHIS-141")
-    @Description(useJavaDoc = true)
+    @Test
+    @Description("Test to verify search by dates for events lasting several days when search date interval less then date interval of event")
     public void searchByDatesForEventsLastingSeveralDaysWithLessDaysThenLastsEventTest(){
         LocalDate date1 = LocalDate.of(2020, 12, 5);
         LocalDate date2 = LocalDate.of(2020, 12, 9);
@@ -199,8 +199,8 @@ public class HomePageSearchTest extends BaseTest {
     /**
      * Test to verify appearance of error message when user search event by keyword less than 2 symbols
      */
-    @Test(description = "CHIS-97")
-    @Description(useJavaDoc = true)
+    @Test
+    @Description("Test to verify appearance of error message when user search event by keyword less than 2 symbols")
     public void searchByKeywordWithLessThan2SymbolsTest() {
         homePageSearchMenu.typeKeyword("c");
         Assert.assertEquals("Keyword length is too small. Please use keywords at least 3 symbols long!", homePageSearchMenu.getIncorrectKeywordTextTooSmall());
@@ -209,8 +209,8 @@ public class HomePageSearchTest extends BaseTest {
     /**
      * Test to verify appearance of error message when user search event by keyword more than 30 symbols
      */
-    @Test(description = "CHIS-98")
-    @Description(useJavaDoc = true)
+    @Test
+    @Description("Test to verify appearance of error message when user search event by keyword more than 30 symbols")
     public void searchByKeywordWithMoreThan30SymbolsTest() {
         homePageSearchMenu.typeKeyword("Пропоную разом поїхати позбирати гриби");
         Assert.assertEquals("Keyword length is too long. Please use keyword less than 30 symbols long!", homePageSearchMenu.getIncorrectKeywordTextTooLong());
@@ -219,8 +219,8 @@ public class HomePageSearchTest extends BaseTest {
     /**
      * Test to verify search by keyword and date from
      */
-    @Test(description = "CHIS-105")
-    @Description(useJavaDoc = true)
+    @Test
+    @Description("Test to verify search by keyword and date from")
     public void searchByKeywordAndDateTest(){
         String keyword = "Mexico";
         LocalDate date = LocalDate.of(2020, 11, 30);
@@ -232,8 +232,8 @@ public class HomePageSearchTest extends BaseTest {
     /**
      * Test to verify search by keyword and hashtag
      */
-    @Test(description = "CHIS-108")
-    @Description(useJavaDoc = true)
+    @Test
+    @Description("Test to verify search by keyword and hashtag")
     public void searchByKeywordAndHashtagTest(){
         String keyword = "гриби";
         String hashtag = "Mount";
@@ -245,8 +245,8 @@ public class HomePageSearchTest extends BaseTest {
     /**
      * Test to verify search by dates and hashtag
      */
-    @Test(description = "CHIS-99")
-    @Description(useJavaDoc = true)
+    @Test
+    @Description("Test to verify search by dates and hashtag")
     public void searchByDatesAndHashtagTest(){
         LocalDate date1 = LocalDate.of(2020, 12, 1);
         LocalDate date2 = LocalDate.of(2020, 12, 20);
@@ -259,8 +259,8 @@ public class HomePageSearchTest extends BaseTest {
     /**
      * Test to verify search by keyword, date and hashtag
      */
-    @Test(description = "CHIS-109")
-    @Description(useJavaDoc = true)
+    @Test
+    @Description("Test to verify search by keyword, date and hashtag")
     public void searchByKeywordAndDateAndHashtagTest(){
         String keyword = "гриби";
         LocalDate date = LocalDate.of(2020, 11, 27);
@@ -273,8 +273,8 @@ public class HomePageSearchTest extends BaseTest {
     /**
      * Test to verify search by hashtag with incorrect value
      */
-    @Test(description = "CHIS-110")
-    @Description(useJavaDoc = true)
+    @Test
+    @Description("Test to verify search by hashtag with incorrect value")
     public void searchByHashtagWithIncorrectValueTest() {
         homePageSearchMenu.clickMoreFiltersButton().typeIncorrectHashtag("1");
         Assert.assertEquals(homePageSearchMenu.getIncorrectHashtagText(), "The filter returned no results");
@@ -283,8 +283,8 @@ public class HomePageSearchTest extends BaseTest {
     /**
      * Test to verify search by date from with incorrect value
      */
-    @Test(description = "CHIS-111")
-    @Description(useJavaDoc = true)
+    @Test
+    @Description("Test to verify search by date from with incorrect value")
     public void searchByDateWithIncorrectValueTest() {
         homePageSearchMenu.clickMoreFiltersButton().clearDateFrom().typeDateFrom(LocalDate.of(2020, 5, 5));
         Assert.assertEquals(homePageSearchMenu.getDateFromPickerText(), SearchRepository.getLocalDateNow());
@@ -293,8 +293,8 @@ public class HomePageSearchTest extends BaseTest {
     /**
      * Test to verify search by date from with another format of date
      */
-    @Test(description = "CHIS-112")
-    @Description(useJavaDoc = true)
+    @Test
+    @Description("Test to verify search by date from with another format of date")
     public void searchByDateWithAnotherFormatTest(){
         SoftAssert softAssert = new SoftAssert();
         homePageSearchMenu.clickMoreFiltersButton().clearDateFrom().typeDateFromWithAnotherFormat("12/10/20");
@@ -309,8 +309,8 @@ public class HomePageSearchTest extends BaseTest {
     /**
      * Test to verify search by hashtag when there are no events on this hashtag
      */
-    @Test(description = "CHIS-113")
-    @Description(useJavaDoc = true)
+    @Test
+    @Description("Test to verify search by hashtag when there are no events on this hashtag")
     public void searchByHashtagWithNoEventsTest() {
         homePageSearchMenu.clickMoreFiltersButton().typeHashtag("Gaming").clickSearchButton();
         wait.until(ExpectedConditions.visibilityOf(searchResultPage.noResultText));

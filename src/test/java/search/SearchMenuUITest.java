@@ -25,8 +25,8 @@ public class SearchMenuUITest extends BaseTest {
     /**
      * Test to verify ability to type text in keyword field
      */
-    @Test(description = "CHIS-142")
-    @Description(useJavaDoc = true)
+    @Test
+    @Description("Test to verify ability to type text in keyword field")
     public void testTypeKeyword() {
         String keyword = "yes";
         homePageSearchMenu.typeKeyword(keyword);
@@ -36,8 +36,8 @@ public class SearchMenuUITest extends BaseTest {
     /**
      * Test to verify ability to type date in date from field
      */
-    @Test(description = "CHIS-142")
-    @Description(useJavaDoc = true)
+    @Test
+    @Description("Test to verify ability to type date in date from field")
     public void testTypeDateFrom() {
         LocalDate date = LocalDate.of(2020, 12,25);
         homePageSearchMenu.clickMoreFiltersButton().clearDateFrom().typeDateFrom(date);
@@ -47,8 +47,8 @@ public class SearchMenuUITest extends BaseTest {
     /**
      * Test to verify ability to type date in date to field
      */
-    @Test(description = "CHIS-142")
-    @Description(useJavaDoc = true)
+    @Test
+    @Description("Test to verify ability to type date in date to field")
     public void testTypeDateTo() {
         LocalDate date = LocalDate.of(2020, 12, 26);
         homePageSearchMenu.clickMoreFiltersButton().clearDateTo().typeDateTo(date);
@@ -58,8 +58,8 @@ public class SearchMenuUITest extends BaseTest {
     /**
      * Test to verify ability to type text in hashtag field
      */
-    @Test(description = "CHIS-142")
-    @Description(useJavaDoc = true)
+    @Test
+    @Description("Test to verify ability to type text in hashtag field")
     public void testTypeHashtag() {
         String hashtag = "Mount";
         homePageSearchMenu.clickMoreFiltersButton();

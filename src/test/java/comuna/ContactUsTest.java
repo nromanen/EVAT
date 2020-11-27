@@ -33,8 +33,8 @@ public class ContactUsTest extends BaseTest {
     /**
      * Test to verify ability of sending messages to tech support
      */
-    @Test(description = "CHIS-155")
-    @Description(useJavaDoc = true)
+    @Test
+    @Description("Test to verify ability of sending messages to tech support")
     public void verifySendingMessageTest(){
         SoftAssert softAssert = new SoftAssert();
         contactUsPage.selectProblemType(problem);
@@ -49,8 +49,8 @@ public class ContactUsTest extends BaseTest {
     /**
      * Test to verify ability to clear written in the description field text
      */
-    @Test(description = "CHIS-154")
-    @Description(useJavaDoc = true)
+    @Test
+    @Description("Test to verify ability to clear written in the description field text")
     public void verifyClearingDescriptionFieldTest(){
         contactUsPage.enterDescription(textForDescription).clickClearButton();
         Assert.assertEquals(contactUsPage.getTextFromDescriptionField(), "");
@@ -59,8 +59,8 @@ public class ContactUsTest extends BaseTest {
     /**
      * Test to verify appearance of error message when user leave description field empty
      */
-    @Test(description = "CHIS-156")
-    @Description(useJavaDoc = true)
+    @Test
+    @Description("Test to verify appearance of error message when user leave description field empty")
     public void verifyEmptyDescriptionErrorTest(){
         contactUsPage.enterDescription(textForEmptyDescription).selectProblemType("Bad User");
         Assert.assertEquals(contactUsPage.getEmptyDescriptionError(), "Required");

@@ -37,8 +37,8 @@ public class ChatWithUserTest extends BaseTest {
     /**
      * Test to verify ability to send messages to users
      */
-    @Test(description = "CHIS-148")
-    @Description(useJavaDoc = true)
+    @Test
+    @Description("Test to verify ability to send messages to users")
     public  void verifySendingMessageToUserTest(){
         chatWithUserPage.enterMessage(message);
         Assert.assertEquals(chatWithUserPage.getTextFromMessageField(), message);
