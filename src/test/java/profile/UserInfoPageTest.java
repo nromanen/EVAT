@@ -10,6 +10,14 @@ public class UserInfoPageTest extends ProfileBaseTest{
 
     UserInfoPage userInfoPage;
 
+    @DataProvider
+    public Object[][] providerEmail(){
+        return new Object[][]{
+                {getDataByKey("email"),getDataByKey("password"),getDataByKey("userName"),
+                        getDataByKey("age"),getDataByKey("gender"),getDataByKey("interests")},
+                {getDataByKey("email2"),getDataByKey("password2"),getDataByKey("userName2"),
+                        getDataByKey("age2"),getDataByKey("gender2"),getDataByKey("interests2")}};
+    }
 
 
     /**
@@ -37,13 +45,5 @@ public class UserInfoPageTest extends ProfileBaseTest{
         softAssert.assertAll();
     }
 
-    @DataProvider
-    public Object[][] providerEmail(){
-        return new Object[][]{
-                {getDataByKey("email"),getDataByKey("password"),getDataByKey("userName"),
-                        getDataByKey("age"),getDataByKey("gender"),getDataByKey("interests")},
-                {getDataByKey("email2"),getDataByKey("password2"),getDataByKey("userName2"),
-                        getDataByKey("age2"),getDataByKey("gender2"),getDataByKey("interests2")}};
-    }
 
 }
