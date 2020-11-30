@@ -22,12 +22,7 @@ public class UserInfoPageTest extends ProfileBaseTest{
 
     /**
      * Verify information on the page profile
-     * @param email
-     * @param password
-     * @param userName
-     * @param age
-     * @param gender
-     * @param interests
+     *
      */
     @Description("Verify information on the page profile")
     @Test(dataProvider = "providerEmail")
