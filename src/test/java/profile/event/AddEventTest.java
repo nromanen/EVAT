@@ -2,6 +2,7 @@ package profile.event;
 
 import jdbc.EventsRepository;
 import jdbc.UserInfoRepository;
+import io.qameta.allure.Description;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -39,6 +40,7 @@ public class AddEventTest extends AddEventBaseTest{
      */
 
     @Test(dataProvider = "providerSaveCorrect")
+    @Description("Verify that \"Save\" works correctly with valid data, verify appearing message about saving and clearing after that all fields")
     public void testSaveCorrect(String photo,String title, String participants, String dateFrom, String dateTo,
                                      String description,List<String> hashtagsToEnter,String country,String city){
         addEventPage.loadImage(photo);
@@ -54,8 +56,8 @@ public class AddEventTest extends AddEventBaseTest{
         addEventPage.inputCity(city);
         addEventPage.inputHashtags(hashtagsToEnter);
         addEventPage.clickSave();
-        assertTrue(addEventPage.isAppearCreatedEventMessage(),"Message don't appear");
-        assertTrue(addEventPage.isPageEmpty());
+        assertTrue(addEventPage.isAppearCreatedEventMessage(),"Message about saving event don't appear");
+        assertTrue(addEventPage.isPageEmpty(),"The page did not become blank after saving");
     }
 
     @DataProvider
@@ -80,6 +82,7 @@ public class AddEventTest extends AddEventBaseTest{
      * @param city
      */
 
+    @Description(value = "Verify that event isn't save without photo, verify that message about saving doesn't appear, fields don't clear and a red inscription \"Required\" appear under file uploader")
     @Test(dataProvider = "providerSaveWithoutImage")
     public void negativeSaveWithoutImage(String title, String participants, String dateFrom, String dateTo,
                                     String description,List<String> hashtagsToEnter,String country,String city){
@@ -95,9 +98,9 @@ public class AddEventTest extends AddEventBaseTest{
         addEventPage.inputCity(city);
         addEventPage.inputHashtags(hashtagsToEnter);
         addEventPage.clickSave();
-        assertTrue(isElementPresent(addEventPage.getRequiredImage()));
-        assertFalse(isElementPresent(addEventPage.getCreatedEventMessage()));
-        assertFalse(addEventPage.isPageEmpty());
+        assertTrue(isElementPresent(addEventPage.getRequiredImage()),"No image required message is displayed");
+        assertFalse(isElementPresent(addEventPage.getCreatedEventMessage()),"Message about saving event don't appear");
+        assertFalse(addEventPage.isPageEmpty(),"The page did not become blank after saving");
     }
 
     @DataProvider
@@ -122,6 +125,7 @@ public class AddEventTest extends AddEventBaseTest{
      * @param city
      */
 
+    @Description("Verify that event isn't save without title, verify that message about saving doesn't appear, fields don't clear and a red inscription \"Required\" appear under field \"Title\"")
     @Test(dataProvider = "providerSaveWithoutTitle")
     public void negativeSaveWithoutTitle(String photo, String participants, String dateFrom, String dateTo,
                                 String description,List<String> hashtagsToEnter,String country,String city){
@@ -137,9 +141,9 @@ public class AddEventTest extends AddEventBaseTest{
         addEventPage.inputCity(city);
         addEventPage.inputHashtags(hashtagsToEnter);
         addEventPage.clickSave();
-        assertTrue(isElementPresent(addEventPage.getRequiredTitle()));
-        assertFalse(isElementPresent(addEventPage.getCreatedEventMessage()));
-        assertFalse(addEventPage.isPageEmpty());
+        assertTrue(isElementPresent(addEventPage.getRequiredTitle()),"No title required message is displayed");
+        assertFalse(isElementPresent(addEventPage.getCreatedEventMessage()),"Message about saving event don't appear");
+        assertFalse(addEventPage.isPageEmpty(),"The page did not become blank after saving");
     }
 
     @DataProvider
@@ -164,6 +168,7 @@ public class AddEventTest extends AddEventBaseTest{
      * @param city
      */
 
+    @Description(" Verify that event isn't save without description, verify that message about saving doesn't appear, fields don't clear and a red inscription \"Required\" appear under field \"Description\"")
     @Test(dataProvider = "providerSaveWithoutDescription")
     public void negativeSaveWithoutDescription(String photo,String title, String participants, String dateFrom, String dateTo,
                                 List<String> hashtagsToEnter,String country,String city){
@@ -179,9 +184,9 @@ public class AddEventTest extends AddEventBaseTest{
         addEventPage.inputCity(city);
         addEventPage.inputHashtags(hashtagsToEnter);
         addEventPage.clickSave();
-        assertTrue(isElementPresent(addEventPage.getRequiredDescription()));
-        assertFalse(isElementPresent(addEventPage.getCreatedEventMessage()));
-        assertFalse(addEventPage.isPageEmpty());
+        assertTrue(isElementPresent(addEventPage.getRequiredDescription()),"No description required message is displayed");
+        assertFalse(isElementPresent(addEventPage.getCreatedEventMessage()),"Message about saving event don't appear");
+        assertFalse(addEventPage.isPageEmpty(),"The page did not become blank after saving");
     }
 
     @DataProvider
@@ -205,6 +210,7 @@ public class AddEventTest extends AddEventBaseTest{
      * @param city
      */
 
+    @Description("Verify that event isn't save without hashtags, verify that message about saving doesn't appear, fields don't clear and a red inscription \"Required\" appear under field \"Hashtags\"")
     @Test(dataProvider = "providerSaveWithoutHashtags")
     public void negativeSaveWithoutHashtags(String photo,String title, String participants, String dateFrom, String dateTo,
                                 String description,String country,String city){
@@ -220,9 +226,9 @@ public class AddEventTest extends AddEventBaseTest{
         addEventPage.initCity();
         addEventPage.inputCity(city);
         addEventPage.clickSave();
-        assertTrue(isElementPresent(addEventPage.getRequiredHashtags()));
-        assertFalse(isElementPresent(addEventPage.getCreatedEventMessage()));
-        assertFalse(addEventPage.isPageEmpty());
+        assertTrue(isElementPresent(addEventPage.getRequiredHashtags()),"No hashtags required message is displayed");
+        assertFalse(isElementPresent(addEventPage.getCreatedEventMessage()),"Message about saving event don't appear");
+        assertFalse(addEventPage.isPageEmpty(),"The page did not become blank after saving");
     }
 
     @DataProvider
@@ -245,7 +251,7 @@ public class AddEventTest extends AddEventBaseTest{
      * @param description
      * @param hashtagsToEnter is a list of hashtags
      */
-
+    @Description("Verify that event isn't save without country, verify that message about saving doesn't appear,fields don't clear and a red inscription \"Required\" appear under field \"Country\"")
     @Test(dataProvider = "providerSaveWithoutCountry")
     public void negativeSaveWithoutCountry(String photo,String title, String participants, String dateFrom, String dateTo,
                                 String description,List<String> hashtagsToEnter){
@@ -259,9 +265,9 @@ public class AddEventTest extends AddEventBaseTest{
         addEventPage.inputDescription(description);
         addEventPage.inputHashtags(hashtagsToEnter);
         addEventPage.clickSave();
-        assertTrue(isElementPresent(addEventPage.getRequiredCountry()));
-        assertFalse(isElementPresent(addEventPage.getCreatedEventMessage()));
-        assertFalse(addEventPage.isPageEmpty());
+        assertTrue(isElementPresent(addEventPage.getRequiredCountry()),"No country required message is displayed");
+        assertFalse(isElementPresent(addEventPage.getCreatedEventMessage()),"Message about saving event don't appear");
+        assertFalse(addEventPage.isPageEmpty(),"The page did not become blank after saving");
     }
 
     @DataProvider
@@ -285,7 +291,7 @@ public class AddEventTest extends AddEventBaseTest{
      * @param hashtagsToEnter is a list of hashtags
      * @param country
      */
-
+    @Description("Verify that event isn't save without city, verify that message about saving doesn't appear,fields don't clear and a red inscription \"Required\" appear under field \"City\"")
     @Test(dataProvider = "providerSaveWithoutCity")
     public void negativeSaveWithoutCity(String photo,String title, String participants, String dateFrom, String dateTo,
                                            String description,List<String> hashtagsToEnter,String country){
@@ -300,24 +306,24 @@ public class AddEventTest extends AddEventBaseTest{
         addEventPage.inputCountry(country);
         addEventPage.inputHashtags(hashtagsToEnter);
         addEventPage.clickSave();
-        assertTrue(isElementPresent(addEventPage.getRequiredCity()));
-        assertFalse(isElementPresent(addEventPage.getCreatedEventMessage()));
-        assertFalse(addEventPage.isPageEmpty());
+        assertTrue(isElementPresent(addEventPage.getRequiredCity()),"No city required message is displayed");
+        assertFalse(isElementPresent(addEventPage.getCreatedEventMessage()),"Message about saving event don't appear");
+        assertFalse(addEventPage.isPageEmpty(),"The page did not become blank after saving");
     }
 
     /**
      * Verify that all fields are empty when user only click on "ADD EVENT"
      */
-
+    @Description("Verify that all fields are empty when user only click on \"ADD EVENT\"")
     @Test
     public void testIsPageEmpty() {
-        assertTrue(addEventPage.isPageEmpty());
+        assertTrue(addEventPage.isPageEmpty(),"Method isPageEmpty doesn't work");
     }
 
     /**
      * Verify that all fields are full after input
      */
-
+    @Description("Verify that all fields are full after input")
     @Test(dataProvider = "providerSaveCorrect")
     public void testIsPageFull(String photo,String title, String participants, String dateFrom, String dateTo,
                                String description,List<String> hashtagsToEnter,String country,String city) {
@@ -333,13 +339,13 @@ public class AddEventTest extends AddEventBaseTest{
         addEventPage.initCity();
         addEventPage.inputCity(city);
         addEventPage.inputHashtags(hashtagsToEnter);
-        assertTrue(addEventPage.isPageFull());
+        assertTrue(addEventPage.isPageFull(),"Method isPageFull doesn't work");
     }
 
     /**
      * delete all event create by during tests
      */
-
+    @Description("delete all event create by during tests")
     @AfterClass
     public void clearEnteredData(){
         EventsRepository.deleteEvents(getDataByKey("correctTitle"),getDataByKey("correctDescription"),

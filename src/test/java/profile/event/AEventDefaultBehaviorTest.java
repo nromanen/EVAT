@@ -1,5 +1,6 @@
 package profile.event;
 
+import io.qameta.allure.Description;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -40,7 +41,7 @@ public class AEventDefaultBehaviorTest  extends AddEventBaseTest {
      * @param amountCountry
      * @param amountCity
      */
-
+    @Description("Verify inputting in fields")
     @Test(dataProvider = "dataProviderLoadImage")
     public void testDefaultBehavior(String nameFileImg,String title,String dateFrom,String dateTo,
                                     String participants,String description,List<String> hashtags,
@@ -67,22 +68,22 @@ public class AEventDefaultBehaviorTest  extends AddEventBaseTest {
         softAssert.assertEquals(addEventPage.getValueAttribute(addEventPage.getDateTo()),dateTo,"Incorrect dateTo on page after input");
         softAssert.assertEquals(addEventPage.getValueAttribute(addEventPage.getDescription()),description,"Incorrect description on page after input");
         softAssert.assertEquals(addEventPage.getValueOfHashtags(), hashtags,"Incorrect hashtags on page after input");
-        softAssert.assertEquals(amountCountry,addEventPage.getCountriesAmountFromPage());
+        softAssert.assertEquals(amountCountry,addEventPage.getCountriesAmountFromPage(),"On page less county in selector then need");
         softAssert.assertEquals(addEventPage.getValueOfCountry(),country,"Incorrect country on page after input");
-        softAssert.assertEquals(amountCity,addEventPage.getCitiesAmountFromPage());
-        softAssert.assertEquals(addEventPage.getValueOfCity(),city);
+        softAssert.assertEquals(amountCity,addEventPage.getCitiesAmountFromPage(),"On page less city in selector then need");
+        softAssert.assertEquals(addEventPage.getValueOfCity(),city,"Incorrect city on page after input");
         softAssert.assertAll();
     }
 
     /**
      * Verify that the button "Clear" clear loaded photo
      */
-
+    @Description("Verify that the button \"Clear\" clear loaded photo")
     @Test
     public void testClickClear(){
         addEventPage.loadImage(getDataByKey("correctPhoto"));
         addEventPage.clickClear();
-        assertFalse(isElementPresent(addEventPage.getImage()));
+        assertFalse(isElementPresent(addEventPage.getImage()),"The button clear doesn't clean image");
     }
 
 }

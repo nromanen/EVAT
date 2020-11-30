@@ -1,5 +1,6 @@
 package profile.event;
 
+import io.qameta.allure.Description;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -26,10 +27,11 @@ public class ErrorsAddEventTest extends AddEventBaseTest {
      * Verify that photo don't load
      * @param nameFileImg is path of file not in correct format
      */
+    @Description("Verify that photo don't load")
     @Test(dataProvider = "negativeProviderLoadImage")
     public void notLoadImageIncorrectFormat(String nameFileImg) {
         addEventPage.loadImage(nameFileImg);
-        assertTrue(isElementPresent(addEventPage.getFileUploader()),"The photo was uploaded by mistake");
+        assertTrue(isElementPresent(addEventPage.getFileUploader()),"The photo with incorrect format was uploaded");
     }
 
 
@@ -42,9 +44,10 @@ public class ErrorsAddEventTest extends AddEventBaseTest {
 
     /**
      * Verify that error message is shown after loading photo in incorrect resolutions
+     * and message disappear after input correct image
      * @param nameFileImg is path of file not in correct resolutions
      */
-
+    @Description("Verify that error message is shown after loading photo in incorrect resolutions and message disappear after input correct image")
     @Test(dataProvider = "negativeProviderLoadImage")
     public void notLoadImageIncorrectResolution(String nameFileImg) {
         SoftAssert softAssert = new SoftAssert();
@@ -64,9 +67,10 @@ public class ErrorsAddEventTest extends AddEventBaseTest {
 
     /**
      * Verify that error message is shown after loading photo in incorrect size
+     * and message disappear after input correct image
      * @param nameFileImg is path of file not in correct size
      */
-
+    @Description("Verify that error message is shown after loading photo in incorrect size and message disappear after input correct image")
     @Test(dataProvider = "negativeProviderLoadImage")
     public void notLoadImageIncorrectSize(String nameFileImg) {
         SoftAssert softAssert = new SoftAssert();
@@ -86,9 +90,10 @@ public class ErrorsAddEventTest extends AddEventBaseTest {
 
     /**
      * Verify that error message is shown after input text in incorrect size in field "Title"
+     * and message disappear after input correct title
      * @param text
      */
-
+    @Description("Verify that error message is shown after input text in incorrect size in field \"Title\" and message disappear after input correct title")
     @Test(dataProvider = "negativeProviderInputTitle")
     public void negativeInputTitle(String text) {
         SoftAssert softAssert = new SoftAssert();
@@ -107,9 +112,10 @@ public class ErrorsAddEventTest extends AddEventBaseTest {
 
     /**
      * Verify that error message is shown after input text without letter in field "Title"
+     * and message disappear after input correct title
      * @param text
      */
-
+    @Description("Verify that error message is shown after input text without letter in field \"Title\" and message disappear after input correct title")
     @Test(dataProvider = "negativeProviderInputTitleNoOneLetter")
     public void negativeInputTitleNoOneLetter(String text) {
         SoftAssert softAssert = new SoftAssert();
@@ -131,9 +137,10 @@ public class ErrorsAddEventTest extends AddEventBaseTest {
 
     /**
      * Verify that error message is shown after input too many participants in field "Participants"
+     * and message disappear after input correct amount of participants
      * @param value
      */
-
+    @Description("Verify that error message is shown after input too many participants in field \"Participants\" and message disappear after input correct amount of participants")
     @Test(dataProvider = "providerTooManyParticipants")
     public void negativeTooManyParticipants(String value) {
         SoftAssert softAssert = new SoftAssert();
@@ -156,15 +163,17 @@ public class ErrorsAddEventTest extends AddEventBaseTest {
     }
 
     /**
-     * Verify entering incorrect data in the fields date from
+     * Verify entering incorrect data in the field date from
      * @param date
      */
-
+    @Description("Verify entering incorrect data in the field date from")
     @Test(dataProvider = "dataProviderDateFrom")
     public void negativeInputDateFrom(String date) {
         addEventPage.clearDateFrom();
         addEventPage.inputDateFrom(date);
-        assertEquals(addEventPage.getValueAttribute(addEventPage.getDateFrom()), LocalDate.now().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
+        assertEquals(addEventPage.getValueAttribute(addEventPage.getDateFrom()),
+                LocalDate.now().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")),
+                "Incorrect date doesn't convert to current date");
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -177,17 +186,19 @@ public class ErrorsAddEventTest extends AddEventBaseTest {
     }
 
     /**
-     * Verify entering incorrect data in the fields date to
+     * Verify entering incorrect data in the field date to
      * @param date
      */
-
+    @Description("Verify entering incorrect data in the field date to")
     @Test(dataProvider = "dataProviderDateTo")
     public void negativeInputDateTo(String date) {
         addEventPage.clearDateFrom();
         addEventPage.inputDateFrom(LocalDate.now().toString());
         addEventPage.clearDateTo();
         addEventPage.inputDateTo(date);
-        assertEquals(addEventPage.getValueAttribute(addEventPage.getDateTo()), LocalDate.now().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")));
+        assertEquals(addEventPage.getValueAttribute(addEventPage.getDateTo()),
+                LocalDate.now().format(DateTimeFormatter.ofPattern("MM/dd/yyyy")),
+                "Incorrect date doesn't convert to date in field \"From\"");
     }
 
 
@@ -200,9 +211,10 @@ public class ErrorsAddEventTest extends AddEventBaseTest {
 
     /**
      * Verify that error message is shown after input text in incorrect size in field "Description"
+     * and message disappear after input correct description
      * @param text
      */
-
+    @Description("Verify that error message is shown after input text in incorrect size in field \"Description\" and message disappear after input correct description")
     @Test(dataProvider = "negativeProviderInputDescription")
     public void negativeInputDescription(String text) {
         SoftAssert softAssert = new SoftAssert();
@@ -222,9 +234,10 @@ public class ErrorsAddEventTest extends AddEventBaseTest {
 
     /**
      * Verify that error message is shown after input too many hashtags in field "Hashtags"
+     * and message disappear after input correct hashtags
      * @param hashtags
      */
-
+    @Description("Verify that error message is shown after input too many hashtags in field \"Hashtags\" and message disappear after input correct hashtags")
     @Test(dataProvider = "negativeProviderInputHashtags")
     public void negativeInputHashtags(List<String> hashtags) {
         SoftAssert softAssert = new SoftAssert();
@@ -241,7 +254,7 @@ public class ErrorsAddEventTest extends AddEventBaseTest {
      * Verify that error message "Required" is shown after clicking "Save" and
      * disappearing these messages after entering the correct value
      */
-
+    @Description("Verify that error message \"Required\" is shown after clicking \"Save\" and disappearing these messages after entering the correct value")
     @Test
     public void testRequiredErrors() {
         SoftAssert softAssert = new SoftAssert();
@@ -280,7 +293,7 @@ public class ErrorsAddEventTest extends AddEventBaseTest {
      * Verify that error message "Required" is shown after clicking "Save" without data in the field "City" and
      * disappearing these messages after entering the correct value
      */
-
+    @Description("Verify that error message \"Required\" is shown after clicking \"Save\" without data in the field disappearing these messages after entering the correct value")
     @Test
     public void testRequiredCity() {
         SoftAssert softAssert = new SoftAssert();

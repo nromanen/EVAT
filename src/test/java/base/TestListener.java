@@ -23,6 +23,10 @@ public class TestListener implements ITestListener {
 
     }
 
+    /**
+     * Take a screenshot and save it in package and add to allure report
+     * @param result
+     */
     public static void captureScreenshot(ITestResult result){
         try{
             TakesScreenshot ts=(TakesScreenshot)BaseTest.getDriver();

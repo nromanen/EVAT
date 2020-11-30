@@ -1,5 +1,6 @@
 package profile;
 
+import io.qameta.allure.Description;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import pages.profile.EventMenu;
@@ -14,7 +15,7 @@ public class EventMenuTest extends ProfileBaseTest{
     /**
      * Verify elements on the page is present
      */
-
+    @Description("Verify elements on the page is present")
     @Test
     public void testDefaultBehavior() {
         signingIn();
