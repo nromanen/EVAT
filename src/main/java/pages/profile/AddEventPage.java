@@ -102,12 +102,20 @@ public class AddEventPage extends BasePage {
         country=new Select(driver.findElement(findCountry));
     }
 
-    public void loadImage(String nameFileImg) {
-        fileUploader.sendKeys(nameFileImg);
+    /**
+     * Initialize element city if it has not been initialized before
+     */
+    public void initCity(){
+        try {
+            city.getFirstSelectedOption();
+        }catch (NoSuchElementException | NullPointerException e){
+            waitForElementToAppear(findCity);
+            city = new Select(driver.findElement(findCity));
+        }
     }
 
-    public String getAltAttribute(WebElement element){
-        return element.getAttribute(ALT_ATTRIBUTE);
+    public void loadImage(String nameFileImg) {
+        fileUploader.sendKeys(nameFileImg);
     }
 
     public void inputTitle(String text) {
@@ -140,21 +148,9 @@ public class AddEventPage extends BasePage {
         dateTo.sendKeys(Keys.ENTER);
     }
 
-    public String getValueAttribute(WebElement element){
-        return element.getAttribute(VALUE_ATTRIBUTE);
-    }
-
     public void inputDescription(String text) {
         description.clear();
         description.sendKeys(text);
-    }
-
-    public List<String> getValueOfHashtags(){
-        List<WebElement> listOfHashtagsWebElements = driver.findElements(findListOfHashtags);
-        List<String> listOfHashtags = new ArrayList<>();
-        for(WebElement element: listOfHashtagsWebElements)
-            listOfHashtags.add(element.getText());
-        return listOfHashtags;
     }
 
     public void inputHashtags(List<String> hashtagsToEnter) {
@@ -166,37 +162,76 @@ public class AddEventPage extends BasePage {
         hashtags.sendKeys(Keys.ESCAPE);
     }
 
-    public String getValueOfCountry(){
-        return country.getFirstSelectedOption().getText();
-    }
-
+    /**
+     * Waiting until  field  country has more than one option,
+     * and then set the option with a value that is equally text
+     * @param text
+     */
     public void inputCountry(String text) {
         BasePage.conditionFactory.await().until(()->country.getOptions().size()>1);
         country.selectByVisibleText(text);
     }
 
-    public void initCity(){
-        try {
-            city.getFirstSelectedOption();
-        }catch (NoSuchElementException | NullPointerException e){
-            waitForElementToAppear(findCity);
-            city = new Select(driver.findElement(findCity));
-        }
-    }
-
-    public int getCountriesAmountFromPage(){
-        BasePage.conditionFactory.await().until(()->country.getOptions().size()>1);
-        return country.getOptions().size();
-    }
-
+    /**
+     * Waiting until  field  city has more than one option,
+     * and then set the option with a value that is equally text
+     * @param text
+     */
     public void inputCity(String text){
         BasePage.conditionFactory.await().until(()->city.getOptions().size()>1);
         city.selectByVisibleText(text);
     }
 
+    /**
+     * Waiting until field country has more than one option,
+     * and then return amount of option
+     * @return amount of option of count
+     */
+    public int getCountriesAmountFromPage(){
+        BasePage.conditionFactory.await().until(()->country.getOptions().size()>1);
+        return country.getOptions().size();
+    }
+
+    /**
+     * Waiting until field city has more than one option,
+     * and then return amount of option
+     * @return amount of option of city
+     */
     public int getCitiesAmountFromPage(){
         BasePage.conditionFactory.await().until(()->city.getOptions().size()>1);
         return city.getOptions().size();
+    }
+
+    /**
+     * @param element
+     * @return attribute "value" for element
+     */
+    public String getValueAttribute(WebElement element){
+        return element.getAttribute(VALUE_ATTRIBUTE);
+    }
+
+    /**
+     * @param element
+     * @return attribute "alt" for element
+     */
+    public String getAltAttribute(WebElement element){
+        return element.getAttribute(ALT_ATTRIBUTE);
+    }
+
+    /**
+     * Reads the hashtags from the page, converts them to a list of strings, and returns that list
+     * @return list of hashtags
+     */
+    public List<String> getValueOfHashtags(){
+        List<WebElement> listOfHashtagsWebElements = driver.findElements(findListOfHashtags);
+        List<String> listOfHashtags = new ArrayList<>();
+        for(WebElement element: listOfHashtagsWebElements)
+            listOfHashtags.add(element.getText());
+        return listOfHashtags;
+    }
+
+    public String getValueOfCountry(){
+        return country.getFirstSelectedOption().getText();
     }
 
     public String getValueOfCity(){
@@ -205,6 +240,10 @@ public class AddEventPage extends BasePage {
 
     public void clickClear(){
         clear.click();
+    }
+
+    public void clickSave(){
+        save.submit();
     }
 
     public boolean isAppearCreatedEventMessage(){
@@ -219,25 +258,19 @@ public class AddEventPage extends BasePage {
                     participants.getAttribute(VALUE_ATTRIBUTE).isEmpty() &&
                     description.getAttribute(VALUE_ATTRIBUTE).isEmpty() &&
                     listOfHashtagsWebElements.isEmpty() &&
-                    country.getFirstSelectedOption().getText().isBlank();
+                    country.getFirstSelectedOption().getText().isEmpty();
     }
 
     public boolean isPageFull(){
         List<WebElement> listOfHashtagsWebElements = driver.findElements(findListOfHashtags);
         return Helper.isElementPresent(image) &&
-                    !title.getAttribute("value").isEmpty() &&
-                    !participants.getAttribute("value").isEmpty() &&
-                    !dateFrom.getAttribute("value").isEmpty() &&
-                    !description.getAttribute("value").isEmpty() &&
+                    !title.getAttribute(VALUE_ATTRIBUTE).isEmpty() &&
+                    !participants.getAttribute(VALUE_ATTRIBUTE).isEmpty() &&
+                    !description.getAttribute(VALUE_ATTRIBUTE).isEmpty() &&
                     !listOfHashtagsWebElements.isEmpty() &&
-                    !country.getFirstSelectedOption().getText().isBlank() &&
-                    !city.getFirstSelectedOption().getText().isBlank();
+                    !country.getFirstSelectedOption().getText().isEmpty() &&
+                    !city.getFirstSelectedOption().getText().isEmpty();
 
-    }
-
-
-    public void clickSave(){
-        save.submit();
     }
 
     @Override
