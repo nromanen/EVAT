@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-         gradle 'local_gradle'
+         gradle 'local_graadle'
     }
 
     stages {
