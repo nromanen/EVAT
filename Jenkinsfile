@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-         gradle "gradle-6.7.1"
+         tool name: 'local_graadle', type: 'gradle'
     }
 
     stages {
