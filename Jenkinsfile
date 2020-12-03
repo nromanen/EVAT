@@ -1,14 +1,12 @@
 pipeline {
     agent any
 
-    tools {
-         gradle 'local_graadle'
-    }
+
 
     stages {
         stage('Build and test EventMenuPage') {
             steps {
-                sh "gradle test --tats EventMenuTest"
+                sh "./gradlew test --tats EventMenuTest"
             }
         }
         stage('reports') {
